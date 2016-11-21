@@ -1,4 +1,4 @@
-%matplotlib inline
+#%matplotlib inline
 import notebook
 #IPython.utils.load_extension('usability/codefolding/main');
 import random
@@ -10,7 +10,7 @@ import requests
 import matplotlib.pyplot as plt
 import pandas
 
-import timetools as tt
+#import timetools as tt
 import scipy.stats as stats
 from pprint import pprint
 from itertools import chain
@@ -370,7 +370,7 @@ class IMDB_API:
         
 
 class Show:
-    def __init__(self, api, data):
+    def __init__(self,data = None):
         """ Parameters
             ----------
                 api: IMDB_API
@@ -380,9 +380,13 @@ class Show:
                     Movie Database.
         """
         #get a list of the show episodes
-        self.api = api
+        self.api = IMDB_API()
+        if isinstance(data, str):
+        	data = self.api.find(data)
+
+
+
         if data.get('Response', 'True') == 'True':
-            print()
             self.title     = data['Title']
             self.imdbID    = data['imdbID']
             self.imdb_data = data
@@ -655,7 +659,14 @@ class GraphTV:
         ax.yaxis.grid(True)
         ax.xaxis.grid(False)
         return ax
-api = IMDB_API()
+#api = IMDB_API()
 
 """ Should convert the output of the by_uid function to more usable variable types.
 """
+if __name__ == "__main__":
+	api = IMDB_API()
+	title = 'The 100'
+
+	pprint(api.find(title))
+	print()
+	pprint(api.get_seasons(title))
