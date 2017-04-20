@@ -57,150 +57,6 @@ class IMDBAPI:
 			number = math.nan
 		return number
 	def _request(self, **parameters):
-		endpoint = "http://www.omdbapi.com/"
-		response = requests.get(endpoint, parameters)
-		response = response.json()
-		response = self._parseResponse(response)
-		return response
-
-	def find(self, title):
-		""" Searches the IMDB database and returns the first result found
-			Parameters
-			----------
-				title: string
-					The title of a Movie, TV show, or episode. 
-			Returns
-			----------
-				series : dict<> (from self.by_uid())
-				If the series is not found, returns
-				{'Response': 'False', 'Error': 'Movie not found!'}
-		"""
-		
-		response = self.search(s = title)
-		
-		first_id = response['Search'][0]['imdbID']
-		first_show = self._request(
-			i = first_id,
-			tomatoes = True)
-		first_show['Seasons'] = self.getSeasons(i = first_id)
-
-		return first_show
-
-	def search(self, **kwargs):
-		""" Searches IMDB for a specific title
-			Parameters
-			----------
-				s: string
-					The movie title to search for
-				type: {'movie', 'series', 'episode'}
-					Type of result to return
-				y: string
-					year of release
-				r: {'json', 'xml'}; default 'json'
-					The format to return
-				page: int [1-100]; default 1
-					The page number to return
-				callback: string
-					JSONP callback name
-				v: int
-					API version (reserved for future use)
-			Returns
-			----------
-				production: dict<>
-					A dictionary containing a list of matches to
-					the supplied arguements.
-						'Response': bool; default True,
-							Whether a response was received
-						'totalResults': int,
-							The total number of matches that were found.
-						'Search': list<dict<>>
-							A list of dictionaries with the followinf keys:
-								'Poster': string (url)
-									A URL linking to a poster for the production.
-								'Title': string
-									The title of the production.
-								'Type': {'series', 'movie', 'episode'}
-									The type of production
-								'Year': string
-									The year the production was released.
-								'imdbID' string
-									The unique ID for the production.
-		"""
-		s = kwargs.get('s', kwargs.get('t', kwargs.get('i')))
-		if s is None:
-			message = "Did not include a search keyword ('s', 't', 'i')!"
-			raise ValueError(message)
-		
-		response = self._request(s = s)
-		return response
-	
-	def getSeasons(self, **kwargs):
-			""" Retrieves all seasons for a show
-				Keyword Parameters
-				----------
-					i, imdbID: string
-						The show's IMDB ID number.
-				Returns
-				----------
-					episodes : list of dicts
-						A list containing basic information about each season
-						'Response' bool
-							Whether a response was received from the servers.
-						'Title': string
-							The name of the production
-						'Season': The show season
-						'episodes' = list<dict<>>
-							A list of each season
-									 'Episode': string: episode number
-									 'Released': ISO date string
-									 'Title': Name of the episode
-									 'imdbID': string
-									 'imdbRating': string
-
-			"""
-			if 'i' in kwargs.keys():
-				imdbID = kwargs['i']
-			elif 'imdbID' in kwargs.keys():
-				imdbID = kwargs['imdbID']
-			elif 't' in kwargs.keys():
-				pprint(self.request(i = kwargs['t']))
-				imdbID = self.request(i = kwargs['t'])['imdbID']
-			elif 'Title' in kwargs.keys():
-				imdbID = self.request(i = kwargs['Title'])['imdbID']
-
-			seasons = list()
-			season_number = 0
-			while True:
-				season_number += 1
-				#url = self.root_url + "i={0}&season={1}".format(i = imdbID, season = season_number)
-				response = self._request(i = imdbID, season = season_number)
-				if 'Error' in response.keys(): break
-				seasons.append(response)
-			seasons = self._parseSeasons(seasons)
-			return seasons
-
-
-
-class IMDB_API:
-	""" Accesses the IMDB database via the Open Movie Database API
-		Site: http://www.omdbapi.com/"""
-	def __init__(self):
-		self.root_url = "http://www.omdbapi.com/?"
-	def _api_request(self, url):
-		response = requests.get(url, headers = None, params = None)
-		return response
-	def _format_url(self, imdbID, plot = 'short', style = 'json'):
-		url = "http://www.omdbapi.com/?i=tt1520211&plot=short&r=json"
-	@staticmethod
-	def _tonum(value):
-		""" Converts a string to a valid numerical type"""
-		try:
-			if '.' in value: number = float(value)
-			else: number = int(value)
-		except:
-			number = math.nan
-		return number
-	def request(self, **kwargs):
 		""" Retrieves by IMDB ID or title. 
 			The supplied title must e explicitly defined.
 			Parameters
@@ -319,24 +175,15 @@ class IMDB_API:
 						website.
 					***'tomatoUserReviews': string<int>
 						The total number of users that gave the film a rating.
-
 		"""
-	
-		if 'i' not in kwargs.keys() and 't' not in kwargs.keys():
-			raise ValueError("Did not include an IMDB ID or title!")
-			
-		url = ['{0}={1}'.format(key, value) for key, value in kwargs.items()]
-		url = '&'.join(url).replace('_', '')
-		production_data = self._api_request(self.root_url + url).json()
-		
-		for key, value in production_data.items():
-			if key in ['Metascore', 'imdbRating', 'imdbVotes', 'totalSeasons', 
-					  'tomatoMeter', 'tomatoRating', 'tomatoReviews', 'tomatoFresh',
-					  'tomatoRotten', 'tomatoUserRating', 'tomatoUserReviews']:
-				production_data[key] = self._tonum(value)
-		return production_data
+		endpoint = "http://www.omdbapi.com/"
+		response = requests.get(endpoint, parameters)
+		response = response.json()
+		response = self._parseResponse(response)
+		return response
+
 	def find(self, title):
-		""" Searches the IMDB database and returns the first result found
+		""" Searches the IMDB database and returns the first result found.
 			Parameters
 			----------
 				title: string
@@ -349,15 +196,15 @@ class IMDB_API:
 		"""
 		
 		response = self.search(s = title)
-		if not response['Response']: return response
-		if 'Search' not in response.keys(): print(response)
+		
 		first_id = response['Search'][0]['imdbID']
-		first_id = self.request(i = first_id,
-							 tomatoes = True)
-		first_id['Type'] = response.get('type', None)
-		first_id['Response'] = response['Response'] == 'True'
+		first_show = self._request(
+			i = first_id,
+			tomatoes = True)
+		first_show['Seasons'] = self.getSeasons(i = first_id)
 
-		return first_id
+		return first_show
+
 	def search(self, **kwargs):
 		""" Searches IMDB for a specific title
 			Parameters
@@ -398,138 +245,85 @@ class IMDB_API:
 								'imdbID' string
 									The unique ID for the production.
 		"""
-		if 's' not in kwargs.keys():
-			if 't' in kwargs.keys(): s = kwargs['t']
-			elif 'i' in kwargs.keys(): s = kwargs['i']
-			else:
-				print("search({0})".format(kwargs.items()))
-				raise ValueError("Did not include a search keyword ('s', 't', 'i')!")
-		url = ['{0}={1}'.format(key, value) 
-			   for key, value in kwargs.items()]
-		url = '&'.join(url)
-		response = self._api_request(self.root_url + url)
-		response = response.json()
-		response['Response'] = response['Response'] == 'True'
+		s = kwargs.get('s', kwargs.get('t', kwargs.get('i')))
+		if s is None:
+			message = "Did not include a search keyword ('s', 't', 'i')!"
+			raise ValueError(message)
+		
+		response = self._request(s = s)
 		return response
-	def get_seasons(self, **kwargs):
-		""" Retrieves all seasons for a show
-			Parameters
-			----------
-				show_data: dict<>
-					A dictionary from the OMDB
-					Required arguments:
-						'i', 'imdbID', 't', 'Title'
-			Returns
-			----------
-				episodes : list of dicts
-					A list containing basic information about each season
-					'Response' bool
-						Whether a response was received from the servers.
-					'Title': string
-						The name of the production
-					'Season': The show season
-					'episodes' = list<dict<>>
-						A list of each season
-								 'Episode': string: episode number
-								 'Released': ISO date string
-								 'Title': Name of the episode
-								 'imdbID': string
-								 'imdbRating': string
+	
+	def getSeasons(self, **kwargs):
+			""" Retrieves all seasons for a show
+				Keyword Parameters
+				----------
+					i, imdbID: string
+						The show's IMDB ID number.
+				Returns
+				----------
+					episodes : list of dicts
+						A list containing basic information about each season
+						'Response' bool
+							Whether a response was received from the servers.
+						'Title': string
+							The name of the production
+						'Season': The show season
+						'episodes' = list<dict<>>
+							A list of each season
+									 'Episode': string: episode number
+									 'Released': ISO date string
+									 'Title': Name of the episode
+									 'imdbID': string
+									 'imdbRating': string
 
-		"""
-		if 'i' in kwargs.keys():
-			imdbID = kwargs['i']
-		elif 'imdbID' in kwargs.keys():
-			imdbID = kwargs['imdbID']
-		elif 't' in kwargs.keys():
-			pprint(self.request(i = kwargs['t']))
-			imdbID = self.request(i = kwargs['t'])['imdbID']
-		elif 'Title' in kwargs.keys():
-			imdbID = self.request(i = kwargs['Title'])['imdbID']
+			"""
+			if 'i' in kwargs.keys():
+				imdbID = kwargs['i']
+			elif 'imdbID' in kwargs.keys():
+				imdbID = kwargs['imdbID']
+			elif 't' in kwargs.keys():
+				pprint(self.request(i = kwargs['t']))
+				imdbID = self.request(i = kwargs['t'])['imdbID']
+			elif 'Title' in kwargs.keys():
+				imdbID = self.request(i = kwargs['Title'])['imdbID']
 
-		seasons = list()
-		season_number = 0
-		while True:
-			season_number += 1
-			url = self.root_url + "i={0}&season={1}".format(imdbID, season_number)
-			response = self._api_request(url).json()
-			if 'Error' in response.keys(): break
-			seasons.append(response)
-		return seasons
-	def parse_json(self, io):
-		""" Parses a json file (Netflix-compatible)
+			seasons = list()
+			season_number = 0
+			while True:
+				season_number += 1
+				#url = self.root_url + "i={0}&season={1}".format(i = imdbID, season = season_number)
+				response = self._request(i = imdbID, season = season_number)
+				if 'Error' in response.keys(): break
+				seasons.append(response)
+			seasons = self._parseSeasons(seasons)
+			return seasons
+
+
+
+class Parser:
+	""" Accesses the IMDB database via the Open Movie Database API
+		Site: http://www.omdbapi.com/"""
+	def __init__(self, io):
+		""" Parses a file containing show titles/IDs.
 			Parameters
 			----------
-				io: string (directory)>, list(string)
-					Either a directory to a json file
-					or a list of show titles
-			Returns
-			----------
-				netflix_ratings : list of (string, float)
-					A list containing the title and imdb rating of every 
-					show in the Netflix queue 
+				io: string ['.json', 'xls', 'xlsx']
+					Path to the the file.
 		"""
-		if isinstance(netflix, str):
-			with open(netflix, 'r') as file1:
-				netflix = json.loads(file1.read())
-		else:
-			netflix_ratings = list()
-		
-		for tvshow in netflix:
-			title = tvshow['title']
-			imdbinfo = api.by_search(title)
-			imdbRating = imdbinfo.get('imdbRating', 0)
-			if imdbRating == 'N/A':
-				imdbRating = 0.0
-			else:
-				imdbRating = float(imdbRating)
-			netflix_ratings.append((title, imdbRating))
-		return netflix_ratings
-	def parse_spreadsheet(self, io, sheet = None):
-		""" Parses an Excel spreadsheet of show names and returns a DaaFrame
-			Parameters
-			----------
-				io : string, pandas.dataframe
-					Either a directory to a spreadsheet, or a dataframe.
-					The table must contain a column with the 'Title' 
-					or 'IMDBID'.
-				sheet: string; default None
-					If the spreadsheet contains multiple sheets, this 
-					selects which sheet to use.
-			Returns
-			----------
-		"""
-		#Assume that the specific sheet is named "TV Shows"
-		if sheet is None:
-			data = pandas.read_excel(io)
-		else:
-			data = pandas.read_excel(io, sheetname = 'TV Shows')
-		
-		if 'IMDBID' in data.columns:
-			table = data['IMDBID'].values
-			by_id = True
-		elif 'Title' in data.columns.values:
-			table = data['Title'].values
-			by_id = False
-		else:
-			print(data.columns)
-			label = 'The supplied table did not contain columns labelled "IMDBID" or "Title"!'
-			raise ValueError(label)
-		
-		for title in table:
-			show = Show(api = self, data = self.find(title))
-			#Title	Status	Seasons	Episodes	Rating
-			finished_airing = len(show('Year', range(10))) > 6
-			start_year = show('Year', 'N/A').split('-')[0]
-			seasons = show('totalSeasons', 'N/A')
-			episodes = sum(len(i) for i in show('Seasons', [[]]))
-			#print(show('Seasons'))
-			imdb_rating= show('imdbRating')
-			
-			#print(type(title), type(finished_airing), type(seasons), type(episodes), type(start_year))
-			
-			print("{0:<25}{1:<5}{2:<5}{3:<5}{4:<5}".format(
-					title, finished_airing, seasons, episodes, start_year))
+		ext = os.path.splitext(io)[1]
+		data = self._read_file(io, ext)
+	def _read_file(self, filename, ext):
+
+		with open(filename, 'r') as file1:
+			if ext == '.json':
+				import json
+				data = json.loads(file1.read())
+			elif ext in {'.csv', 'tsv'}:
+				data = readCSV(filename)
+			elif ext in {'.xls', 'xlsx'}
+				data = pandas.read_excel(filename)
+		return data
+
 class GraphTV:
 	def __init__(self, show, ax = None, kind = 'linear', show_dots = True, colorscheme = 'GraphTV'):
 		""" Plots every episode's rating
@@ -573,7 +367,9 @@ class GraphTV:
 		self.ax      = self._plot_seasons(self.ax, seasons, colors, 
 						regression_type = kind, show_dots = show_dots)
 		
-		#ax.set_xlim((0, series_info['Total Episodes']))
+		total_episodes = sum(len(s['Episodes']) for s in seasons)
+		print("Total Episodes: ", total_episodes)
+		self.ax.set_xlim((0, total_episodes + 1))
 		self.ax.set_ylim(ymax = 10)
 		
 		#return fig, ax
@@ -715,9 +511,9 @@ class GraphTV:
 """
 if __name__ == "__main__":
 	api = IMDBAPI()
-	title = 'Supergirl'
+	title = 'Blindspot'
 
 	response = api.find(title)
-
+	#pprint(response)
 	graph = GraphTV(show = response, kind = 'average', colorscheme = 'random')
 	plt.show()
