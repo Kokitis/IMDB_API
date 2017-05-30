@@ -688,14 +688,14 @@ if __name__ == "__main__":
 	"""
 		Add a method that looks up episode titles.
 	"""
-	if False:
-		title = 'tt0367279'
+	if True:
+		title = 'tt2364582'
 		print("Searching for", title)
 		response = API.find(title)
 		pprint(response)
 		graph = GraphTV(show = response, kind = 'average', colorscheme = 'random')
 		#plt.show()
-	else:
+	elif False:
 		imdbId= 'tt4016454'
 		folder = "D:\\Download Repo\\TV Shows\\Supergirl\\"
 		parseFolder(imdbId, folder, rename = True)

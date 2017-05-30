@@ -17251,6 +17251,386 @@
         "imdbVotes": "82,465",
         "totalSeasons": "4"
     },
+    "i=tt2654620&season=1": {
+        "Episodes": [
+            {
+                "Episode": "1",
+                "Released": "2014-07-13",
+                "Title": "Night Zero",
+                "imdbID": "tt3380658",
+                "imdbRating": "8.3"
+            },
+            {
+                "Episode": "2",
+                "Released": "2014-07-20",
+                "Title": "The Box",
+                "imdbID": "tt3480884",
+                "imdbRating": "7.9"
+            },
+            {
+                "Episode": "3",
+                "Released": "2014-07-27",
+                "Title": "Gone Smooth",
+                "imdbID": "tt3428146",
+                "imdbRating": "8.0"
+            },
+            {
+                "Episode": "4",
+                "Released": "2014-08-03",
+                "Title": "It's Not for Everyone",
+                "imdbID": "tt3410216",
+                "imdbRating": "7.9"
+            },
+            {
+                "Episode": "5",
+                "Released": "2014-08-10",
+                "Title": "Runaways",
+                "imdbID": "tt3475844",
+                "imdbRating": "8.2"
+            },
+            {
+                "Episode": "6",
+                "Released": "2014-08-17",
+                "Title": "Occultation",
+                "imdbID": "tt3613468",
+                "imdbRating": "8.2"
+            },
+            {
+                "Episode": "7",
+                "Released": "2014-08-24",
+                "Title": "For Services Rendered",
+                "imdbID": "tt3515200",
+                "imdbRating": "8.7"
+            },
+            {
+                "Episode": "8",
+                "Released": "2014-08-31",
+                "Title": "Creatures of the Night",
+                "imdbID": "tt3646160",
+                "imdbRating": "8.7"
+            },
+            {
+                "Episode": "9",
+                "Released": "2014-09-07",
+                "Title": "The Disappeared",
+                "imdbID": "tt3515202",
+                "imdbRating": "7.9"
+            },
+            {
+                "Episode": "10",
+                "Released": "2014-09-14",
+                "Title": "Loved Ones",
+                "imdbID": "tt3699810",
+                "imdbRating": "7.6"
+            },
+            {
+                "Episode": "11",
+                "Released": "2014-09-21",
+                "Title": "The Third Rail",
+                "imdbID": "tt3630746",
+                "imdbRating": "8.0"
+            },
+            {
+                "Episode": "12",
+                "Released": "2014-09-28",
+                "Title": "Last Rites",
+                "imdbID": "tt3675166",
+                "imdbRating": "8.1"
+            },
+            {
+                "Episode": "13",
+                "Released": "2014-10-05",
+                "Title": "The Master",
+                "imdbID": "tt3742970",
+                "imdbRating": "8.0"
+            }
+        ],
+        "Response": true,
+        "Season": "1",
+        "Title": "The Strain",
+        "totalSeasons": "4"
+    },
+    "i=tt2654620&season=2": {
+        "Episodes": [
+            {
+                "Episode": "1",
+                "Released": "2015-07-12",
+                "Title": "BK, NY",
+                "imdbID": "tt3969926",
+                "imdbRating": "7.9"
+            },
+            {
+                "Episode": "2",
+                "Released": "2015-07-19",
+                "Title": "By Any Means",
+                "imdbID": "tt4174890",
+                "imdbRating": "7.7"
+            },
+            {
+                "Episode": "3",
+                "Released": "2015-07-26",
+                "Title": "Fort Defiance",
+                "imdbID": "tt4229936",
+                "imdbRating": "7.6"
+            },
+            {
+                "Episode": "4",
+                "Released": "2015-08-02",
+                "Title": "The Silver Angel",
+                "imdbID": "tt4247342",
+                "imdbRating": "7.6"
+            },
+            {
+                "Episode": "5",
+                "Released": "2015-08-09",
+                "Title": "Quick and Painless",
+                "imdbID": "tt4247344",
+                "imdbRating": "8.0"
+            },
+            {
+                "Episode": "6",
+                "Released": "2015-08-16",
+                "Title": "Identity",
+                "imdbID": "tt4247348",
+                "imdbRating": "8.1"
+            },
+            {
+                "Episode": "7",
+                "Released": "2015-08-23",
+                "Title": "The Born",
+                "imdbID": "tt4247352",
+                "imdbRating": "8.2"
+            },
+            {
+                "Episode": "8",
+                "Released": "2015-08-30",
+                "Title": "Intruders",
+                "imdbID": "tt4247346",
+                "imdbRating": "8.1"
+            },
+            {
+                "Episode": "9",
+                "Released": "2015-09-06",
+                "Title": "The Battle for Red Hook",
+                "imdbID": "tt4247350",
+                "imdbRating": "8.0"
+            },
+            {
+                "Episode": "10",
+                "Released": "2015-09-13",
+                "Title": "The Assassin",
+                "imdbID": "tt4247354",
+                "imdbRating": "8.1"
+            },
+            {
+                "Episode": "11",
+                "Released": "2015-09-20",
+                "Title": "Dead End",
+                "imdbID": "tt4247356",
+                "imdbRating": "8.2"
+            },
+            {
+                "Episode": "12",
+                "Released": "2015-09-27",
+                "Title": "Fallen Light",
+                "imdbID": "tt4247358",
+                "imdbRating": "7.4"
+            },
+            {
+                "Episode": "13",
+                "Released": "2015-10-04",
+                "Title": "The Night Train",
+                "imdbID": "tt3973112",
+                "imdbRating": "8.4"
+            }
+        ],
+        "Response": true,
+        "Season": "2",
+        "Title": "The Strain",
+        "totalSeasons": "4"
+    },
+    "i=tt2654620&season=3": {
+        "Episodes": [
+            {
+                "Episode": "1",
+                "Released": "2016-08-28",
+                "Title": "New York Strong",
+                "imdbID": "tt4999208",
+                "imdbRating": "7.9"
+            },
+            {
+                "Episode": "2",
+                "Released": "2016-09-04",
+                "Title": "Bad White",
+                "imdbID": "tt4999226",
+                "imdbRating": "N/A"
+            },
+            {
+                "Episode": "3",
+                "Released": "N/A",
+                "Title": "First Born",
+                "imdbID": "tt4999212",
+                "imdbRating": "N/A"
+            },
+            {
+                "Episode": "4",
+                "Released": "2016-09-18",
+                "Title": "Gone But Not Forgotten",
+                "imdbID": "tt4999228",
+                "imdbRating": "7.9"
+            },
+            {
+                "Episode": "5",
+                "Released": "2016-09-25",
+                "Title": "Madness",
+                "imdbID": "tt4999216",
+                "imdbRating": "8.0"
+            },
+            {
+                "Episode": "6",
+                "Released": "2016-10-02",
+                "Title": "The Battle of Central Park",
+                "imdbID": "tt4999220",
+                "imdbRating": "8.2"
+            },
+            {
+                "Episode": "7",
+                "Released": "2016-10-09",
+                "Title": "Collaborators",
+                "imdbID": "tt4999204",
+                "imdbRating": "N/A"
+            },
+            {
+                "Episode": "8",
+                "Released": "2016-10-16",
+                "Title": "White Light",
+                "imdbID": "tt4999210",
+                "imdbRating": "8.5"
+            },
+            {
+                "Episode": "9",
+                "Released": "2016-10-23",
+                "Title": "Do Or Die",
+                "imdbID": "tt4999218",
+                "imdbRating": "8.8"
+            },
+            {
+                "Episode": "10",
+                "Released": "2016-10-30",
+                "Title": "The Fall",
+                "imdbID": "tt4926014",
+                "imdbRating": "8.4"
+            },
+            {
+                "Episode": "11",
+                "Released": "N/A",
+                "Title": "Episode #3.11",
+                "imdbID": "tt4999206",
+                "imdbRating": "N/A"
+            },
+            {
+                "Episode": "12",
+                "Released": "N/A",
+                "Title": "Episode #3.12",
+                "imdbID": "tt4999222",
+                "imdbRating": "N/A"
+            },
+            {
+                "Episode": "13",
+                "Released": "N/A",
+                "Title": "Episode #3.13",
+                "imdbID": "tt4999214",
+                "imdbRating": "N/A"
+            }
+        ],
+        "Response": true,
+        "Season": "3",
+        "Title": "The Strain",
+        "totalSeasons": "4"
+    },
+    "i=tt2654620&season=4": {
+        "Episodes": [
+            {
+                "Episode": "1",
+                "Released": "N/A",
+                "Title": "Episode #4.1",
+                "imdbID": "tt6101544",
+                "imdbRating": "N/A"
+            },
+            {
+                "Episode": "5",
+                "Released": "N/A",
+                "Title": "Episode #4.5",
+                "imdbID": "tt6141526",
+                "imdbRating": "N/A"
+            },
+            {
+                "Episode": "6",
+                "Released": "N/A",
+                "Title": "Episode #4.6",
+                "imdbID": "tt6141682",
+                "imdbRating": "N/A"
+            },
+            {
+                "Episode": "7",
+                "Released": "N/A",
+                "Title": "Episode #4.7",
+                "imdbID": "tt6141684",
+                "imdbRating": "N/A"
+            },
+            {
+                "Episode": "8",
+                "Released": "N/A",
+                "Title": "Episode #4.8",
+                "imdbID": "tt6141692",
+                "imdbRating": "N/A"
+            },
+            {
+                "Episode": "9",
+                "Released": "N/A",
+                "Title": "Episode #4.9",
+                "imdbID": "tt6141694",
+                "imdbRating": "N/A"
+            }
+        ],
+        "Response": true,
+        "Season": "4",
+        "Title": "The Strain",
+        "totalSeasons": "4"
+    },
+    "i=tt2654620&season=5": {
+        "Error": "Series or season not found!",
+        "Response": "False"
+    },
+    "i=tt2654620&tomatoes=False": {
+        "Actors": "Corey Stoll, David Bradley, Kevin Durand, Jonathan Hyde",
+        "Awards": "2 wins & 18 nominations.",
+        "Country": "USA",
+        "Director": "N/A",
+        "Genre": "Drama, Horror, Thriller",
+        "Language": "English",
+        "Metascore": "N/A",
+        "Plot": "A mysterious viral outbreak with hallmarks of an ancient and evil strain of vampirism ravages the city of New York.",
+        "Poster": "https://images-na.ssl-images-amazon.com/images/M/MV5BMTY4NTA4OTgxOF5BMl5BanBnXkFtZTgwMDA0ODM2OTE@._V1_SX300.jpg",
+        "Rated": "TV-MA",
+        "Ratings": [
+            {
+                "Source": "Internet Movie Database",
+                "Value": "7.4/10"
+            }
+        ],
+        "Released": "13 Jul 2014",
+        "Response": true,
+        "Runtime": "43 min",
+        "Title": "The Strain",
+        "Type": "series",
+        "Writer": "Guillermo del Toro, Chuck Hogan",
+        "Year": "2014\u2013",
+        "imdbID": "tt2654620",
+        "imdbRating": "7.4",
+        "imdbVotes": "61,302",
+        "totalSeasons": "4"
+    },
     "i=tt2802850&season=1": {
         "Episodes": [
             {
