@@ -199,17 +199,11 @@ class IMDBAPI:
 		"""
 		#self._getFromCache(parameters)
 		endpoint = "http://www.omdbapi.com/"
-		_expected = '&'.join(["{0}={1}".format(i,j) for i,j in sorted(parameters.items())])
-		if _expected in self.cache_file:
-			response = self.cache_file[_expected]
-		else:
-			response = requests.get(endpoint, parameters)
-			_key_url = response.url.replace(endpoint + '?', '')
-			response = response.json()
-			self.cache_file[_key_url] = response
-			self._saveCacheFile()
+		pprint(parameters)
+		response = requests.get(endpoint, parameters)
 
-
+		response = response.json()
+		pprint(response)
 		response = self._parseResponse(response)
 		return response
 
@@ -680,22 +674,10 @@ def parseFolder(show, folder, regex = None, rename = False):
 
 
 API = IMDBAPI()
-#api = IMDB_API()
-
 """Note: The graphTV color scheme only supports up to ~11 seasons, sow shows like supernatural break the program.
 """
 if __name__ == "__main__":
-	"""
-		Add a method that looks up episode titles.
-	"""
-	if True:
-		title = 'tt2364582'
-		print("Searching for", title)
-		response = API.find(title)
-		pprint(response)
-		graph = GraphTV(show = response, kind = 'average', colorscheme = 'random')
-		#plt.show()
-	elif False:
-		imdbId= 'tt4016454'
-		folder = "D:\\Download Repo\\TV Shows\\Supergirl\\"
-		parseFolder(imdbId, folder, rename = True)
+	test_id = 'tt2618986'
+	result = API.find(test_id)
+	pprint(result)
+	pprint(requests.get("http://www.omdbapi.com/?i=tt2618986").json())
