@@ -5,6 +5,10 @@ import json
 import matplotlib.pyplot as plt
 plt.style.use('fivethirtyeight')
 CACHE_FILENAME = "imdb_cache_file.json"
+_api_filename = os.path.join(os.getenv("USERPATH"), "Documents", "Github", "api_keys.txt")
+
+with open(_api_filename, 'r') as file1:
+	API_KEY = file1.read()
 
 class IMDBAPI:
 	def __init__(self):
