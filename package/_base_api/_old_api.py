@@ -3,6 +3,7 @@ from pprint import pprint
 import os
 import json
 import matplotlib.pyplot as plt
+import math
 plt.style.use('fivethirtyeight')
 CACHE_FILENAME = "imdb_cache_file.json"
 _api_filename = os.path.join(os.getenv("USERPATH"), "Documents", "Github", "api_keys.txt")
@@ -67,6 +68,16 @@ class IMDBAPI:
 		except:
 			number = math.nan
 		return number
+
+	def request(self, **parameters):
+		url = ""
+
+		response = requests.get(url, parameters)
+
+		response = response.json()
+
+		return response
+
 	def _request(self, **parameters):
 		""" Retrieves by IMDB ID or title. 
 			The supplied title must e explicitly defined.

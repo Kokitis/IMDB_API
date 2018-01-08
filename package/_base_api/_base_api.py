@@ -3,35 +3,17 @@ import requests
 from pprint import pprint
 import os
 import math
+import random
 #import matplotlib.pyplot as plt 
 from scipy import stats
 
-_api_filename = os.path.join(os.getenv("HOMEPATH"), "Documents", "Github", "api_keys.txt")
-
-with open(_api_filename, 'r') as file1:
-	API_KEY = file1.read()
-
 class OmdbApi:
-	def __init__(self):
+	def __init__(self, api_key):
 		self.endpoint = ""
-		self.api_key = API_KEY
-	def __call__(self, string):
-		"""
-
-		"""
+		self.api_key = api_key
 
 
-		pass
-	@staticmethod
-	def _tonum(value):
-		""" Converts a string to a valid numerical type"""
-		try:
-			if '.' in value: number = float(value)
-			else: number = int(value)
-		except:
-			number = math.nan
-		return number
-	def _request(self, raw = None, include_seasons = False, **parameters):
+	def get(self, string):
 		"""
 			Parameters
 			----------
@@ -40,53 +22,35 @@ class OmdbApi:
 				*'season': int
 					Requests a specific season from the api.
 		"""
-		if raw:
-			test_id = raw['i']
-			parameters = {'i': test_id}
-		elif 'i' in parameters:
-			pass
-		endpoint = "http://www.omdbapi.com/"
-		
 
-		parameters['apikey'] = self.api_key 
+		parameters = {
 
-		result = requests.get(endpoint, parameters)
-
+		}
+		response = self.request(**parameters)
 		# Should include error checking
-
-		result = result.json()
-		if result['Response'] == 'False':
-			print("Endpoint: ", endpoint)
-			pprint(parameters)
-			result = None
-		#pprint(result)
 		#if result is None or 'season' in parameters:
-		if 'Type' not in result:
+		if 'Type' not in response:
 			pass
-		elif result['Type'] == 'series':
-			result = self._parseSeries(result, include_seasons)
-		elif result['Type'] == 'movie':
-			result = self._parseMovie(result)
+		elif response['Type'] == 'series':
+			result = self._parseSeries(response)
+		elif response['Type'] == 'movie':
+			result = self._parseMovie(response)
 
 		return result
 
-
-	def _parseMovie(self, raw_result):
-		print("PARSING MOVIE")
-		return raw_result
-	def _parseSeason(self, raw_result, start = 1):
+	def _parseSeason(self, api_response, start = 1):
 		""" 
 			Parameters
 			----------
-				raw_result: dict<>
+				api_response: dict<>
 				start: int
 					Since seasons are parsed one at a time, this establishes the starting point when determining episode numbers.
 
 		"""
 		processed_season = list()
-		for episode in raw_result['Episodes']:
+		for episode in api_response['Episodes']:
 
-			_season_number = int(raw_result['Season'])
+			_season_number = int(api_response['Season'])
 			_episode_number= int(episode['Episode'])
 			notation = "S{:>02}E{:>02}".format(_season_number, _episode_number)
 			title = episode['Title']
@@ -94,7 +58,7 @@ class OmdbApi:
 				'index': 	start + _episode_number,
 				'name':		"{} - {}".format(notation, title),
 				'episode': 	notation,
-				'season': 	int(raw_result['Season']),
+				'season': 	int(api_response['Season']),
 				'seasonIndex': _episode_number,
 				'date': 	episode['Released'],
 				'title': 	title,
@@ -106,11 +70,10 @@ class OmdbApi:
 		processed_season = Season(processed_season)
 		return processed_season
 
-	def _parseSeries(self, raw_result, include_seasons = False):
+	def _parseSeries(self, api_response, include_seasons = False):
 		""" """
-		raw_result['totalSeasons'] = int(raw_result['totalSeasons'])
-		series_id = raw_result['imdbID']
-		total_seasons = raw_result['totalSeasons']
+		series_id = api_response['imdbID']
+		total_seasons = api_response['totalSeasons']
 		
 		seasons = list()
 		if include_seasons:
@@ -122,30 +85,22 @@ class OmdbApi:
 				seasons.append(s)
 				_total_episodes += len(s)
 			
-		raw_result['seasons'] = seasons
+		api_response['seasons'] = seasons
 
-		return raw_result
+		return api_response
 
-	def _getSeriesStatus(self, raw_result):
-		pass
-
-	def request(self, string, include_seasons = False):
-		"""
-		"""
-
-		if string.startswith('tt'):
-			key = 'i'
-		else:
-			key = 't'
-
-		result = self._request({key:string}, include_seasons)
-		return result
-
-	def findOne(self):
+	def _parseMovie(self, api_response):
 		pass
 
 	def search(self):
 		pass
+
+	def request(self, **parameters):
+		parameters['apikey'] = self.api_key
+		url = "http://www.omdbapi.com/"
+		response = requests.get(url, parameters)
+		response = response.json()
+		return response
 
 class Season:
 	def __init__(self, season):
