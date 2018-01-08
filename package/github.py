@@ -9,4 +9,4 @@ sys.path.append(github_folder)
 from github_data import omdb_api_key
 
 # noinspection PyUnresolvedReferences
-from pytools import timetools
+from pytools import timetools, tabletools

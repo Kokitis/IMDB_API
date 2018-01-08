@@ -126,8 +126,3 @@ class SeriesPlot:
 
 		return color
 
-
-# api = IMDB_API()
-
-"""Note: The graphTV color scheme only supports up to ~11 seasons, sow shows like supernatural break the program.
-"""

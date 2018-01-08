@@ -1,7 +1,8 @@
 
 import math
 from pprint import pprint
-
+from functools import partial
+pprint = partial(pprint, width = 200)
 import requests
 
 from ..github import timetools
@@ -22,17 +23,32 @@ def _toNumber(value, default = math.nan):
 		result = default
 	return result
 
+def _toTimestamp(value, default = math.nan):
+	if value == 'N/A':
+		result = default
+	else:
+		result = timetools.Timestamp(value)
+	return result
+
+def _toDuration(value, default = math.nan):
+	if value == 'N/A':
+		result = default
+	else:
+		result = value.split(' ')
+		result = int(result[0])
+		result = timetools.Duration(minutes = result)
+	return result
+
 class OmdbApi:
 	def __init__(self, api_key):
 		self.endpoint = ""
 		self.api_key = api_key
 
-
-
 	@staticmethod
 	def _parseEpisode(episode_response, season_number, previous_episodes):
+
 		imdb_rating = _toNumber(episode_response.get('imdbRating', ' N/A'))
-		release_date = timetools.Timestamp(episode_response['Released'])
+		release_date = _toTimestamp(episode_response['Released'])
 		episode_id = "S{:>02}E{:>02}".format(season_number, episode_response['Episode'])
 		episode_index = previous_episodes + int(episode_response['Episode'])
 		parsed_episode = {
@@ -47,25 +63,22 @@ class OmdbApi:
 		return parsed_episode
 
 
-	def _parseSeries(self, api_response, include_seasons):
+	def _parseMediaResponse(self, api_response, include_seasons):
+		media_type = api_response['Type']
 		imdb_id = api_response['imdbID']
 		imdb_votes = _toNumber(api_response['imdbVotes'].replace(',', ''))
 		imdb_rating = _toNumber(api_response['imdbRating'])
-		total_seasons = _toNumber(api_response['totalSeasons'])
+
+
 
 		api_response_status = api_response['Response'] == 'True'
-		years = api_response['Year'].split('-')
+		#years = api_response['Year'].split('-')
+		years = api_response['Year']
 		release_date = api_response['Released']
-		release_date = timetools.Timestamp(release_date)
-		# release_date = timetools.Timestamp(api_response['Released'])
-		runtime = api_response['Runtime'].split(' ')
-		runtime = timetools.Duration(minutes = int(runtime[0]))
-		metacritic_score = _toNumber(api_response['Metascore'])
+		release_date = _toTimestamp(release_date)
 
-		if include_seasons:
-			series_seasons = self.getSeasons(imdb_id)
-		else:
-			series_seasons = list()
+		runtime = _toDuration(api_response['Runtime'])
+		metacritic_score = _toNumber(api_response['Metascore'])
 
 		parsed_response = {
 			'actors':         api_response['Actors'],
@@ -80,26 +93,52 @@ class OmdbApi:
 			'rating':         api_response['Rated'],
 			'ratings':        api_response['Ratings'],
 			'title':          api_response['Title'],
-			'type':           api_response['Type'],
+			'type':           media_type,
 			'writer':         api_response['Writer'],
-			'years':          years,
+			'year':          years,
 			'imdbId':         imdb_id,
 			'responseStatus': api_response_status,
 			'imdbRating':     imdb_rating,
 			'imdbVotes':      imdb_votes,
-			'totalSeasons':   total_seasons,
 			'releaseDate':    release_date,
 			'duration':       runtime,
-			'seasons':        series_seasons
 		}
+		if media_type == 'series':
+			total_seasons = _toNumber(api_response['totalSeasons'])
+
+			if include_seasons:
+				series_seasons = self.getSeasons(imdb_id)
+			else:
+				series_seasons = list()
+
+			parsed_response['totalSeasons'] = total_seasons
+			parsed_response['seasons'] = series_seasons
 
 		return parsed_response
 
-	def _parseMovie(self, api_response):
-		pass
 
-	def search(self):
-		pass
+	def search(self, string, kind = None):
+
+		parameters = {
+			's':    string,
+		}
+		if kind is not None:
+			parameters['type'] = kind
+		response = self.request(**parameters)
+		return response
+
+	def find(self, string, kind = 'series'):
+		""" Searches the api for a show title and returns the first result. """
+		search_response = self.search(string, kind)
+		if search_response['Response'] != 'True':
+			result = None
+		else:
+			first_result = search_response['Search'][0]
+
+			first_result_id = first_result['imdbID']
+
+			result = self.get(first_result_id, True)
+		return result
 
 	def get(self, string, include_seasons = False):
 		"""
@@ -123,13 +162,8 @@ class OmdbApi:
 		if 'Type' not in response:
 			pprint(response)
 			result = response
-		elif response['Type'] == 'series':
-			result = self._parseSeries(response, include_seasons)
-		elif response['Type'] == 'movie':
-			result = self._parseMovie(response)
 		else:
-			message = "Invalid media type: '{}'".format(response['Type'])
-			raise ValueError(message)
+			result = self._parseMediaResponse(response, include_seasons)
 
 		return result
 
