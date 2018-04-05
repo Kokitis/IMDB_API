@@ -1,14 +1,14 @@
 import random
 
 import matplotlib.pyplot as plt
-
+from typing import *
 
 class SeriesPlot:
-	def __init__(self, series, scheme = 'graphtv', **kwargs):
+	def __init__(self, series, scheme:str = 'graphtv', **kwargs):
 		""" Plots every episode's rating
 			Parameters
 			----------
-				show: dict<>
+				series: MediaResource<>
 					Response from the IMDB API.
 				ax: matplotlib.axes._subplots.AxesSubplot; default None
 					If provided, the graph to plot the episode rating on.
@@ -39,7 +39,7 @@ class SeriesPlot:
 		""" Plots each season
 			Parameters
 			----------
-				series: dict<>
+				series: MediaResource
 					Response from the OmdbApi, with include_seasons set to True.
 			Returns
 			----------
@@ -88,7 +88,7 @@ class SeriesPlot:
 		ax.xaxis.grid(False)
 		return ax
 
-	def _getSeasonParameters(self, season):
+	def _getSeasonParameters(self, season)->Dict[str, Any]:
 
 		season_color = self._getSeasonColor(season['seasonIndex'])
 		season_episodes = [(i['indexInSeries'], i['imdbRating']) for i in season['episodes']]
@@ -125,4 +125,3 @@ class SeriesPlot:
 			color = '#{0:02X}{1:02X}{2:02X}'.format(red, blue, green)
 
 		return color
-

@@ -25,27 +25,25 @@ class GraphTv:
 					*ax:  matplotlib.axes._subplots.AxesSubplot
 						The ax obbject that contains the graph
 		"""
-		#episode_df = pandas.DataFrame(show['episodeList'])
+		# episode_df = pandas.DataFrame(show['episodeList'])
 		if ax is None:
-			self.fig, self.ax = plt.subplots(figsize = (20,10))
+			self.fig, self.ax = plt.subplots(figsize = (20, 10))
 			self.fig.patch.set_facecolor('#333333')
 		else:
 			self.fig = None
 
 		self.ax = self._formatPlot(self.ax)
-		
+
 		self.ax = self._plotSeasons(
-			self.ax, 
-			show['seasons'], 
+			self.ax,
+			show['seasons'],
 			show_dots = show_dots
 		)
-		
+
 		total_episodes = sum(len(s) for s in show['seasons'])
 
 		self.ax.set_xlim((0, total_episodes + 1))
 		self.ax.set_ylim(ymax = 10)
-		
-
 
 	def _plotSeasons(self, ax, seasons, show_dots = True):
 		""" Plots each season
@@ -88,7 +86,6 @@ class GraphTv:
 			ax.plot(x, [season_rating for i in x], color = season.color)
 		return ax
 
-				
 	@staticmethod
 	def _formatPlot(ax, style = 'graphtv'):
 		""" Formats the plot aesthetics
@@ -106,18 +103,17 @@ class GraphTv:
 		ax.spines['top'].set_color(BACKGROUND_COLOR)
 		ax.spines['left'].set_color(BACKGROUND_COLOR)
 		ax.spines['right'].set_color(BACKGROUND_COLOR)
-		
-		#change the label colors
+
+		# change the label colors
 		[i.set_color("#999999") for i in plt.gca().get_yticklabels()]
 		[i.set_color("#999999") for i in plt.gca().get_xticklabels()]
-		
-		#Change tick size
-		ax.tick_params(axis='y', which='major', labelsize=22)
-		ax.tick_params(axis='y', which='minor', labelsize=22)
+
+		# Change tick size
+		ax.tick_params(axis = 'y', which = 'major', labelsize = 22)
+		ax.tick_params(axis = 'y', which = 'minor', labelsize = 22)
 		ax.yaxis.grid(True)
 		ax.xaxis.grid(False)
-		return ax				
-
+		return ax
 
 
 if __name__ == "__main__":
