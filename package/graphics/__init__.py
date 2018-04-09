@@ -1,3 +1,3 @@
 from .graph import SeriesPlot
-from . import graphpg
+from package.graphics.pygalplot import graphpg
 from . import bokeh_graph
