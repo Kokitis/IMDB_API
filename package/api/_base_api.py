@@ -1,117 +1,35 @@
 import math
 from pprint import pprint
 from functools import partial
+import pendulum
 
 pprint = partial(pprint, width = 150)
 import requests
 from typing import *
-from ..github import timetools, numbertools, omdb_api_key
-from dataclasses import dataclass, fields
+from ..github import numbertools, omdb_api_key
+from .resources import EpisodeResource, MediaResource, SeasonResource
 
 _toNumber = numbertools.toNumber
 
-
-class BasicResource:
-
-	def __post_init__(self):
-		self._keys = tuple(i.name for i in fields(self))
-		for field in fields(self):
-			self._checkType(field)
-
-	def __getitem__(self, item):
-		if item not in self.keys():
-			message = "'{}' does not exist in the keys.".format(item)
-			raise KeyError(message)
-		return getattr(self, item)
-
-	def _checkType(self, field):
-		value = self[field.name]
-		try:
-			if not isinstance(value, field.type):
-				message = "Expected type '{}' in field '{}', got '{}' instead ('{}').".format(
-					field.type,
-					field.name,
-					type(value),
-					value
-				)
-				print("WARNING: ", message)
-		except TypeError:
-			# isinstance doesn't work with parametrized generics.
-			pass
-
-	def keys(self):
-		return self._keys
+pendulum.Pendulum.__float__ = lambda s: s.year + s.day_of_year / 365  # So ax.scatter can convert the dates.
 
 
-@dataclass
-class EpisodeResource(BasicResource):
-	title: str
-	imdbId: str
-	imdbRating: float
-	releaseDate: timetools.Timestamp
-	id: str
-	indexInSeries: int
-	indexInSeason: int
-
-
-@dataclass
-class SeasonResource(BasicResource):
-	episodes: List[EpisodeResource]
-	seasonIndex: int
-	length: int
-	seriesTitle: str
-
-	def summary(self):
-		print("{} Season {}".format(self.seriesTitle, self.seasonIndex))
-		for i in self.episodes:
-			print("\t{}. {}".format(i.indexInSeason, i))
-	def __iter__(self):
-		for i in self.episodes:
-			yield i
-
-
-@dataclass
-class MediaResource(BasicResource):
-	actors: str
-	awards: str
-	country: str
-	director: str
-	duration: timetools.Duration
-	genre: str
-	imdbId: str
-	imdbRating: float
-	imdbVotes: int
-	language: str
-	metascore: float
-	plot: str
-	rating: str
-	ratings: List[Dict[str, str]]
-	releaseDate: timetools.Timestamp
-	responseStatus: bool
-	title: str
-	totalSeasons: int
-	type: str
-	writer: str
-	year: str
-	seasons: Optional[List[SeasonResource]]
-
-
-def _toTimestamp(value, default = math.nan):
-	if value == 'N/A':
-		result = default
+def checkValue(value, *items):
+	""" Raises a ValueError if 'value' is not in 'items'. If None is passed, will return the first element of items."""
+	if value is not None:
+		value = value.lower()
+		if value not in items:
+			message = "'{}' is not an available option. Expected one of {}".format(value, items)
+			raise ValueError(message)
 	else:
-		result = timetools.Timestamp(value)
-	return result
+		value = items[0]
+
+	return value
 
 
-def _toDuration(value, default = math.nan):
-	if value == 'N/A':
-		result = default
-	else:
-		result = value.split(' ')
-		result = int(result[0])
-		result = timetools.Duration(minutes = result)
-	return result
+_toTimestamp = lambda value: pendulum.parse(value) if value != "N/A" else math.nan
+
+_toDuration = lambda value: pendulum.interval(minutes = int(value.split(' ')[0])) if value != 'N/A' else math.nan
 
 
 class OmdbApi:
@@ -119,43 +37,54 @@ class OmdbApi:
 
 		self.api_key: str = api_key
 
-	@staticmethod
-	def _parseEpisode(episode_response: dict, season_number: int, previous_episodes: int) -> EpisodeResource:
+	def _parseEpisode(self, episode: dict, season: int, previous: int, form: Optional[str]) -> Union[
+		EpisodeResource, MediaResource]:
 		"""
 
 		Parameters
 		----------
-		episode_response: EpisodeResponse
-		season_number: int
-		previous_episodes:int
+		episode: Dict
+			The short-form response from the api.
+		season: int
+			The season index.
+		previous:int
+			Number of episodes occuring in the season prior to this one.
+		form: str; default None
 
 		Returns
 		-------
 		EpisodeResponse
 		"""
-		imdb_rating = _toNumber(episode_response.get('imdbRating', ' N/A'))
-		release_date = _toTimestamp(episode_response['Released'])
-		episode_id = "S{:>02}E{:>02}".format(season_number, episode_response['Episode'])
-		episode_index = previous_episodes + int(episode_response['Episode'])
+		as_media_resource = form == 'long'
+		imdb_rating = _toNumber(episode.get('imdbRating', ' N/A'))
+		release_date = _toTimestamp(episode['Released'])
+		episode_id = "S{:>02}E{:>02}".format(season, episode['Episode'])
+		episode_index = previous + int(episode['Episode'])
 
-		parsed_episode = EpisodeResource(
-			title = episode_response['Title'],
-			imdbId = episode_response['imdbID'],
+		episode_data = dict(
+			title = episode['Title'],
+			imdbId = episode['imdbID'],
 			imdbRating = float(imdb_rating),
 			releaseDate = release_date,
-			id = episode_id,
+			episodeId = episode_id,
 			indexInSeries = episode_index,
-			indexInSeason = _toNumber(episode_response['Episode'])
+			indexInSeason = _toNumber(episode['Episode'])
 		)
-		return parsed_episode
+		if as_media_resource:
+			episode_resource = self.get(episode_data['imdbId'], asdict = True)
+			episode_data.update(episode_resource)
+			episode_resource = MediaResource(**episode_data)
+		else:
+			episode_resource = EpisodeResource(**episode_data)
+		return episode_resource
 
-	def _parseMediaResponse(self, api_response: Dict, include_seasons: bool) -> Dict:
+	def _parseMediaResponse(self, api_response: Dict, episode_format: Optional[str]) -> Dict:
 		"""
 
 		Parameters
 		----------
 		api_response
-		include_seasons
+		episode_format: {None, 'short', 'long'};  default 'long'}
 
 		Returns
 		-------
@@ -201,10 +130,7 @@ class OmdbApi:
 		if media_type == 'series':
 			total_seasons = _toNumber(api_response['totalSeasons'])
 
-			if include_seasons:
-				series_seasons = self.getSeasons(imdb_id)
-			else:
-				series_seasons = list()
+			series_seasons = self.getSeasons(imdb_id, episode_format = episode_format)
 
 			parsed_response['totalSeasons'] = total_seasons
 			parsed_response['seasons'] = series_seasons
@@ -231,7 +157,7 @@ class OmdbApi:
 				* 'imdbID': str
 			* 'totalResults': int
 		"""
-
+		kind = checkValue(kind, 'series', 'movie', 'any')
 		parameters = {
 			's': string
 		}
@@ -246,8 +172,9 @@ class OmdbApi:
 
 		return response
 
-	def find(self, string: str, kind: str = 'series') -> Optional[MediaResource]:
+	def find(self, string: str, kind: str = 'series', **kwargs) -> Optional[MediaResource]:
 		""" Searches the api for a show title and returns the first result. """
+		kwargs['episode_format'] = kwargs.get('episode_format', 'short')
 		search_response = self.search(string, kind)
 
 		if not search_response['Response']:
@@ -257,10 +184,10 @@ class OmdbApi:
 
 			first_result_id = first_result['imdbID']
 
-			result = self.get(first_result_id, True)
+			result = self.get(first_result_id, **kwargs)
 		return result
 
-	def get(self, string: str, include_seasons: bool = False) -> MediaResource:
+	def get(self, string: str, episode_format: Optional[str] = None, asdict = False, **kwargs) -> MediaResource:
 		"""
 			Parameters
 			----------
@@ -268,11 +195,17 @@ class OmdbApi:
 				One of the following:
 				*'i': IMDB ID
 				*'s': Search term
-			include_seasons: bool; default False
+			episode_format: {None, 'short', 'full'}; default None
+				*  None: Do not include seasons.
+				* 'short': Retrieve short-form episodes
+				* 'long': Retrieve long-form episodes.
+			asdict: bool; default False
+				Return the response from the api as a dict rather than a resource.
 			Returns
 			-------
 			MediaResponse
 		"""
+		episode_format = checkValue(episode_format, None, 'short', 'long')
 		_key = 'i' if string.startswith('tt') else 't'
 
 		parameters = {
@@ -282,16 +215,28 @@ class OmdbApi:
 		# Should include error checking
 
 		if 'Type' not in response:
-			pprint(response)
 			result = response
 		else:
-			result = self._parseMediaResponse(response, include_seasons)
-
-		result = MediaResource(**result)
+			result = self._parseMediaResponse(response, episode_format)
+		if not asdict:
+			result = MediaResource(**result)
 
 		return result
 
-	def getSeasons(self, series_id: str) -> List[SeasonResource]:
+	def getSeasons(self, series_id: str, episode_format: str = 'short') -> List[SeasonResource]:
+		"""
+			Gathers all episodes for the given series.
+		Parameters
+		----------
+		series_id: str
+		episode_format: {None, 'short', 'long'}
+			Controls if episodes are represented by the short-form EpisodeResource or the long-form Media Resource.
+
+		Returns
+		-------
+
+		"""
+		if episode_format == 'empty': return []
 		seasons = list()
 		index = 0
 		previous_episodes = 0
@@ -302,12 +247,14 @@ class OmdbApi:
 				'Season': index
 			}
 			response = self.request(**parameters)
+
 			response_status = response.get('Response', 'False') == 'True'
 			if response_status:
 				season_number = response['Season']
-
-				season_episodes = [self._parseEpisode(e, season_number, previous_episodes) for e in
-								   response['Episodes']]
+				season_episodes = [
+					self._parseEpisode(e, season_number, previous_episodes, form = episode_format)
+					for e in response['Episodes']
+				]
 
 				season_result = SeasonResource(
 					episodes = season_episodes,
@@ -316,7 +263,7 @@ class OmdbApi:
 					seriesTitle = response['Title']
 				)
 				seasons.append(season_result)
-				previous_episodes += len(season_episodes)
+				previous_episodes += max(season_episodes, key = lambda s: s.indexInSeason).indexInSeason
 			else:
 				break
 		return seasons
