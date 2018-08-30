@@ -1,8 +1,10 @@
 from dataclasses import dataclass, fields, asdict
-import pendulum
+
 from typing import Dict, List
 import pandas
-
+import yaml
+from pathlib import Path
+from ..github import timetools
 
 class BasicResource:
 
@@ -37,7 +39,7 @@ class EpisodeResource(BasicResource):
 	title: str
 	imdbId: str
 	imdbRating: float
-	releaseDate: pendulum
+	releaseDate: timetools.Timestamp
 	episodeId: str
 	indexInSeries: int
 	indexInSeason: int
@@ -45,6 +47,20 @@ class EpisodeResource(BasicResource):
 	def __str__(self):
 		string = "EpisodeResource({} - {})".format(self.episodeId, self.title)
 		return string
+
+	def to_dict(self, compatible:bool = False) -> Dict:
+		data = {
+			'title':         self.title,
+			'imdbId':        self.imdbId,
+			'imdbRating':    self.imdbRating,
+			'releaseDate':   self.releaseDate,
+			'episodeId':     self.episodeId,
+			'indexInSeries': self.indexInSeries,
+			'indexInSeason': self.indexInSeason
+		}
+		if compatible:
+			data['releaseDate'] = data['releaseDate'].to_iso() if hasattr(data['releaseDate'], 'to_iso') else data['releaseDate']
+		return data
 
 
 @dataclass
@@ -62,6 +78,14 @@ class SeasonResource(BasicResource):
 		for i in self.episodes:
 			yield i
 
+	def get_episode(self, key):
+		candidates =  [i for i in self.episodes if i.indexInSeason == int(key)]
+
+		if len(candidates) == 0:
+			episode = None
+		else:
+			episode = candidates[0]
+		return episode
 	def summary(self, level: int = 0) -> None:
 		missing_string = "<--missing-->"
 		indent = '' if level == 0 else '\t' * level
@@ -76,6 +100,15 @@ class SeasonResource(BasicResource):
 
 			print(indent + '\t', episode)
 
+	def to_dict(self, compatible:bool = False) -> Dict:
+		data = {
+			'episodes':    [i.to_dict(compatible) for i in self.episodes],
+			'seasonIndex': self.seasonIndex,
+			'length':      self.length,
+			'seriesTitle': self.seriesTitle
+		}
+		return data
+
 
 @dataclass
 class MediaResource(BasicResource):
@@ -83,7 +116,7 @@ class MediaResource(BasicResource):
 	awards: str
 	country: str
 	director: str
-	duration: pendulum.Interval
+	duration: timetools.Duration
 	genre: str
 	imdbId: str
 	imdbRating: float
@@ -93,7 +126,7 @@ class MediaResource(BasicResource):
 	plot: str
 	rating: str
 	ratings: List[Dict[str, str]]
-	releaseDate: pendulum.Pendulum
+	releaseDate: timetools.Timestamp
 	responseStatus: bool
 	title: str
 
@@ -114,7 +147,28 @@ class MediaResource(BasicResource):
 		string = "MediaResource('{}', '{}')".format(self.type, self.title)
 		return string
 
-	def summary(self, level:int = 0):
+	def get_episode(self, key: str) -> EpisodeResource:
+		""" Retrives an episode based on SnnEnn"""
+
+		season_number, episode_number = key.lower().split('e')
+		season = self.get_season(season_number)
+		if season is None:
+			episode = None
+		else:
+			episode = season.get_episode(int(episode_number))
+
+		return episode
+
+	def get_season(self, key: str) -> SeasonResource:
+		"""Retrieves a season. Key should be formatted as Sn"""
+		try:
+			season_number = int(key[1:])
+			season = self.seasons[season_number - 1]
+		except IndexError:
+			season = None
+		return season
+
+	def summary(self, level: int = 0):
 		""" prints a summary of the media. 'level' indicates the indentation level to use."""
 		indent = '' if level == 0 else '\t' * level
 		print(indent, self)
@@ -123,8 +177,9 @@ class MediaResource(BasicResource):
 		print(indent, "\tduration    ", self.duration)
 		print(indent, "\timdbRating: ", self.imdbRating)
 		print(indent, "\tPlot:       ", self.plot)
-		for season in self.seasons:
-			season.summary(level + 1)
+		if self.seasons:
+			for season in self.seasons:
+				season.summary(level + 1)
 
 	def toTable(self) -> pandas.DataFrame:
 		series_title = self.title
@@ -141,3 +196,40 @@ class MediaResource(BasicResource):
 				table.append(element)
 
 		return pandas.DataFrame(table)
+
+	def to_dict(self, compatible:bool = False):
+		data = {
+			"actors":         self.actors,
+			"awards":         self.awards,
+			"country":        self.country,
+			"director":       self.director,
+			"duration":       self.duration,
+			"genre":          self.genre,
+			"imdbId":         self.imdbId,
+			"imdbRating":     self.imdbRating,
+			"imdbVotes":      self.imdbVotes,
+			"language":       self.language,
+			"metascore":      self.metascore,
+			"plot":           self.plot,
+			"rating":         self.rating,
+			"ratings":        self.ratings,
+			"releaseDate":    self.releaseDate,
+			"responseStatus": self.responseStatus,
+			"title":          self.title,
+
+			"type":           self.type,
+			"writer":         self.writer,
+			"year":           self.year,
+			'seasons':        [i.to_dict(compatible) for i in self.seasons],
+
+			# Only useful for 'series' objects.
+			"totalSeasons":   self.totalSeasons
+		}
+		if compatible:
+			data['duration'] = data['duration'].to_iso() if hasattr(data['duration'], 'to_iso') else data['duration']
+			data['releaseDate'] = data['releaseDate'].to_iso() if hasattr(data['releaseDate'], 'to_iso') else data['releaseDate']
+		return data
+
+	def save(self, path: Path):
+		data = self.to_dict(compatible = True)
+		path.write_text(yaml.dump(data, default_flow_style = False))

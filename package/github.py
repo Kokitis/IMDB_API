@@ -1,12 +1,19 @@
 import sys
-import os
-
-github_folder = os.path.join(os.getenv('USERPROFILE'), 'Documents', 'Github')
-
-sys.path.append(github_folder)
-
-# noinspection PyUnresolvedReferences
-from github_data import omdb_api_key
+from pathlib import Path
+github_folder = Path.home() / "Documents" / "GitHub"
+print(github_folder.exists(), github_folder)
+sys.path.append(str(github_folder))
+sys.path.append(str(github_folder / "pytools"))
 
 # noinspection PyUnresolvedReferences
-from pytools import timetools, tabletools, numbertools
+import github_data
+omdb_api_key = github_data.omdb_api_key
+
+# noinspection PyUnresolvedReferences
+try:
+	from pytools import timetools, tabletools, numbertools
+except:
+	import pytools
+	timetools = pytools.timetools
+	tabletools = pytools.tabletools
+	numbertools = pytools.numbertools

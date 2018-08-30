@@ -1,17 +1,16 @@
 import math
 from pprint import pprint
 from functools import partial
-import pendulum
 
 pprint = partial(pprint, width = 150)
 import requests
 from typing import *
-from ..github import numbertools, omdb_api_key
+from ..github import numbertools, omdb_api_key, timetools
 from .resources import EpisodeResource, MediaResource, SeasonResource
 
-_toNumber = numbertools.toNumber
+_toNumber = numbertools.to_number
 
-pendulum.Pendulum.__float__ = lambda s: s.year + s.day_of_year / 365  # So ax.scatter can convert the dates.
+#pendulum.DateTime.__float__ = lambda s: s.year + s.day_of_year / 365  # So ax.scatter can convert the dates.
 
 
 def checkValue(value, *items):
@@ -27,9 +26,9 @@ def checkValue(value, *items):
 	return value
 
 
-_toTimestamp = lambda value: pendulum.parse(value) if value != "N/A" else math.nan
+_toTimestamp = lambda value: timetools.Timestamp(value) if value  != "N/A" else math.nan
 
-_toDuration = lambda value: pendulum.interval(minutes = int(value.split(' ')[0])) if value != 'N/A' else math.nan
+_toDuration = lambda value: timetools.Duration(minutes = int(value.split(' ')[0])) if value != 'N/A' else math.nan
 
 
 class OmdbApi:
@@ -166,10 +165,12 @@ class OmdbApi:
 		response = self.request(**parameters)
 
 		status = response['Response'] == 'True'
-		total_results = int(response['totalResults'])
-		response['Response'] = status
-		response['totalResults'] = total_results
-
+		if status:
+			total_results = int(response['totalResults'])
+			response['Response'] = status
+			response['totalResults'] = total_results
+		else:
+			response = None
 		return response
 
 	def find(self, string: str, kind: str = 'series', **kwargs) -> Optional[MediaResource]:
@@ -177,7 +178,7 @@ class OmdbApi:
 		kwargs['episode_format'] = kwargs.get('episode_format', 'short')
 		search_response = self.search(string, kind)
 
-		if not search_response['Response']:
+		if not search_response or not search_response['Response']:
 			result = None
 		else:
 			first_result = search_response['Search'][0]
@@ -219,6 +220,7 @@ class OmdbApi:
 		else:
 			result = self._parseMediaResponse(response, episode_format)
 		if not asdict:
+			#pprint(result)
 			result = MediaResource(**result)
 
 		return result
