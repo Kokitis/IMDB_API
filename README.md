@@ -61,7 +61,7 @@ MediaResource('series', 'Daredevil')
 ```
 
 Plot the ratings for each episode:
-```
+```python
 from omdbapi.graphics import SeriesPlot
 SeriesPlot(response)
 ```
