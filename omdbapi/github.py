@@ -11,9 +11,10 @@ omdb_api_key = github_data.omdb_api_key
 
 # noinspection PyUnresolvedReferences
 try:
-	from pytools import timetools, tabletools, numbertools
+	from pytools import timetools, tabletools, numbertools, datatools
 except:
 	import pytools
 	timetools = pytools.timetools
 	tabletools = pytools.tabletools
 	numbertools = pytools.numbertools
+	datatools = pytools.datatools

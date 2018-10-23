@@ -1,1 +1,4 @@
-from .graph import SeriesPlot
+try:
+	from .graph import SeriesPlot
+except ModuleNotFoundError:
+	from graph import SeriesPlot

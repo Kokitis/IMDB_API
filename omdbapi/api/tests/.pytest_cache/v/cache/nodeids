@@ -1,0 +1,8 @@
+[
+  "test_api.py::TestOmdbApiSeries::test_movie_find_by_id",
+  "test_api.py::TestOmdbApiSeries::test_movie_find_by_name",
+  "test_api.py::TestOmdbApiSeries::test_movie_get_by_id",
+  "test_api.py::TestOmdbApiSeries::test_series_find_by_id",
+  "test_api.py::TestOmdbApiSeries::test_series_find_by_title",
+  "test_api.py::TestOmdbApiSeries::test_series_get_by_id"
+]
