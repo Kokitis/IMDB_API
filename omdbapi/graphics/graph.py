@@ -2,7 +2,8 @@ import random
 import math
 import matplotlib.pyplot as plt
 
-from typing import Any, Dict
+from typing import Any, Dict, Union
+from pathlib import Path
 
 
 def checkValue(value, *items):
@@ -166,3 +167,5 @@ class SeriesPlot:
 
 		return color
 
+	def save(self, filename:Union[str,Path]):
+		plt.savefig(str(filename), dpi = 250)
