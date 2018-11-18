@@ -2,7 +2,7 @@ import random
 import math
 import matplotlib.pyplot as plt
 
-from typing import *
+from typing import Any, Dict
 
 
 def checkValue(value, *items):

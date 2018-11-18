@@ -4,16 +4,15 @@ from functools import partial
 
 pprint = partial(pprint, width = 150)
 import requests
-from typing import *
-from ..github import numbertools, omdb_api_key, timetools
-from .resources import EpisodeResource, MediaResource, SeasonResource
+from typing import Union, Dict, Optional, List
+
+from omdbapi.github import numbertools, omdb_api_key, timetools
+from omdbapi.api.resources import EpisodeResource, MediaResource, SeasonResource
 
 _toNumber = numbertools.to_number
 
-#pendulum.DateTime.__float__ = lambda s: s.year + s.day_of_year / 365  # So ax.scatter can convert the dates.
 
-
-def checkValue(value, *items):
+def checkValue(value:str, *items)->str:
 	""" Raises a ValueError if 'value' is not in 'items'. If None is passed, will return the first element of items."""
 	if value is not None:
 		value = value.lower()
@@ -133,6 +132,8 @@ class OmdbApi:
 
 			parsed_response['totalSeasons'] = total_seasons
 			parsed_response['seasons'] = series_seasons
+		else:
+			parsed_response['seasons'] = []
 
 		return parsed_response
 
@@ -147,14 +148,14 @@ class OmdbApi:
 		Returns
 		-------
 		SearchResource: dict
-			*'Response': bool
-			*'Search': list<Dict>
-				* 'Poster': url
-				* 'Title': str
-				* 'Type': {'series', 'movie'}
-				* 'Year': str
-				* 'imdbID': str
-			* 'totalResults': int
+			-`Response`: bool
+			-`Search`: list<Dict>
+				- `Poster`: url
+				- `Title`: str
+				- `Type`: {'series', 'movie'}
+				- `Year`: str
+				- `imdbID`: str
+			- `totalResults`: int
 		"""
 		kind = checkValue(kind, 'series', 'movie', 'any')
 		parameters = {
@@ -174,18 +175,33 @@ class OmdbApi:
 		return response
 
 	def find(self, string: str, kind: str = 'series', **kwargs) -> Optional[MediaResource]:
-		""" Searches the api for a show title and returns the first result. """
+		"""
+			Searches the api for a show title and returns the first result.
+		Parameters
+		----------
+		string: str
+			The search term.
+		kind: {`series`, `movie`, `any`}; default `any`
+
+		Keyword Arguments:
+		- episode_format: {`short`, `long`}; default `short`
+
+		Returns
+		-------
+		Optional[MediaResource]
+		"""
 		kwargs['episode_format'] = kwargs.get('episode_format', 'short')
-		search_response = self.search(string, kind)
-
-		if not search_response or not search_response['Response']:
-			result = None
+		if string.startswith('tt'):
+			result = self.get(string, **kwargs)
 		else:
-			first_result = search_response['Search'][0]
+			search_response = self.search(string, kind)
+			if not search_response or not search_response['Response']:
+				result = None
+			else:
+				first_result = search_response['Search'][0]
+				first_result_id = first_result['imdbID']
 
-			first_result_id = first_result['imdbID']
-
-			result = self.get(first_result_id, **kwargs)
+				result = self.get(first_result_id, **kwargs)
 		return result
 
 	def get(self, string: str, episode_format: Optional[str] = None, asdict = False, **kwargs) -> MediaResource:
@@ -194,12 +210,12 @@ class OmdbApi:
 			----------
 			string: str
 				One of the following:
-				*'i': IMDB ID
-				*'s': Search term
+				-`i`: IMDB ID
+				-`s`: Search term
 			episode_format: {None, 'short', 'full'}; default None
-				*  None: Do not include seasons.
-				* 'short': Retrieve short-form episodes
-				* 'long': Retrieve long-form episodes.
+				- `None`: Do not include seasons.
+				- `short`: Retrieve short-form episodes
+				- `long`: Retrieve long-form episodes.
 			asdict: bool; default False
 				Return the response from the api as a dict rather than a resource.
 			Returns
@@ -276,3 +292,40 @@ class OmdbApi:
 		response = requests.get(url, parameters)
 		response = response.json()
 		return response
+
+if __name__ == "__main__":
+	api = OmdbApi()
+	response = api.find('tt2488496')
+
+	movie_data = MediaResource(
+		actors = 'Harrison Ford, Mark Hamill, Carrie Fisher, Adam Driver',
+		awards = 'Nominated for 5 Oscars. Another 57 wins & 123 nominations.',
+		country = 'USA',
+		director = 'J.J. Abrams',
+		duration = timetools.Duration('PT2H16M'),
+		genre = 'Action, Adventure, Fantasy',
+		imdbId = 'tt2488496',
+		imdbRating = 8,
+		imdbVotes = 751557,
+		language = 'English',
+		metascore = 81,
+		plot = "Three decades after the Empire's defeat, a new threat arises in the militant First Order. Stormtrooper defector Finn and the scavenger Rey are caught up in the Resistance's search for the missing Luke Skywalker.",
+		rating = 'PG-13',
+		ratings = [
+			{'Source': 'Internet Movie Database', 'Value': '8.0/10'},
+			{'Source': 'Rotten Tomatoes', 'Value': '93%'},
+			{'Source': 'Metacritic', 'Value': '81/100'}
+		],
+		releaseDate = timetools.Timestamp(2015, 12, 18, 0, 0, 0),
+		responseStatus = True,
+		title = 'Star Wars: The Force Awakens',
+		type = 'movie',
+		writer = 'Lawrence Kasdan, J.J. Abrams, Michael Arndt, George Lucas (based on characters created by)',
+		year = '2015',
+		totalSeasons = 0,
+		seasons = [],
+		indexInSeason = 0,
+		indexInSeries = 0,
+		episodeId = 'N/A'
+	)
+	print(response == movie_data)

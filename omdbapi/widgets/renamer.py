@@ -2,7 +2,7 @@ from pathlib import Path
 from dataclasses import asdict
 from pprint import pprint
 import re
-from package.api import OmdbApi
+from omdbapi.api import OmdbApi
 
 api = OmdbApi()
 

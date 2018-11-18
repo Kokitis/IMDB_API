@@ -1,41 +1,14 @@
-from dataclasses import dataclass, fields, asdict
-
 from typing import Dict, List
 import pandas
-import yaml
+
 from pathlib import Path
-from ..github import timetools
+from pytools import timetools, datatools
 
-class BasicResource:
-
-	def __post_init__(self):
-		self._keys = tuple(i.name for i in fields(self))
-		for field in fields(self):
-			self._checkType(field)
-
-	def __getitem__(self, item):
-		if item not in self.keys():
-			message = "'{}' does not exist in the keys.".format(item)
-			raise KeyError(message)
-		return getattr(self, item)
-
-	def _checkType(self, field):
-		value = self[field.name]
-		try:
-			if not isinstance(value, field.type):
-				message = f"Expected type '{field.type}' in field '{field.name}', got '{value}' instead."
-
-				print("WARNING: ", message)
-		except TypeError:
-			# isinstance doesn't work with parametrized generics.
-			pass
-
-	def keys(self):
-		return self._keys
+dataclass = datatools.dataclass
 
 
 @dataclass
-class EpisodeResource(BasicResource):
+class EpisodeResource:
 	title: str
 	imdbId: str
 	imdbRating: float
@@ -48,23 +21,9 @@ class EpisodeResource(BasicResource):
 		string = "EpisodeResource({} - {})".format(self.episodeId, self.title)
 		return string
 
-	def to_dict(self, compatible:bool = False) -> Dict:
-		data = {
-			'title':         self.title,
-			'imdbId':        self.imdbId,
-			'imdbRating':    self.imdbRating,
-			'releaseDate':   self.releaseDate,
-			'episodeId':     self.episodeId,
-			'indexInSeries': self.indexInSeries,
-			'indexInSeason': self.indexInSeason
-		}
-		if compatible:
-			data['releaseDate'] = data['releaseDate'].to_iso() if hasattr(data['releaseDate'], 'to_iso') else data['releaseDate']
-		return data
-
 
 @dataclass
-class SeasonResource(BasicResource):
+class SeasonResource:
 	episodes: List[EpisodeResource]
 	seasonIndex: int
 	length: int
@@ -79,13 +38,14 @@ class SeasonResource(BasicResource):
 			yield i
 
 	def get_episode(self, key):
-		candidates =  [i for i in self.episodes if i.indexInSeason == int(key)]
+		candidates = [i for i in self.episodes if i.indexInSeason == int(key)]
 
 		if len(candidates) == 0:
 			episode = None
 		else:
 			episode = candidates[0]
 		return episode
+
 	def summary(self, level: int = 0) -> None:
 		missing_string = "<--missing-->"
 		indent = '' if level == 0 else '\t' * level
@@ -100,18 +60,9 @@ class SeasonResource(BasicResource):
 
 			print(indent + '\t', episode)
 
-	def to_dict(self, compatible:bool = False) -> Dict:
-		data = {
-			'episodes':    [i.to_dict(compatible) for i in self.episodes],
-			'seasonIndex': self.seasonIndex,
-			'length':      self.length,
-			'seriesTitle': self.seriesTitle
-		}
-		return data
-
 
 @dataclass
-class MediaResource(BasicResource):
+class MediaResource:
 	actors: str
 	awards: str
 	country: str
@@ -197,39 +148,3 @@ class MediaResource(BasicResource):
 
 		return pandas.DataFrame(table)
 
-	def to_dict(self, compatible:bool = False):
-		data = {
-			"actors":         self.actors,
-			"awards":         self.awards,
-			"country":        self.country,
-			"director":       self.director,
-			"duration":       self.duration,
-			"genre":          self.genre,
-			"imdbId":         self.imdbId,
-			"imdbRating":     self.imdbRating,
-			"imdbVotes":      self.imdbVotes,
-			"language":       self.language,
-			"metascore":      self.metascore,
-			"plot":           self.plot,
-			"rating":         self.rating,
-			"ratings":        self.ratings,
-			"releaseDate":    self.releaseDate,
-			"responseStatus": self.responseStatus,
-			"title":          self.title,
-
-			"type":           self.type,
-			"writer":         self.writer,
-			"year":           self.year,
-			'seasons':        [i.to_dict(compatible) for i in self.seasons],
-
-			# Only useful for 'series' objects.
-			"totalSeasons":   self.totalSeasons
-		}
-		if compatible:
-			data['duration'] = data['duration'].to_iso() if hasattr(data['duration'], 'to_iso') else data['duration']
-			data['releaseDate'] = data['releaseDate'].to_iso() if hasattr(data['releaseDate'], 'to_iso') else data['releaseDate']
-		return data
-
-	def save(self, path: Path):
-		data = self.to_dict(compatible = True)
-		path.write_text(yaml.dump(data, default_flow_style = False))
