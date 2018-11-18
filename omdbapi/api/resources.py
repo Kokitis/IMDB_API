@@ -2,10 +2,8 @@ from typing import Dict, List
 import pandas
 
 from pathlib import Path
-from pytools import timetools, datatools
-
-dataclass = datatools.dataclass
-
+from pytools import timetools
+from pytools.datatools import dataclass
 
 @dataclass
 class EpisodeResource:
