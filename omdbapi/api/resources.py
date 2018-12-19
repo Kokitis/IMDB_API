@@ -4,6 +4,7 @@ import pandas
 from pathlib import Path
 from pytools import timetools
 from pytools.datatools import dataclass
+from dataclasses import asdict
 
 @dataclass
 class EpisodeResource:
@@ -138,7 +139,7 @@ class MediaResource:
 		for season in self.seasons:
 			season_index = season.seasonIndex
 			for episode in season:
-				element = asdict(episode)
+				element = episode.to_dict()
 				element['seriesTitle'] = series_title
 				element['seriesId'] = series_id
 				element['season'] = season_index

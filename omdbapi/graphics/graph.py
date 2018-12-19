@@ -7,13 +7,15 @@ from typing import Any, Dict, Union, Tuple, List, NewType
 from pathlib import Path
 from dataclasses import dataclass
 
-def checkValue(value:str, *items)->str:
+
+def checkValue(value: str, *items) -> str:
 	""" Raises a ValueError if 'value' is not in 'items'"""
 	value = value.lower()
 	if value not in items:
 		message = "'{}' is not an available option. Expected one of {}".format(value, items)
 		raise ValueError(message)
 	return value
+
 
 @dataclass
 class ColorScheme:
@@ -23,23 +25,24 @@ class ColorScheme:
 	ticks: str
 	font: str
 
+
 _colorschemes: List[ColorScheme] = [
 	ColorScheme('graphtv',
-		palette = [
-			'#79A6F2', '#79F292', '#EE7781', '#C9F279', '#F279ED',
-			'#F9F2D4', '#F2B079', '#8D79F2', '#88F279', '#F279AB',
-			'#79CEF2'
-			],
-		background = "#333333",
-		ticks = "#999999",
-		font = "#999999"
+				palette = [
+					'#79A6F2', '#79F292', '#EE7781', '#C9F279', '#F279ED',
+					'#F9F2D4', '#F2B079', '#8D79F2', '#88F279', '#F279AB',
+					'#79CEF2'
+				],
+				background = "#333333",
+				ticks = "#999999",
+				font = "#999999"
 
-	)
+				)
 ]
-colorschemes:Dict[str,ColorScheme] = {i.name: i for i in _colorschemes}
+colorschemes: Dict[str, ColorScheme] = {i.name: i for i in _colorschemes}
 
 
-def get_plot_formatting(ax:Axes, series:MediaResource, index_attribute:str, by:str, scheme:str)->Axes:
+def get_plot_formatting(ax: Axes, series: MediaResource, index_attribute: str, by: str, scheme: str) -> Axes:
 	""" Formats the plot aesthetics
 		Parameters
 		----------
@@ -95,7 +98,9 @@ def get_plot_formatting(ax:Axes, series:MediaResource, index_attribute:str, by:s
 	plt.title(series.title, fontsize = 24, color = font_color)
 
 	return ax
-def get_season_color_from_palette(self, index:int)->str	:
+
+
+def get_season_color_from_palette(self, index: int) -> str:
 	""" Generates a list of colors to use in the graph
 		Parameters
 		----------
@@ -121,6 +126,8 @@ def get_season_color_from_palette(self, index:int)->str	:
 		color = '#{0:02X}{1:02X}{2:02X}'.format(red, blue, green)
 
 	return color
+
+
 class SeriesPlot:
 	def __init__(self, series, scheme: str = 'graphtv', by = 'index', **kwargs):
 		""" Plots every episode's rating
@@ -149,9 +156,10 @@ class SeriesPlot:
 		self.fig, self.ax = self.plotSeries(series)
 
 		self.ax = get_plot_formatting(self.ax, series, self.x_variable, self.by, self.scheme)
+
 	# return fig, ax
 
-	def plotSeries(self, series:MediaResource)->Tuple[Figure, Axes]:
+	def plotSeries(self, series: MediaResource) -> Tuple[Figure, Axes]:
 		""" Plots each season
 			Parameters
 			----------
@@ -162,7 +170,7 @@ class SeriesPlot:
 			ax : matplotlib.axes._subplots.AxesSubplot
 		"""
 		fig, ax = plt.subplots(figsize = (20, 10))
-		#ax = self._formatPlot(ax)
+		# ax = self._formatPlot(ax)
 
 		for element in series.seasons:
 			color, regression_y, x, y = self._getSeasonParameters(element)
@@ -172,10 +180,7 @@ class SeriesPlot:
 
 		return fig, ax
 
-
-
-
-	def _getSeasonParameters(self, season:SeasonResource) -> Tuple[str,float,List[int], List[float]]:
+	def _getSeasonParameters(self, season: SeasonResource) -> Tuple[str, float, List[int], List[float]]:
 		season_color = get_season_color_from_palette(season.seasonIndex)
 		season_episodes = [(i[self.x_variable], i.imdbRating) for i in season.episodes]
 		_i = [i[1] for i in season_episodes if not math.isnan(i[1])]
@@ -184,7 +189,5 @@ class SeriesPlot:
 
 		return season_color, season_mean, x, y
 
-
-
-	def save(self, filename:Union[str,Path]):
+	def save(self, filename: Union[str, Path]):
 		plt.savefig(str(filename), dpi = 250)

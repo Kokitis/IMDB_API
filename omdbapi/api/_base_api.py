@@ -294,38 +294,4 @@ class OmdbApi:
 		return response
 
 if __name__ == "__main__":
-	api = OmdbApi()
-	response = api.find('tt2488496')
-
-	movie_data = MediaResource(
-		actors = 'Harrison Ford, Mark Hamill, Carrie Fisher, Adam Driver',
-		awards = 'Nominated for 5 Oscars. Another 57 wins & 123 nominations.',
-		country = 'USA',
-		director = 'J.J. Abrams',
-		duration = timetools.Duration('PT2H16M'),
-		genre = 'Action, Adventure, Fantasy',
-		imdbId = 'tt2488496',
-		imdbRating = 8,
-		imdbVotes = 751557,
-		language = 'English',
-		metascore = 81,
-		plot = "Three decades after the Empire's defeat, a new threat arises in the militant First Order. Stormtrooper defector Finn and the scavenger Rey are caught up in the Resistance's search for the missing Luke Skywalker.",
-		rating = 'PG-13',
-		ratings = [
-			{'Source': 'Internet Movie Database', 'Value': '8.0/10'},
-			{'Source': 'Rotten Tomatoes', 'Value': '93%'},
-			{'Source': 'Metacritic', 'Value': '81/100'}
-		],
-		releaseDate = timetools.Timestamp(2015, 12, 18, 0, 0, 0),
-		responseStatus = True,
-		title = 'Star Wars: The Force Awakens',
-		type = 'movie',
-		writer = 'Lawrence Kasdan, J.J. Abrams, Michael Arndt, George Lucas (based on characters created by)',
-		year = '2015',
-		totalSeasons = 0,
-		seasons = [],
-		indexInSeason = 0,
-		indexInSeries = 0,
-		episodeId = 'N/A'
-	)
-	print(response == movie_data)
+	pass
