@@ -1,5 +1,7 @@
 
 try:
-	from ._base_api import OmdbApi, EpisodeResource, SeasonResource, MediaResource
+	from . import omdb_api
+	from .resources import EpisodeResource, SeasonResource, MediaResource, table_columns
 except ModuleNotFoundError:
-	from _base_api import OmdbApi, EpisodeResource, SeasonResource, MediaResource
+	import omdb_api
+	from resources import EpisodeResource, SeasonResource, MediaResource, table_columns

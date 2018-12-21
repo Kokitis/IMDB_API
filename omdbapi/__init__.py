@@ -1,2 +1,2 @@
-from .api import OmdbApi, MediaResource, SeasonResource, EpisodeResource
+from .api import *
 from . import graphics

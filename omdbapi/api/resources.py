@@ -1,10 +1,21 @@
-from typing import Dict, List
+from typing import Dict, List, NamedTuple
 import pandas
 
-from pathlib import Path
 from pytools import timetools
 from pytools.datatools import dataclass
-from dataclasses import asdict
+
+
+class TableColumns(NamedTuple):
+	episode_id: str = 'episodeId'
+	imdb_rating: str = 'imdbRating'
+	index_in_season: str = 'indexInSeason'
+	index_in_series: str = 'indexInSeries'
+	release_date: str = 'releaseDate'
+	season_index: str = 'season'
+	series_id: str = 'seriesId'
+	series_title: str = 'seriesTitle'
+	episode_title: str = 'title'
+table_columns = TableColumns()
 
 @dataclass
 class EpisodeResource:
@@ -132,6 +143,22 @@ class MediaResource:
 				season.summary(level + 1)
 
 	def toTable(self) -> pandas.DataFrame:
+		""" Converts the MediaResource Series to a pandas.DataFrame object.
+		Returns
+		-------
+		pandas.DataFrame
+			columns:
+				`episodeId`
+				`imdbRating`
+				`indexInSeason`
+				`indexInSeries`
+				`releaseDate`
+				`season`
+				`seriesId`
+				`seriesTitle`
+				`title`
+			index: `imdbId`
+		"""
 		series_title = self.title
 		series_id = self.imdbId
 
@@ -145,5 +172,7 @@ class MediaResource:
 				element['season'] = season_index
 				table.append(element)
 
-		return pandas.DataFrame(table)
+		df = pandas.DataFrame(table)
+		df = df.set_index('imdbId')
 
+		return df[list(table_columns)]

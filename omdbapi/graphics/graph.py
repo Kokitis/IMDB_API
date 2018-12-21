@@ -1,11 +1,13 @@
-import random
-import math
 import matplotlib.pyplot as plt
 from matplotlib.figure import Axes, Figure
-from omdbapi import MediaResource, SeasonResource
-from typing import Any, Dict, Union, Tuple, List, NewType
-from pathlib import Path
-from dataclasses import dataclass
+from omdbapi import MediaResource, table_columns
+
+import pandas
+
+try:
+	from .colorscheme import get_colorscheme, ColorScheme
+except ModuleNotFoundError:
+	from colorscheme import get_colorscheme, ColorScheme
 
 
 def checkValue(value: str, *items) -> str:
@@ -17,43 +19,22 @@ def checkValue(value: str, *items) -> str:
 	return value
 
 
-@dataclass
-class ColorScheme:
-	name: str
-	palette: List[str]
-	background: str
-	ticks: str
-	font: str
-
-
-_colorschemes: List[ColorScheme] = [
-	ColorScheme('graphtv',
-				palette = [
-					'#79A6F2', '#79F292', '#EE7781', '#C9F279', '#F279ED',
-					'#F9F2D4', '#F2B079', '#8D79F2', '#88F279', '#F279AB',
-					'#79CEF2'
-				],
-				background = "#333333",
-				ticks = "#999999",
-				font = "#999999"
-
-				)
-]
-colorschemes: Dict[str, ColorScheme] = {i.name: i for i in _colorschemes}
-
-
-def get_plot_formatting(ax: Axes, series: MediaResource, index_attribute: str, by: str, scheme: str) -> Axes:
+def get_plot_formatting(ax: Axes, series: pandas.DataFrame, index_attribute: str, color_scheme: ColorScheme) -> Axes:
 	""" Formats the plot aesthetics
 		Parameters
 		----------
 		ax: matplotlib.axes._subplots.AxesSubplot
 			The plot to format
+		series: pandas.DataFrame
+			The table representation of the series. Used to determin the episode indicies and title of the plot.
+		index_attribute: {'indexInSeason', 'releaseDate'}
+			The x_variable used when plotting the episodes.
+		color_scheme: ColorScheme
+			The colorscheme being used.
 		Returns
 		----------
 		ax : matplotlib.axes._subplots.AxesSubplot
 	"""
-	color_scheme_label = scheme if scheme in colorschemes else 'graphtv'
-	color_scheme = colorschemes.get(color_scheme_label)
 	background_color = color_scheme.background
 	tick_color = color_scheme.ticks
 	font_color = color_scheme.font
@@ -74,120 +55,75 @@ def get_plot_formatting(ax: Axes, series: MediaResource, index_attribute: str, b
 	ax.yaxis.grid(True)
 	ax.xaxis.grid(False)
 
-	# Add series parameters
-	episode_indicies = [
-		float(episode[index_attribute]) for season in series.seasons for episode in season
-	]
-
 	# Set plot bounds
+	series_title = series[table_columns.series_title].iloc[0]
+	indicies = series[index_attribute].apply(float)
+	x_min: int = min(indicies)
+	x_max: int = max(indicies)
 
-	x_min = min(episode_indicies)
-	x_max = max(episode_indicies)
-
-	if by == 'index':
+	# Add some spacing so the points don't overlap the plot edge.
+	if index_attribute == table_columns.index_in_series:
 		x_max += 1
 	else:
 		x_min -= 1 / 12
 		x_max += 1 / 12
 
-	ax.set_xlim((x_min, x_max))
-	ax.set_ylim(ymax = 10)
+	ax.set_xlim(left = x_min, right = x_max)
+	ax.set_ylim(top = 10)
 
 	plt.xlabel(index_attribute, fontsize = 16, color = font_color)
-	plt.ylabel('imdbRating', fontsize = 16, color = font_color)
-	plt.title(series.title, fontsize = 24, color = font_color)
+	plt.ylabel(table_columns.imdb_rating, fontsize = 16, color = font_color)
+	plt.title(series_title, fontsize = 24, color = font_color)
 
 	return ax
 
 
-def get_season_color_from_palette(self, index: int) -> str:
-	""" Generates a list of colors to use in the graph
+def plot_series(series: pandas.DataFrame, scheme: str = 'graphtv', by = 'index'):
+	""" Plots every episode's rating
 		Parameters
 		----------
-			index: int
+		series: MediaResource
+			Response from the IMDB API.
+		scheme: {'graphtv'}
+		by: {'index', 'date'}
+		ax: matplotlib.axes._subplots.AxesSubplot; default None
+			If provided, the graph to plot the episode rating on.
+			If not provided, a new one will be created
+		Returns
+		----------
+		fig, ax :  tuple
+			- fig: matplotlib.figure.Figure
+				The pyplot figure object that contains the graph
+			- ax:  matplotlib.axes._subplots.AxesSubplot
+				The ax obbject that contains the graph
 	"""
-	colorschemes = {
-		'graphtv': [
-			'#79A6F2', '#79F292', '#EE7781', '#C9F279', '#F279ED',
-			'#F9F2D4', '#F2B079', '#8D79F2', '#88F279', '#F279AB',
-			'#79CEF2'
-		]
-	}
-	if self.scheme in colorschemes:
-		colors = colorschemes[self.scheme]
-		color = colors[index % len(colors)]
+	if not isinstance(series, pandas.DataFrame):
+		series = series.toTable()
 
-	else:
-		lower = 100
-		upper = 256
-		red = random.randrange(lower, upper)
-		blue = random.randrange(lower, upper)
-		green = random.randrange(lower, upper)
-		color = '#{0:02X}{1:02X}{2:02X}'.format(red, blue, green)
+	scheme = checkValue(scheme, 'graphtv')
+	by = checkValue(by, 'index', 'date')
+	x_variable = table_columns.index_in_series if by == 'index' else table_columns.release_date
+	current_colorscheme = get_colorscheme(scheme)
+	fig, ax = plt.subplots(figsize = (20, 10))
 
-	return color
+	seasons = series.groupby(by = table_columns.season_index)
+	for index, season in seasons:
+		x = season[x_variable].apply(float)  # To convert Timestamp to a regular number.
+		y = season[table_columns.imdb_rating]
+		color = current_colorscheme.get_color(index)
+		# plot all episodes in the season.
+		ax.scatter(x.values, y.values, color = color)
+		# Plot the mean rating of the season
+		ax.plot([x.min(), x.max()], [y.mean(), y.mean()], color = color)
+	ax = get_plot_formatting(ax, series, x_variable, current_colorscheme)
+
+	return fig, ax
 
 
-class SeriesPlot:
-	def __init__(self, series, scheme: str = 'graphtv', by = 'index', **kwargs):
-		""" Plots every episode's rating
-			Parameters
-			----------
-			series: MediaResource
-				Response from the IMDB API.
-			scheme: {'graphtv'}
-			by: {'index', 'date'}
-			ax: matplotlib.axes._subplots.AxesSubplot; default None
-				If provided, the graph to plot the episode rating on.
-				If not provided, a new one will be created
-			Returns
-			----------
-			fig, ax :  tuple
-				- fig: matplotlib.figure.Figure
-					The pyplot figure object that contains the graph
-				- ax:  matplotlib.axes._subplots.AxesSubplot
-					The ax obbject that contains the graph
-		"""
-		# series_info = show.summary()
-		self.scheme = checkValue(scheme, 'graphtv')
-		self.by = checkValue(by, 'index', 'date')
-		self.x_variable = 'indexInSeries' if self.by == 'index' else 'releaseDate'
+if __name__ == "__main__":
+	from omdbapi.api import omdb_api
 
-		self.fig, self.ax = self.plotSeries(series)
-
-		self.ax = get_plot_formatting(self.ax, series, self.x_variable, self.by, self.scheme)
-
-	# return fig, ax
-
-	def plotSeries(self, series: MediaResource) -> Tuple[Figure, Axes]:
-		""" Plots each season
-			Parameters
-			----------
-			series: MediaResource
-				Response from the OmdbApi, with include_seasons set to True.
-			Returns
-			----------
-			ax : matplotlib.axes._subplots.AxesSubplot
-		"""
-		fig, ax = plt.subplots(figsize = (20, 10))
-		# ax = self._formatPlot(ax)
-
-		for element in series.seasons:
-			color, regression_y, x, y = self._getSeasonParameters(element)
-
-			ax.scatter(x, y, color = color)
-			ax.plot([min(x), max(x)], [regression_y, regression_y], color = color)
-
-		return fig, ax
-
-	def _getSeasonParameters(self, season: SeasonResource) -> Tuple[str, float, List[int], List[float]]:
-		season_color = get_season_color_from_palette(season.seasonIndex)
-		season_episodes = [(i[self.x_variable], i.imdbRating) for i in season.episodes]
-		_i = [i[1] for i in season_episodes if not math.isnan(i[1])]
-		season_mean = sum(_i) / len(_i)
-		x, y = zip(*season_episodes)
-
-		return season_color, season_mean, x, y
-
-	def save(self, filename: Union[str, Path]):
-		plt.savefig(str(filename), dpi = 250)
+	response = omdb_api.find('Legion')
+	plot_series(response)
+	print(response.toTable().to_string())
+	plt.show()

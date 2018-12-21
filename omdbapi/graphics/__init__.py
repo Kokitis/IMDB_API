@@ -1,4 +1,4 @@
 try:
-	from .graph import SeriesPlot
+	from .graph import plot_series
 except ModuleNotFoundError:
-	from graph import SeriesPlot
+	from graph import plot_series
