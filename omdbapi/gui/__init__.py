@@ -5,15 +5,13 @@ from PySide2.QtWidgets import QDialog, QPushButton, QVBoxLayout, QWidget, QHeade
 from PySide2 import QtWidgets
 from omdbapi.api import omdb_api
 import pandas
-from omdbapi.graphics import SeriesPlot
+from omdbapi.graphics.pyplot_graph import plot_series
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 class MyMplCanvas(FigureCanvas):
 	"""Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
 
 	def __init__(self, parent=None, response = None, width=5, height=4, dpi=200):
-		self.data = SeriesPlot(response)
-		self.fig = self.data.fig
-		self.axes = self.data.ax
+		self.fig, self.axes = plot_series(response)
 		FigureCanvas.__init__(self, self.fig)
 		self.setParent(parent)
 
@@ -46,7 +44,7 @@ class OMDBAPIGUI(QDialog):
 	def update_data(self, data):
 		self.response = data
 		if self.response:
-			sc = MyMplCanvas(self.graph_widget, width = 5, height = 4, dpi = 100)
+			self.graph_widget= MyMplCanvas(None, self.response, width = 5, height = 4, dpi = 100)
 			#self.graph_widget = sc
 
 	def update_table(self, data: pandas.DataFrame):

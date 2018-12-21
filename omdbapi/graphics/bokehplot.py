@@ -1,36 +1,48 @@
 from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource
+import pandas
+from typing import Union
+from omdbapi import MediaResource, table_columns
 
-from omdbapi import MediaResource
-from omdbapi.graphics import colorscheme
+try:
+	from omdbapi.graphics.colorscheme import get_colorscheme, ColorScheme
+except ModuleNotFoundError:
+	from colorscheme import get_colorscheme, ColorScheme
 
-def plot_series(series:MediaResource):
+
+def plot_series(series: Union[MediaResource, pandas.DataFrame], by = 'index'):
+	colorscheme = get_colorscheme('graphtv')
+	x_variable = table_columns.index_in_series if by == 'index' else table_columns.release_date
 	plot_width, plot_height = 1280, 720
-	series_df = series.toTable()
-	series_df['color'] = [colorscheme.GRAPHTV.get_season_color(i).to_hex() for i in series_df['season'].tolist()]
-	data = ColumnDataSource(series_df)
-	fig = figure(plot_width = plot_width, plot_height = plot_height, title = series.title)
-	fig.background_fill_color = colorscheme.GRAPHTV.background.to_hex()
+	if not isinstance(series, pandas.DataFrame):
+		series = series.toTable()
+	# Add a 'color' column to the dataframe so that bokeh can color the points correctly.
+	series['color'] = series[table_columns.season_index].apply(colorscheme.get_color)
+	series_title = series[table_columns.series_title].iloc[0]
+	data = ColumnDataSource(series)
+	fig = figure(plot_width = plot_width, plot_height = plot_height, title = series_title)
+	fig.background_fill_color = colorscheme.background
 
-	fig.circle('indexInSeries', 'imdbRating', source = data, color = 'color', size = 20)
+	fig.circle(x_variable, table_columns.imdb_rating, source = data, color = 'color', size = 20)
 
-	seasons = series_df.groupby(by = 'season')
+	seasons = series.groupby(by = table_columns.season_index)
 	for season_index, season in seasons:
-		start = season['indexInSeries'].min()
-		stop = season['indexInSeries'].max()
-		rating = season['imdbRating'].mean()
-		color = colorscheme.GRAPHTV.get_season_color(season_index).to_hex()
+		start = season[table_columns.index_in_series].min()
+		stop = season[table_columns.index_in_series].max()
+		rating = season[table_columns.imdb_rating].mean()
+		color = season['color'].iloc[0]
 
 		fig.line([start, stop], [rating, rating], line_color = color)
 	tooltips = [('episode', '@episodeId - @title'), ('imdbRating', '@imdbRating')]
-	hover = fig.add_tools(HoverTool(tooltips=tooltips))
+	hover = fig.add_tools(HoverTool(tooltips = tooltips))
 
 	show(fig)
+
 
 if __name__ == "__main__":
 	from bokeh.models import HoverTool
 	from bokeh.io import show
-	from omdbapi import OmdbApi
-	api = OmdbApi()
-	response = api.find('legion')
+	from omdbapi import omdb_api
+
+	response = omdb_api.find('legion')
 	plot_series(response)
