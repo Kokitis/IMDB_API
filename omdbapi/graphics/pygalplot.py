@@ -46,7 +46,7 @@ def plot_series(series:Union[pandas.DataFrame], by:str = 'index'):
 			[(season[x_variable].min(),y), (season[x_variable].max(),y)]
 			, stroke = True, show_dots = False)
 
-	xy_chart.render_to_file('chart.svg')
+	#xy_chart.render_to_file('chart.svg')
 
 if __name__ == "__main__":
 	from omdbapi import omdb_api
