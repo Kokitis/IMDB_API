@@ -2,7 +2,7 @@ from typing import Dict, List, NamedTuple
 import pandas
 
 from pytools import timetools
-from pytools.datatools import dataclass
+from dataclasses import dataclass
 
 
 class TableColumns(NamedTuple):
@@ -30,7 +30,16 @@ class EpisodeResource:
 	def __str__(self):
 		string = "EpisodeResource({} - {})".format(self.episodeId, self.title)
 		return string
-
+	def to_dict(self)->Dict:
+		return {
+			table_columns.episode_title: self.title,
+			table_columns.imdb_rating: self.imdbRating,
+			table_columns.release_date: self.releaseDate,
+			table_columns.episode_id: self.episodeId,
+			table_columns.index_in_series: self.indexInSeries,
+			table_columns.index_in_season: self.indexInSeason,
+			'imdbId': self.imdbId
+		}
 
 @dataclass
 class SeasonResource:
@@ -171,7 +180,6 @@ class MediaResource:
 				element['seriesId'] = series_id
 				element['season'] = season_index
 				table.append(element)
-
 		df = pandas.DataFrame(table)
 		df = df.set_index('imdbId')
 

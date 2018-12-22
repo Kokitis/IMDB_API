@@ -51,7 +51,7 @@ def _parse_api_response(response: Dict, episode_format) -> Optional[MediaResourc
 	return result
 
 
-def _parse_episode(episode: dict, season: int, previous: int, form: Optional[str]) -> Union[
+def _parse_episode_response(episode: dict, season: int, previous: int) -> Union[
 	EpisodeResource, MediaResource]:
 	"""
 
@@ -63,13 +63,11 @@ def _parse_episode(episode: dict, season: int, previous: int, form: Optional[str
 		The season index.
 	previous:int
 		Number of episodes occuring in the season prior to this one.
-	form: str; default None
 
 	Returns
 	-------
 	EpisodeResponse
 	"""
-	as_media_resource = form == 'long'
 	imdb_rating = to_number(episode.get('imdbRating', ' N/A'))
 	release_date = _convert_to_timestamp(episode['Released'])
 	episode_id = "S{:>02}E{:>02}".format(season, episode['Episode'])
@@ -84,12 +82,8 @@ def _parse_episode(episode: dict, season: int, previous: int, form: Optional[str
 		indexInSeries = episode_index,
 		indexInSeason = to_number(episode['Episode'])
 	)
-	if as_media_resource:
-		episode_resource = get(episode_data['imdbId'], asdict = True)
-		episode_data.update(episode_resource)
-		episode_resource = MediaResource(**episode_data)
-	else:
-		episode_resource = EpisodeResource(**episode_data)
+
+	episode_resource = EpisodeResource(**episode_data)
 	return episode_resource
 
 
@@ -166,18 +160,17 @@ def _parse_search_response(response: Dict) -> Optional[Dict]:
 	return response
 
 
-def _parse_season_response(response: Dict, previous_episodes: int, episode_format: str) -> Optional[SeasonResource]:
+def _parse_season_response(response: Dict, previous_episodes: int) -> Optional[SeasonResource]:
 	response_status = response.get('Response', 'False') == 'True'
 	if response_status:
 		season_number = response['Season']
 		season_episodes = [
-			_parse_episode(e, season_number, previous_episodes, form = episode_format)
-			for e in response['Episodes']
+			_parse_episode_response(episode, season_number, previous_episodes) for episode in response['Episodes']
 		]
 
 		season_result = SeasonResource(
 			episodes = season_episodes,
-			seasonIndex = to_number(response['Season']),
+			seasonIndex = season_number,
 			length = len(season_episodes),
 			seriesTitle = response['Title']
 		)
@@ -261,7 +254,7 @@ def get_seasons(series_id: str, episode_format: str = 'short') -> List[SeasonRes
 	previous_episodes = 0
 	for index in range(1, 100):  # There shouldn't be more than 100 seasons.
 		response = request(**_get_season_parameters(series_id, index))
-		season_result = _parse_season_response(response, previous_episodes, episode_format)
+		season_result = _parse_season_response(response, previous_episodes)
 		if season_result:
 			seasons.append(season_result)
 			previous_episodes += max((i.indexInSeason for i in season_result.episodes))
@@ -308,4 +301,4 @@ def request(**parameters) -> Dict:
 if __name__ == "__main__":
 	term = "Legion"
 	_result = find(term, episode_format = 'long')
-	print(_result.summary())
+	print(_result.toTable().to_string())
