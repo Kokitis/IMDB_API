@@ -1,6 +1,7 @@
-from omdbapi.github import numbertools, omdb_api_key, timetools
 import math
 import re
+
+from omdbapi.github import numbertools, timetools
 
 to_number = numbertools.to_number
 

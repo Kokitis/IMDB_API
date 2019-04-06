@@ -1,85 +1,937 @@
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
-  
-  <head>
-    
-      <meta charset="utf-8">
-      <title>Bokeh Plot</title>
-      
-      
-        
-          
-        <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.0.1.min.css" type="text/css" />
-        
-        
-          
-        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.0.1.min.js"></script>
-        <script type="text/javascript">
-            Bokeh.set_log_level("info");
-        </script>
-        
-      
-      
-    
-  </head>
-  
-  
-  <body>
-    
-      
-        
-          
-          
-            
-              <div class="bk-root" id="e94c07fc-5550-4edc-bbde-32276d64afc5"></div>
-            
-          
-        
-      
-      
-        <script type="application/json" id="1151">
-          {"0c209e7c-97ba-4935-9a3e-fd354974bb4b":{"roots":{"references":[{"attributes":{},"id":"1009","type":"LinearScale"},{"attributes":{"data_source":{"id":"1043","type":"ColumnDataSource"},"glyph":{"id":"1044","type":"Line"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1045","type":"Line"},"selection_glyph":null,"view":{"id":"1047","type":"CDSView"}},"id":"1046","type":"GlyphRenderer"},{"attributes":{},"id":"1011","type":"LinearScale"},{"attributes":{"callback":null,"data":{"x":[9,19],"y":[8.63,8.63]},"selected":{"id":"1066","type":"Selection"},"selection_policy":{"id":"1065","type":"UnionRenderers"}},"id":"1048","type":"ColumnDataSource"},{"attributes":{},"id":"1066","type":"Selection"},{"attributes":{"overlay":{"id":"1031","type":"BoxAnnotation"}},"id":"1025","type":"BoxZoomTool"},{"attributes":{},"id":"1056","type":"BasicTickFormatter"},{"attributes":{},"id":"1063","type":"UnionRenderers"},{"attributes":{"background_fill_color":{"value":"#333333"},"below":[{"id":"1013","type":"LinearAxis"}],"left":[{"id":"1018","type":"LinearAxis"}],"plot_height":720,"plot_width":1280,"renderers":[{"id":"1013","type":"LinearAxis"},{"id":"1017","type":"Grid"},{"id":"1018","type":"LinearAxis"},{"id":"1022","type":"Grid"},{"id":"1031","type":"BoxAnnotation"},{"id":"1041","type":"GlyphRenderer"},{"id":"1046","type":"GlyphRenderer"},{"id":"1051","type":"GlyphRenderer"}],"title":{"id":"1002","type":"Title"},"toolbar":{"id":"1029","type":"Toolbar"},"x_range":{"id":"1005","type":"DataRange1d"},"x_scale":{"id":"1009","type":"LinearScale"},"y_range":{"id":"1007","type":"DataRange1d"},"y_scale":{"id":"1011","type":"LinearScale"}},"id":"1003","subtype":"Figure","type":"Plot"},{"attributes":{},"id":"1024","type":"WheelZoomTool"},{"attributes":{"formatter":{"id":"1056","type":"BasicTickFormatter"},"plot":{"id":"1003","subtype":"Figure","type":"Plot"},"ticker":{"id":"1014","type":"BasicTicker"}},"id":"1013","type":"LinearAxis"},{"attributes":{},"id":"1027","type":"ResetTool"},{"attributes":{"fill_color":{"field":"color"},"line_color":{"field":"color"},"size":{"units":"screen","value":20},"x":{"field":"indexInSeries"},"y":{"field":"imdbRating"}},"id":"1039","type":"Circle"},{"attributes":{"line_color":"#EE7781","x":{"field":"x"},"y":{"field":"y"}},"id":"1049","type":"Line"},{"attributes":{"line_alpha":0.1,"line_color":"#1f77b4","x":{"field":"x"},"y":{"field":"y"}},"id":"1045","type":"Line"},{"attributes":{},"id":"1065","type":"UnionRenderers"},{"attributes":{},"id":"1026","type":"SaveTool"},{"attributes":{"callback":null},"id":"1007","type":"DataRange1d"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"size":{"units":"screen","value":20},"x":{"field":"indexInSeries"},"y":{"field":"imdbRating"}},"id":"1040","type":"Circle"},{"attributes":{},"id":"1061","type":"UnionRenderers"},{"attributes":{},"id":"1058","type":"BasicTickFormatter"},{"attributes":{"plot":{"id":"1003","subtype":"Figure","type":"Plot"},"ticker":{"id":"1014","type":"BasicTicker"}},"id":"1017","type":"Grid"},{"attributes":{"plot":null,"text":"Legion"},"id":"1002","type":"Title"},{"attributes":{},"id":"1028","type":"HelpTool"},{"attributes":{"formatter":{"id":"1058","type":"BasicTickFormatter"},"plot":{"id":"1003","subtype":"Figure","type":"Plot"},"ticker":{"id":"1019","type":"BasicTicker"}},"id":"1018","type":"LinearAxis"},{"attributes":{},"id":"1062","type":"Selection"},{"attributes":{"callback":null,"data":{"color":["#79F292","#79F292","#79F292","#79F292","#79F292","#79F292","#79F292","#79F292","#EE7781","#EE7781","#EE7781","#EE7781","#EE7781","#EE7781","#EE7781","#EE7781","#EE7781","#EE7781","#EE7781"],"episodeId":["S01E01","S01E02","S01E03","S01E04","S01E05","S01E06","S01E07","S01E08","S02E01","S02E02","S02E03","S02E04","S02E05","S02E06","S02E07","S02E08","S02E09","S02E10","S02E11"],"imdbId":["tt6143054","tt6157742","tt6179252","tt6162936","tt6162934","tt6162942","tt6162948","tt6162944","tt6653454","tt6653944","tt7246760","tt7246768","tt7246778","tt7246784","tt7246792","tt7246798","tt6703346","tt8488322","tt8358588"],"imdbRating":{"__ndarray__":"AAAAAAAAIkDNzMzMzMwgQJqZmZmZmSFAmpmZmZmZIUCamZmZmZkiQJqZmZmZmSBAAAAAAAAAI0BmZmZmZmYhQAAAAAAAAPh/zczMzMzMIUAAAAAAAAAiQGZmZmZmZiFAmpmZmZmZIUAAAAAAAAAiQJqZmZmZmSFAzczMzMzMHkAzMzMzMzMdQGZmZmZmZiFAzczMzMzMIkA=","dtype":"float64","shape":[19]},"indexInSeason":[1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,9,10,11],"indexInSeries":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"releaseDate":[1486512000000.0,1487116800000.0,1487721600000.0,1488326400000.0,1488931200000.0,1489536000000.0,1490140800000.0,1490745600000.0,"NaN",1523318400000.0,1523923200000.0,1524528000000.0,1525132800000.0,"NaN",1526342400000.0,1526947200000.0,1527552000000.0,1528156800000.0,1528761600000.0],"season":[1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2],"seriesId":["tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356","tt5114356"],"seriesTitle":["Legion","Legion","Legion","Legion","Legion","Legion","Legion","Legion","Legion","Legion","Legion","Legion","Legion","Legion","Legion","Legion","Legion","Legion","Legion"],"title":["Chapter 1","Chapter 2","Chapter 3","Chapter 4","Chapter 5","Chapter 6","Chapter 7","Chapter 8","Episode #2.1","Chapter 10","Chapter 11","Chapter 12","Chapter 13","Chapter 14","Chapter 15","Chapter 16","Chapter 17","Chapter 18","Chapter 19"]},"selected":{"id":"1062","type":"Selection"},"selection_policy":{"id":"1061","type":"UnionRenderers"}},"id":"1001","type":"ColumnDataSource"},{"attributes":{"source":{"id":"1043","type":"ColumnDataSource"}},"id":"1047","type":"CDSView"},{"attributes":{},"id":"1064","type":"Selection"},{"attributes":{},"id":"1019","type":"BasicTicker"},{"attributes":{"callback":null,"renderers":"auto","tooltips":[["episode","@episodeId - @title"],["imdbRating","@imdbRating"]]},"id":"1053","type":"HoverTool"},{"attributes":{"callback":null},"id":"1005","type":"DataRange1d"},{"attributes":{"source":{"id":"1001","type":"ColumnDataSource"}},"id":"1042","type":"CDSView"},{"attributes":{},"id":"1014","type":"BasicTicker"},{"attributes":{"callback":null,"data":{"x":[1,8],"y":[8.85,8.85]},"selected":{"id":"1064","type":"Selection"},"selection_policy":{"id":"1063","type":"UnionRenderers"}},"id":"1043","type":"ColumnDataSource"},{"attributes":{"line_alpha":0.1,"line_color":"#1f77b4","x":{"field":"x"},"y":{"field":"y"}},"id":"1050","type":"Line"},{"attributes":{"source":{"id":"1048","type":"ColumnDataSource"}},"id":"1052","type":"CDSView"},{"attributes":{"data_source":{"id":"1048","type":"ColumnDataSource"},"glyph":{"id":"1049","type":"Line"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1050","type":"Line"},"selection_glyph":null,"view":{"id":"1052","type":"CDSView"}},"id":"1051","type":"GlyphRenderer"},{"attributes":{"data_source":{"id":"1001","type":"ColumnDataSource"},"glyph":{"id":"1039","type":"Circle"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1040","type":"Circle"},"selection_glyph":null,"view":{"id":"1042","type":"CDSView"}},"id":"1041","type":"GlyphRenderer"},{"attributes":{},"id":"1023","type":"PanTool"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"plot":null,"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1031","type":"BoxAnnotation"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1023","type":"PanTool"},{"id":"1024","type":"WheelZoomTool"},{"id":"1025","type":"BoxZoomTool"},{"id":"1026","type":"SaveTool"},{"id":"1027","type":"ResetTool"},{"id":"1028","type":"HelpTool"},{"id":"1053","type":"HoverTool"}]},"id":"1029","type":"Toolbar"},{"attributes":{"line_color":"#79F292","x":{"field":"x"},"y":{"field":"y"}},"id":"1044","type":"Line"},{"attributes":{"dimension":1,"plot":{"id":"1003","subtype":"Figure","type":"Plot"},"ticker":{"id":"1019","type":"BasicTicker"}},"id":"1022","type":"Grid"}],"root_ids":["1003"]},"title":"Bokeh Application","version":"1.0.1"}}
-        </script>
-        <script type="text/javascript">
-          (function() {
-            var fn = function() {
-              Bokeh.safely(function() {
-                (function(root) {
-                  function embed_document(root) {
-                    
-                  var docs_json = document.getElementById('1151').textContent;
-                  var render_items = [{"docid":"0c209e7c-97ba-4935-9a3e-fd354974bb4b","roots":{"1003":"e94c07fc-5550-4edc-bbde-32276d64afc5"}}];
-                  root.Bokeh.embed.embed_items(docs_json, render_items);
-                
-                  }
-                  if (root.Bokeh !== undefined) {
-                    embed_document(root);
-                  } else {
-                    var attempts = 0;
-                    var timer = setInterval(function(root) {
-                      if (root.Bokeh !== undefined) {
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Bokeh Plot</title>
+
+
+    <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.0.1.min.css" type="text/css"/>
+
+
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.0.1.min.js"></script>
+    <script type="text/javascript">
+        Bokeh.set_log_level("info");
+    </script>
+
+
+</head>
+
+
+<body>
+
+
+<div class="bk-root" id="e94c07fc-5550-4edc-bbde-32276d64afc5"></div>
+
+
+<script type="application/json" id="1151">
+    {
+        "0c209e7c-97ba-4935-9a3e-fd354974bb4b": {
+            "roots": {
+                "references": [
+                    {
+                        "attributes": {},
+                        "id": "1009",
+                        "type": "LinearScale"
+                    },
+                    {
+                        "attributes": {
+                            "data_source": {
+                                "id": "1043",
+                                "type": "ColumnDataSource"
+                            },
+                            "glyph": {
+                                "id": "1044",
+                                "type": "Line"
+                            },
+                            "hover_glyph": null,
+                            "muted_glyph": null,
+                            "nonselection_glyph": {
+                                "id": "1045",
+                                "type": "Line"
+                            },
+                            "selection_glyph": null,
+                            "view": {
+                                "id": "1047",
+                                "type": "CDSView"
+                            }
+                        },
+                        "id": "1046",
+                        "type": "GlyphRenderer"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1011",
+                        "type": "LinearScale"
+                    },
+                    {
+                        "attributes": {
+                            "callback": null,
+                            "data": {
+                                "x": [
+                                    9,
+                                    19
+                                ],
+                                "y": [
+                                    8.63,
+                                    8.63
+                                ]
+                            },
+                            "selected": {
+                                "id": "1066",
+                                "type": "Selection"
+                            },
+                            "selection_policy": {
+                                "id": "1065",
+                                "type": "UnionRenderers"
+                            }
+                        },
+                        "id": "1048",
+                        "type": "ColumnDataSource"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1066",
+                        "type": "Selection"
+                    },
+                    {
+                        "attributes": {
+                            "overlay": {
+                                "id": "1031",
+                                "type": "BoxAnnotation"
+                            }
+                        },
+                        "id": "1025",
+                        "type": "BoxZoomTool"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1056",
+                        "type": "BasicTickFormatter"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1063",
+                        "type": "UnionRenderers"
+                    },
+                    {
+                        "attributes": {
+                            "background_fill_color": {
+                                "value": "#333333"
+                            },
+                            "below": [
+                                {
+                                    "id": "1013",
+                                    "type": "LinearAxis"
+                                }
+                            ],
+                            "left": [
+                                {
+                                    "id": "1018",
+                                    "type": "LinearAxis"
+                                }
+                            ],
+                            "plot_height": 720,
+                            "plot_width": 1280,
+                            "renderers": [
+                                {
+                                    "id": "1013",
+                                    "type": "LinearAxis"
+                                },
+                                {
+                                    "id": "1017",
+                                    "type": "Grid"
+                                },
+                                {
+                                    "id": "1018",
+                                    "type": "LinearAxis"
+                                },
+                                {
+                                    "id": "1022",
+                                    "type": "Grid"
+                                },
+                                {
+                                    "id": "1031",
+                                    "type": "BoxAnnotation"
+                                },
+                                {
+                                    "id": "1041",
+                                    "type": "GlyphRenderer"
+                                },
+                                {
+                                    "id": "1046",
+                                    "type": "GlyphRenderer"
+                                },
+                                {
+                                    "id": "1051",
+                                    "type": "GlyphRenderer"
+                                }
+                            ],
+                            "title": {
+                                "id": "1002",
+                                "type": "Title"
+                            },
+                            "toolbar": {
+                                "id": "1029",
+                                "type": "Toolbar"
+                            },
+                            "x_range": {
+                                "id": "1005",
+                                "type": "DataRange1d"
+                            },
+                            "x_scale": {
+                                "id": "1009",
+                                "type": "LinearScale"
+                            },
+                            "y_range": {
+                                "id": "1007",
+                                "type": "DataRange1d"
+                            },
+                            "y_scale": {
+                                "id": "1011",
+                                "type": "LinearScale"
+                            }
+                        },
+                        "id": "1003",
+                        "subtype": "Figure",
+                        "type": "Plot"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1024",
+                        "type": "WheelZoomTool"
+                    },
+                    {
+                        "attributes": {
+                            "formatter": {
+                                "id": "1056",
+                                "type": "BasicTickFormatter"
+                            },
+                            "plot": {
+                                "id": "1003",
+                                "subtype": "Figure",
+                                "type": "Plot"
+                            },
+                            "ticker": {
+                                "id": "1014",
+                                "type": "BasicTicker"
+                            }
+                        },
+                        "id": "1013",
+                        "type": "LinearAxis"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1027",
+                        "type": "ResetTool"
+                    },
+                    {
+                        "attributes": {
+                            "fill_color": {
+                                "field": "color"
+                            },
+                            "line_color": {
+                                "field": "color"
+                            },
+                            "size": {
+                                "units": "screen",
+                                "value": 20
+                            },
+                            "x": {
+                                "field": "indexInSeries"
+                            },
+                            "y": {
+                                "field": "imdbRating"
+                            }
+                        },
+                        "id": "1039",
+                        "type": "Circle"
+                    },
+                    {
+                        "attributes": {
+                            "line_color": "#EE7781",
+                            "x": {
+                                "field": "x"
+                            },
+                            "y": {
+                                "field": "y"
+                            }
+                        },
+                        "id": "1049",
+                        "type": "Line"
+                    },
+                    {
+                        "attributes": {
+                            "line_alpha": 0.1,
+                            "line_color": "#1f77b4",
+                            "x": {
+                                "field": "x"
+                            },
+                            "y": {
+                                "field": "y"
+                            }
+                        },
+                        "id": "1045",
+                        "type": "Line"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1065",
+                        "type": "UnionRenderers"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1026",
+                        "type": "SaveTool"
+                    },
+                    {
+                        "attributes": {
+                            "callback": null
+                        },
+                        "id": "1007",
+                        "type": "DataRange1d"
+                    },
+                    {
+                        "attributes": {
+                            "fill_alpha": {
+                                "value": 0.1
+                            },
+                            "fill_color": {
+                                "value": "#1f77b4"
+                            },
+                            "line_alpha": {
+                                "value": 0.1
+                            },
+                            "line_color": {
+                                "value": "#1f77b4"
+                            },
+                            "size": {
+                                "units": "screen",
+                                "value": 20
+                            },
+                            "x": {
+                                "field": "indexInSeries"
+                            },
+                            "y": {
+                                "field": "imdbRating"
+                            }
+                        },
+                        "id": "1040",
+                        "type": "Circle"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1061",
+                        "type": "UnionRenderers"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1058",
+                        "type": "BasicTickFormatter"
+                    },
+                    {
+                        "attributes": {
+                            "plot": {
+                                "id": "1003",
+                                "subtype": "Figure",
+                                "type": "Plot"
+                            },
+                            "ticker": {
+                                "id": "1014",
+                                "type": "BasicTicker"
+                            }
+                        },
+                        "id": "1017",
+                        "type": "Grid"
+                    },
+                    {
+                        "attributes": {
+                            "plot": null,
+                            "text": "Legion"
+                        },
+                        "id": "1002",
+                        "type": "Title"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1028",
+                        "type": "HelpTool"
+                    },
+                    {
+                        "attributes": {
+                            "formatter": {
+                                "id": "1058",
+                                "type": "BasicTickFormatter"
+                            },
+                            "plot": {
+                                "id": "1003",
+                                "subtype": "Figure",
+                                "type": "Plot"
+                            },
+                            "ticker": {
+                                "id": "1019",
+                                "type": "BasicTicker"
+                            }
+                        },
+                        "id": "1018",
+                        "type": "LinearAxis"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1062",
+                        "type": "Selection"
+                    },
+                    {
+                        "attributes": {
+                            "callback": null,
+                            "data": {
+                                "color": [
+                                    "#79F292",
+                                    "#79F292",
+                                    "#79F292",
+                                    "#79F292",
+                                    "#79F292",
+                                    "#79F292",
+                                    "#79F292",
+                                    "#79F292",
+                                    "#EE7781",
+                                    "#EE7781",
+                                    "#EE7781",
+                                    "#EE7781",
+                                    "#EE7781",
+                                    "#EE7781",
+                                    "#EE7781",
+                                    "#EE7781",
+                                    "#EE7781",
+                                    "#EE7781",
+                                    "#EE7781"
+                                ],
+                                "episodeId": [
+                                    "S01E01",
+                                    "S01E02",
+                                    "S01E03",
+                                    "S01E04",
+                                    "S01E05",
+                                    "S01E06",
+                                    "S01E07",
+                                    "S01E08",
+                                    "S02E01",
+                                    "S02E02",
+                                    "S02E03",
+                                    "S02E04",
+                                    "S02E05",
+                                    "S02E06",
+                                    "S02E07",
+                                    "S02E08",
+                                    "S02E09",
+                                    "S02E10",
+                                    "S02E11"
+                                ],
+                                "imdbId": [
+                                    "tt6143054",
+                                    "tt6157742",
+                                    "tt6179252",
+                                    "tt6162936",
+                                    "tt6162934",
+                                    "tt6162942",
+                                    "tt6162948",
+                                    "tt6162944",
+                                    "tt6653454",
+                                    "tt6653944",
+                                    "tt7246760",
+                                    "tt7246768",
+                                    "tt7246778",
+                                    "tt7246784",
+                                    "tt7246792",
+                                    "tt7246798",
+                                    "tt6703346",
+                                    "tt8488322",
+                                    "tt8358588"
+                                ],
+                                "imdbRating": {
+                                    "__ndarray__": "AAAAAAAAIkDNzMzMzMwgQJqZmZmZmSFAmpmZmZmZIUCamZmZmZkiQJqZmZmZmSBAAAAAAAAAI0BmZmZmZmYhQAAAAAAAAPh/zczMzMzMIUAAAAAAAAAiQGZmZmZmZiFAmpmZmZmZIUAAAAAAAAAiQJqZmZmZmSFAzczMzMzMHkAzMzMzMzMdQGZmZmZmZiFAzczMzMzMIkA=",
+                                    "dtype": "float64",
+                                    "shape": [
+                                        19
+                                    ]
+                                },
+                                "indexInSeason": [
+                                    1,
+                                    2,
+                                    3,
+                                    4,
+                                    5,
+                                    6,
+                                    7,
+                                    8,
+                                    1,
+                                    2,
+                                    3,
+                                    4,
+                                    5,
+                                    6,
+                                    7,
+                                    8,
+                                    9,
+                                    10,
+                                    11
+                                ],
+                                "indexInSeries": [
+                                    1,
+                                    2,
+                                    3,
+                                    4,
+                                    5,
+                                    6,
+                                    7,
+                                    8,
+                                    9,
+                                    10,
+                                    11,
+                                    12,
+                                    13,
+                                    14,
+                                    15,
+                                    16,
+                                    17,
+                                    18,
+                                    19
+                                ],
+                                "releaseDate": [
+                                    1486512000000.0,
+                                    1487116800000.0,
+                                    1487721600000.0,
+                                    1488326400000.0,
+                                    1488931200000.0,
+                                    1489536000000.0,
+                                    1490140800000.0,
+                                    1490745600000.0,
+                                    "NaN",
+                                    1523318400000.0,
+                                    1523923200000.0,
+                                    1524528000000.0,
+                                    1525132800000.0,
+                                    "NaN",
+                                    1526342400000.0,
+                                    1526947200000.0,
+                                    1527552000000.0,
+                                    1528156800000.0,
+                                    1528761600000.0
+                                ],
+                                "season": [
+                                    1,
+                                    1,
+                                    1,
+                                    1,
+                                    1,
+                                    1,
+                                    1,
+                                    1,
+                                    2,
+                                    2,
+                                    2,
+                                    2,
+                                    2,
+                                    2,
+                                    2,
+                                    2,
+                                    2,
+                                    2,
+                                    2
+                                ],
+                                "seriesId": [
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356",
+                                    "tt5114356"
+                                ],
+                                "seriesTitle": [
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion",
+                                    "Legion"
+                                ],
+                                "title": [
+                                    "Chapter 1",
+                                    "Chapter 2",
+                                    "Chapter 3",
+                                    "Chapter 4",
+                                    "Chapter 5",
+                                    "Chapter 6",
+                                    "Chapter 7",
+                                    "Chapter 8",
+                                    "Episode #2.1",
+                                    "Chapter 10",
+                                    "Chapter 11",
+                                    "Chapter 12",
+                                    "Chapter 13",
+                                    "Chapter 14",
+                                    "Chapter 15",
+                                    "Chapter 16",
+                                    "Chapter 17",
+                                    "Chapter 18",
+                                    "Chapter 19"
+                                ]
+                            },
+                            "selected": {
+                                "id": "1062",
+                                "type": "Selection"
+                            },
+                            "selection_policy": {
+                                "id": "1061",
+                                "type": "UnionRenderers"
+                            }
+                        },
+                        "id": "1001",
+                        "type": "ColumnDataSource"
+                    },
+                    {
+                        "attributes": {
+                            "source": {
+                                "id": "1043",
+                                "type": "ColumnDataSource"
+                            }
+                        },
+                        "id": "1047",
+                        "type": "CDSView"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1064",
+                        "type": "Selection"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1019",
+                        "type": "BasicTicker"
+                    },
+                    {
+                        "attributes": {
+                            "callback": null,
+                            "renderers": "auto",
+                            "tooltips": [
+                                [
+                                    "episode",
+                                    "@episodeId - @title"
+                                ],
+                                [
+                                    "imdbRating",
+                                    "@imdbRating"
+                                ]
+                            ]
+                        },
+                        "id": "1053",
+                        "type": "HoverTool"
+                    },
+                    {
+                        "attributes": {
+                            "callback": null
+                        },
+                        "id": "1005",
+                        "type": "DataRange1d"
+                    },
+                    {
+                        "attributes": {
+                            "source": {
+                                "id": "1001",
+                                "type": "ColumnDataSource"
+                            }
+                        },
+                        "id": "1042",
+                        "type": "CDSView"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1014",
+                        "type": "BasicTicker"
+                    },
+                    {
+                        "attributes": {
+                            "callback": null,
+                            "data": {
+                                "x": [
+                                    1,
+                                    8
+                                ],
+                                "y": [
+                                    8.85,
+                                    8.85
+                                ]
+                            },
+                            "selected": {
+                                "id": "1064",
+                                "type": "Selection"
+                            },
+                            "selection_policy": {
+                                "id": "1063",
+                                "type": "UnionRenderers"
+                            }
+                        },
+                        "id": "1043",
+                        "type": "ColumnDataSource"
+                    },
+                    {
+                        "attributes": {
+                            "line_alpha": 0.1,
+                            "line_color": "#1f77b4",
+                            "x": {
+                                "field": "x"
+                            },
+                            "y": {
+                                "field": "y"
+                            }
+                        },
+                        "id": "1050",
+                        "type": "Line"
+                    },
+                    {
+                        "attributes": {
+                            "source": {
+                                "id": "1048",
+                                "type": "ColumnDataSource"
+                            }
+                        },
+                        "id": "1052",
+                        "type": "CDSView"
+                    },
+                    {
+                        "attributes": {
+                            "data_source": {
+                                "id": "1048",
+                                "type": "ColumnDataSource"
+                            },
+                            "glyph": {
+                                "id": "1049",
+                                "type": "Line"
+                            },
+                            "hover_glyph": null,
+                            "muted_glyph": null,
+                            "nonselection_glyph": {
+                                "id": "1050",
+                                "type": "Line"
+                            },
+                            "selection_glyph": null,
+                            "view": {
+                                "id": "1052",
+                                "type": "CDSView"
+                            }
+                        },
+                        "id": "1051",
+                        "type": "GlyphRenderer"
+                    },
+                    {
+                        "attributes": {
+                            "data_source": {
+                                "id": "1001",
+                                "type": "ColumnDataSource"
+                            },
+                            "glyph": {
+                                "id": "1039",
+                                "type": "Circle"
+                            },
+                            "hover_glyph": null,
+                            "muted_glyph": null,
+                            "nonselection_glyph": {
+                                "id": "1040",
+                                "type": "Circle"
+                            },
+                            "selection_glyph": null,
+                            "view": {
+                                "id": "1042",
+                                "type": "CDSView"
+                            }
+                        },
+                        "id": "1041",
+                        "type": "GlyphRenderer"
+                    },
+                    {
+                        "attributes": {},
+                        "id": "1023",
+                        "type": "PanTool"
+                    },
+                    {
+                        "attributes": {
+                            "bottom_units": "screen",
+                            "fill_alpha": {
+                                "value": 0.5
+                            },
+                            "fill_color": {
+                                "value": "lightgrey"
+                            },
+                            "left_units": "screen",
+                            "level": "overlay",
+                            "line_alpha": {
+                                "value": 1.0
+                            },
+                            "line_color": {
+                                "value": "black"
+                            },
+                            "line_dash": [
+                                4,
+                                4
+                            ],
+                            "line_width": {
+                                "value": 2
+                            },
+                            "plot": null,
+                            "render_mode": "css",
+                            "right_units": "screen",
+                            "top_units": "screen"
+                        },
+                        "id": "1031",
+                        "type": "BoxAnnotation"
+                    },
+                    {
+                        "attributes": {
+                            "active_drag": "auto",
+                            "active_inspect": "auto",
+                            "active_multi": null,
+                            "active_scroll": "auto",
+                            "active_tap": "auto",
+                            "tools": [
+                                {
+                                    "id": "1023",
+                                    "type": "PanTool"
+                                },
+                                {
+                                    "id": "1024",
+                                    "type": "WheelZoomTool"
+                                },
+                                {
+                                    "id": "1025",
+                                    "type": "BoxZoomTool"
+                                },
+                                {
+                                    "id": "1026",
+                                    "type": "SaveTool"
+                                },
+                                {
+                                    "id": "1027",
+                                    "type": "ResetTool"
+                                },
+                                {
+                                    "id": "1028",
+                                    "type": "HelpTool"
+                                },
+                                {
+                                    "id": "1053",
+                                    "type": "HoverTool"
+                                }
+                            ]
+                        },
+                        "id": "1029",
+                        "type": "Toolbar"
+                    },
+                    {
+                        "attributes": {
+                            "line_color": "#79F292",
+                            "x": {
+                                "field": "x"
+                            },
+                            "y": {
+                                "field": "y"
+                            }
+                        },
+                        "id": "1044",
+                        "type": "Line"
+                    },
+                    {
+                        "attributes": {
+                            "dimension": 1,
+                            "plot": {
+                                "id": "1003",
+                                "subtype": "Figure",
+                                "type": "Plot"
+                            },
+                            "ticker": {
+                                "id": "1019",
+                                "type": "BasicTicker"
+                            }
+                        },
+                        "id": "1022",
+                        "type": "Grid"
+                    }
+                ],
+                "root_ids": [
+                    "1003"
+                ]
+            },
+            "title": "Bokeh Application",
+            "version": "1.0.1"
+        }
+    }
+</script>
+<script type="text/javascript">
+    (function () {
+        var fn = function () {
+            Bokeh.safely(function () {
+                (function (root) {
+                    function embed_document(root) {
+
+                        var docs_json = document.getElementById('1151').textContent;
+                        var render_items = [{
+                            "docid": "0c209e7c-97ba-4935-9a3e-fd354974bb4b",
+                            "roots": {"1003": "e94c07fc-5550-4edc-bbde-32276d64afc5"}
+                        }];
+                        root.Bokeh.embed.embed_items(docs_json, render_items);
+
+                    }
+
+                    if (root.Bokeh !== undefined) {
                         embed_document(root);
-                        clearInterval(timer);
-                      }
-                      attempts++;
-                      if (attempts > 100) {
-                        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
-                        clearInterval(timer);
-                      }
-                    }, 10, root)
-                  }
+                    } else {
+                        var attempts = 0;
+                        var timer = setInterval(function (root) {
+                            if (root.Bokeh !== undefined) {
+                                embed_document(root);
+                                clearInterval(timer);
+                            }
+                            attempts++;
+                            if (attempts > 100) {
+                                console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                                clearInterval(timer);
+                            }
+                        }, 10, root)
+                    }
                 })(window);
-              });
-            };
-            if (document.readyState != "loading") fn();
-            else document.addEventListener("DOMContentLoaded", fn);
-          })();
-        </script>
-    
-  </body>
-  
+            });
+        };
+        if (document.readyState != "loading") fn();
+        else document.addEventListener("DOMContentLoaded", fn);
+    })();
+</script>
+
+</body>
+
 </html>

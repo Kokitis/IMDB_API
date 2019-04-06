@@ -1,6 +1,6 @@
-from dataclasses import dataclass
 import random
-from typing import List, Dict
+from dataclasses import dataclass
+from typing import Dict, List
 
 
 @dataclass
@@ -21,16 +21,16 @@ class ColorScheme:
 
 _colorschemes: List[ColorScheme] = [
 	ColorScheme('graphtv',
-				palette = [
-					'#79A6F2', '#79F292', '#EE7781', '#C9F279', '#F279ED',
-					'#F9F2D4', '#F2B079', '#8D79F2', '#88F279', '#F279AB',
-					'#79CEF2'
-				],
-				background = "#333333",
-				ticks = "#999999",
-				font = "#999999"
+		palette = [
+			'#79A6F2', '#79F292', '#EE7781', '#C9F279', '#F279ED',
+			'#F9F2D4', '#F2B079', '#8D79F2', '#88F279', '#F279AB',
+			'#79CEF2'
+		],
+		background = "#333333",
+		ticks = "#999999",
+		font = "#999999"
 
-				)
+	)
 ]
 colorschemes: Dict[str, ColorScheme] = {i.name: i for i in _colorschemes}
 

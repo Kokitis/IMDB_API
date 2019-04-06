@@ -1,13 +1,9 @@
 import matplotlib.pyplot as plt
-from matplotlib.figure import Axes, Figure
-from omdbapi import MediaResource, table_columns
-
 import pandas
+from matplotlib.figure import Axes
 
-try:
-	from .colorscheme import get_colorscheme, ColorScheme
-except ModuleNotFoundError:
-	from colorscheme import get_colorscheme, ColorScheme
+from omdbapi import MediaResource, table_columns
+from .colorscheme import ColorScheme, get_colorscheme
 
 
 def checkValue(value: str, *items) -> str:
@@ -80,15 +76,17 @@ def get_plot_formatting(ax: Axes, series: pandas.DataFrame, index_attribute: str
 
 def plot_series(series: pandas.DataFrame, scheme: str = 'graphtv', by = 'index'):
 	""" Plots every episode's rating
+
 		Parameters
 		----------
 		series: MediaResource
 			Response from the IMDB API.
 		scheme: {'graphtv'}
+			The colorscheme of the graph
 		by: {'index', 'date'}
-		ax: matplotlib.axes._subplots.AxesSubplot; default None
-			If provided, the graph to plot the episode rating on.
-			If not provided, a new one will be created
+			The values to use as the x-variable. `index` will use the episode number within the overall series
+			while `date` will use the episode's air date.
+
 		Returns
 		----------
 		fig, ax :  tuple
@@ -123,7 +121,7 @@ def plot_series(series: pandas.DataFrame, scheme: str = 'graphtv', by = 'index')
 if __name__ == "__main__":
 	from omdbapi.api import omdb_api
 
-	response = omdb_api.find('Legion')
-	plot_series(response)
+	response = omdb_api.find('The 100')
+	plot_series(response.toTable())
 	print(response.toTable().to_string())
 	plt.show()

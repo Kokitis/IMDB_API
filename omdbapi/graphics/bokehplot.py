@@ -1,13 +1,11 @@
-from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource
-import pandas
 from typing import Union
-from omdbapi import MediaResource, table_columns
 
-try:
-	from omdbapi.graphics.colorscheme import get_colorscheme, ColorScheme
-except ModuleNotFoundError:
-	from colorscheme import get_colorscheme, ColorScheme
+import pandas
+from bokeh.models import ColumnDataSource
+from bokeh.plotting import figure
+
+from omdbapi import MediaResource, table_columns
+from omdbapi.graphics.colorscheme import get_colorscheme
 
 
 def plot_series(series: Union[MediaResource, pandas.DataFrame], by = 'index'):

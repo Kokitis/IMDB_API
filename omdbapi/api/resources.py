@@ -1,12 +1,14 @@
-from typing import Dict, List, NamedTuple
+from dataclasses import dataclass
+from typing import Dict, List, NamedTuple, Optional, Tuple
+
 import pandas
 
 from pytools import timetools
-from dataclasses import dataclass
 
 
 class TableColumns(NamedTuple):
 	episode_id: str = 'episodeId'
+	imdb_id: str = 'imdbId'
 	imdb_rating: str = 'imdbRating'
 	index_in_season: str = 'indexInSeason'
 	index_in_series: str = 'indexInSeries'
@@ -15,7 +17,10 @@ class TableColumns(NamedTuple):
 	series_id: str = 'seriesId'
 	series_title: str = 'seriesTitle'
 	episode_title: str = 'title'
+
+
 table_columns = TableColumns()
+
 
 @dataclass
 class EpisodeResource:
@@ -30,16 +35,18 @@ class EpisodeResource:
 	def __str__(self):
 		string = "EpisodeResource({} - {})".format(self.episodeId, self.title)
 		return string
-	def to_dict(self)->Dict:
+
+	def to_dict(self) -> Dict:
 		return {
-			table_columns.episode_title: self.title,
-			table_columns.imdb_rating: self.imdbRating,
-			table_columns.release_date: self.releaseDate,
-			table_columns.episode_id: self.episodeId,
+			table_columns.episode_title:   self.title,
+			table_columns.imdb_rating:     self.imdbRating,
+			table_columns.release_date:    self.releaseDate,
+			table_columns.episode_id:      self.episodeId,
 			table_columns.index_in_series: self.indexInSeries,
 			table_columns.index_in_season: self.indexInSeason,
-			'imdbId': self.imdbId
+			'imdbId':                      self.imdbId
 		}
+
 
 @dataclass
 class SeasonResource:
@@ -82,18 +89,20 @@ class SeasonResource:
 
 @dataclass
 class MediaResource:
-	actors: str
+	# Common fields between Movies and Series
+	actors: List[str]
 	awards: str
 	country: str
 	director: str
 	duration: timetools.Duration
-	genre: str
+	genres: List[str]
 	imdbId: str
 	imdbRating: float
 	imdbVotes: int
 	language: str
 	metascore: float
 	plot: str
+	poster:str
 	rating: str
 	ratings: List[Dict[str, str]]
 	releaseDate: timetools.Timestamp
@@ -114,8 +123,15 @@ class MediaResource:
 	episodeId: str = 'N/A'
 
 	def __str__(self):
-		string = "MediaResource('{}', '{}')".format(self.type, self.title)
+		class_name = self.__class__.split('.')[-1]
+		string = f"{class_name}('{self.title}')"
 		return string
+
+
+class SeriesResource(MediaResource):
+	aired: Tuple[timetools.Timestamp, Optional[timetools.Timestamp]]
+	totalSeasons: int
+	seasons: List[SeasonResource]
 
 	def get_episode(self, key: str) -> EpisodeResource:
 		""" Retrives an episode based on SnnEnn"""
@@ -153,9 +169,11 @@ class MediaResource:
 
 	def toTable(self) -> pandas.DataFrame:
 		""" Converts the MediaResource Series to a pandas.DataFrame object.
+
 		Returns
 		-------
 		pandas.DataFrame
+			A table with rows corresponding to individual episodes.
 			columns:
 				`episodeId`
 				`imdbRating`
@@ -176,11 +194,27 @@ class MediaResource:
 			season_index = season.seasonIndex
 			for episode in season:
 				element = episode.to_dict()
-				element['seriesTitle'] = series_title
-				element['seriesId'] = series_id
-				element['season'] = season_index
+				element[table_columns.series_title] = series_title
+				element[table_columns.series_id] = series_id
+				element[table_columns.season_index] = season_index
 				table.append(element)
 		df = pandas.DataFrame(table)
-		df = df.set_index('imdbId')
+		df = df.set_index(table_columns.imdb_id)
+		df = df[list(i for i in table_columns if i != table_columns.imdb_id)]
+		df[table_columns.season_index] = df[table_columns.season_index].astype(int)
+		return df
 
-		return df[list(table_columns)]
+
+class FilmResource(MediaResource):
+	boxOffice: int
+	dvd: timetools.Timestamp
+
+class EpisodeResource(MediaResource):
+	indexInSeason: int = 0
+	indexInSeries: int = 0
+	episodeId: str = 'N/A'
+
+if __name__ == "__main__":
+	class ABCClass:
+		pass
+	print(ABCClass().__class__)

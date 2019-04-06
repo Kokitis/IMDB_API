@@ -1,7 +1,8 @@
-import unittest
-from omdbapi import OmdbApi, MediaResource
-from pytools import timetools
 import math
+import unittest
+
+from omdbapi import MediaResource, OmdbApi
+from pytools import timetools
 
 
 class TestOmdbApiSeries(unittest.TestCase):
@@ -97,8 +98,8 @@ class TestOmdbApiSeries(unittest.TestCase):
 		self.assertEqual(self.series_data.writer, response.writer)
 		self.assertEqual(self.series_data.year, response.year)
 		self.assertEqual(self.series_data.totalSeasons, response.totalSeasons)
-		#self.assertListEqual(self.series_data.seasons, response.seasons)
 
+	# self.assertListEqual(self.series_data.seasons, response.seasons)
 
 	def test_series_find_by_id(self):
 		response = self.api.find(self.series_key)

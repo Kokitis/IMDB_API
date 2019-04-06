@@ -1,10 +1,10 @@
-import math
-from pprint import pprint
 from functools import partial
+from pprint import pprint
 
 pprint = partial(pprint, width = 150)
 import requests
 from typing import Union, Dict, Optional, List
+
 from omdbapi.github import omdb_api_key
 from omdbapi.api.resources import EpisodeResource, MediaResource, SeasonResource
 from omdbapi.api.widgets import _convert_to_timestamp, _convert_to_duration, _is_imdb_id, to_number
@@ -18,12 +18,28 @@ def _is_valid_response(response: Dict) -> bool:
 
 
 def _get_request_parameters(string: str, episode_format: Optional[str]) -> Dict[str, str]:
+	""" Returns the basic parameters needed for an API request."""
 	assert episode_format in {'long', 'short', None}
 	_key = 'i' if _is_imdb_id(string) else 't'
 	return {_key: string}
 
 
 def _get_search_parameters(search_term: str, kind: Optional[str]) -> Dict[str, str]:
+	"""
+	Returns the API parameters when sending a search request.
+
+	Parameters
+	----------
+	search_term: str
+		The string to search for.
+	kind: {'series', 'movie'}
+		Indicates what type of content to search for. A value of `None` will search for any and all media.
+
+	Returns
+	-------
+	Dict
+		A dictionary with the basic parameters needed to send a search request.
+	"""
 	assert kind in {'series', 'movie', None}
 	parameters = {
 		's': search_term
@@ -34,6 +50,18 @@ def _get_search_parameters(search_term: str, kind: Optional[str]) -> Dict[str, s
 
 
 def _get_season_parameters(series_id: str, index: int) -> Dict:
+	"""
+		Returns API parameters required when getting information about a series season.
+	Parameters
+	----------
+	series_id:str
+	index:int
+		The season number.
+
+	Returns
+	-------
+
+	"""
 	parameters = {
 		'i':      series_id,
 		'Season': index
@@ -42,6 +70,14 @@ def _get_season_parameters(series_id: str, index: int) -> Dict:
 
 
 def _parse_api_response(response: Dict, episode_format) -> Optional[MediaResource]:
+	""" Converts a raw api response into a `MediaResource` object.
+
+		Parameters
+		----------
+		response: Dict[str,str]
+			The raw json-formatted response from the api.
+		episode_format: {'long', 'short'}
+	"""
 	if _is_valid_response(response):
 		# Not a media response. Usually due to an error
 		result = _parse_media_response(response, episode_format)
@@ -54,15 +90,15 @@ def _parse_api_response(response: Dict, episode_format) -> Optional[MediaResourc
 def _parse_episode_response(episode: dict, season: int, previous: int) -> Union[
 	EpisodeResource, MediaResource]:
 	"""
-
+		Converts the episode response from the API into either a `MediaResource` or `EpisodeResource` object.
 	Parameters
 	----------
-	episode: Dict
+	episode: Dict[str,str]
 		The short-form response from the api.
 	season: int
-		The season index.
+		The index of the season containing the episode.
 	previous:int
-		Number of episodes occuring in the season prior to this one.
+		Number of episodes occuring in the season prior to this one. Used to determine the episode number and the episode label.
 
 	Returns
 	-------
@@ -87,7 +123,7 @@ def _parse_episode_response(episode: dict, season: int, previous: int) -> Union[
 	return episode_resource
 
 
-def _parse_media_response(api_response: Dict, episode_format: Optional[str]) -> Dict:
+def _parse_media_response(api_response: Dict, episode_format: Optional[str] = None) -> Dict:
 	"""
 
 	Parameters
@@ -122,7 +158,8 @@ def _parse_media_response(api_response: Dict, episode_format: Optional[str]) -> 
 		'language':       api_response['Language'],
 		'metascore':      metacritic_score,
 		'plot':           api_response['Plot'],
-		# 'poster': api_response['Poster'],
+		'poster':		  api_response['Poster'],
+		'poster': api_response['Poster'],
 		'rating':         api_response['Rated'],
 		'ratings':        api_response['Ratings'],
 		'title':          api_response['Title'],
@@ -161,6 +198,17 @@ def _parse_search_response(response: Dict) -> Optional[Dict]:
 
 
 def _parse_season_response(response: Dict, previous_episodes: int) -> Optional[SeasonResource]:
+	"""
+		Converts a season response from the API into a `SeasonResource` object.
+	Parameters
+	----------
+	response
+	previous_episodes
+
+	Returns
+	-------
+
+	"""
 	response_status = response.get('Response', 'False') == 'True'
 	if response_status:
 		season_number = response['Season']
@@ -184,7 +232,8 @@ def search(string: str, kind: Optional[str] = None) -> Dict:
 		Searches the api for a string.
 	Parameters
 	----------
-	string
+	string:str
+		The search term to include in the request.
 	kind: {'series', 'movie', None}
 		Assumes both if `None`
 
@@ -209,18 +258,22 @@ def search(string: str, kind: Optional[str] = None) -> Dict:
 def find(string: str, kind: str = 'series', **kwargs) -> Optional[MediaResource]:
 	"""
 		Searches the api for a show title and returns the first result.
+
 	Parameters
 	----------
 	string: str
 		The search term.
-	kind: {`series`, `movie`, `any`}; default `any`
+	kind: str; default `any`
+		Should be one of {`series`, `movie`, `any`}
 
-	Keyword Arguments:
+	Keyword Arguments
+	-----------------
 	- episode_format: {`short`, `long`}; default `short`
 
 	Returns
 	-------
 	Optional[MediaResource]
+		The MediaResource object.
 	"""
 	kwargs['episode_format'] = kwargs.get('episode_format', 'short')
 	if _is_imdb_id(string):
@@ -291,6 +344,7 @@ def get(string: str, episode_format: Optional[str] = None, asdict = False, **kwa
 
 
 def request(**parameters) -> Dict:
+	"""Sends a request to the API"""
 	parameters['apikey'] = API_KEY
 	url = "http://www.omdbapi.com/"
 	response = requests.get(url, parameters)
@@ -299,6 +353,8 @@ def request(**parameters) -> Dict:
 
 
 if __name__ == "__main__":
-	term = "Legion"
-	_result = find(term, episode_format = 'long')
-	print(_result.toTable().to_string())
+	term = "tt0325980"
+	_result = request(**_get_request_parameters(term, 'short'))
+	from pprint import pprint
+
+	pprint(_result)

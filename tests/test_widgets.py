@@ -1,6 +1,8 @@
-from omdbapi.api.widgets import _convert_to_duration, _convert_to_timestamp, _is_imdb_id
-
 import unittest
+
+from omdbapi.api.widgets import _is_imdb_id
+
+
 class TestWidgets(unittest.TestCase):
 	def test_is_imdb_id(self):
 		self.assertTrue(_is_imdb_id('tt1234567'))
