@@ -49,7 +49,7 @@ def plot_series(series: Union[pandas.DataFrame], by: str = 'index'):
 # xy_chart.render_to_file('chart.svg')
 
 if __name__ == "__main__":
-	from omdbapi import omdb_api
+	from omdbapi import apiio
 
-	response = omdb_api.find('Legion')
+	response = apiio.find('Legion')
 	plot_series(response)

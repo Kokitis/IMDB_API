@@ -40,7 +40,7 @@ def plot_series(series: Union[MediaResource, pandas.DataFrame], by = 'index'):
 if __name__ == "__main__":
 	from bokeh.models import HoverTool
 	from bokeh.io import show
-	from omdbapi import omdb_api
+	from omdbapi import apiio
 
-	response = omdb_api.find('legion')
+	response = apiio.find('legion')
 	plot_series(response)

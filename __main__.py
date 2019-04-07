@@ -7,10 +7,13 @@ parser.add_argument(
 	action = "store"
 )
 if __name__ == "__main__":
-	from omdbapi.api import omdb_api
+	import omdbapi
+	import matplotlib.pyplot as plt
 
 	args = parser.parse_args(['tt7569592'])
 	print("Input: ", args.input)
-	result = omdb_api.find(args.input)
-	from pprint import pprint
-	pprint(result)
+	result = omdbapi.api.find(args.input)
+	omdbapi.plot_series(result.toTable())
+	plt.show()
+
+

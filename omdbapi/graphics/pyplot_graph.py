@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 import pandas
 from matplotlib.figure import Axes
-
-from omdbapi import MediaResource, table_columns
-from .colorscheme import ColorScheme, get_colorscheme
+try:
+	from .colorscheme import ColorScheme, get_colorscheme
+except ModuleNotFoundError:
+	from colorscheme import ColorScheme, get_colorscheme
 
 
 def checkValue(value: str, *items) -> str:
@@ -52,13 +53,13 @@ def get_plot_formatting(ax: Axes, series: pandas.DataFrame, index_attribute: str
 	ax.xaxis.grid(False)
 
 	# Set plot bounds
-	series_title = series[table_columns.series_title].iloc[0]
+	series_title = series['seriesTitle'].iloc[0]
 	indicies = series[index_attribute].apply(float)
 	x_min: int = min(indicies)
 	x_max: int = max(indicies)
 
 	# Add some spacing so the points don't overlap the plot edge.
-	if index_attribute == table_columns.index_in_series:
+	if index_attribute == 'indexInSeries':
 		x_max += 1
 	else:
 		x_min -= 1 / 12
@@ -68,7 +69,7 @@ def get_plot_formatting(ax: Axes, series: pandas.DataFrame, index_attribute: str
 	ax.set_ylim(top = 10)
 
 	plt.xlabel(index_attribute, fontsize = 16, color = font_color)
-	plt.ylabel(table_columns.imdb_rating, fontsize = 16, color = font_color)
+	plt.ylabel('rating', fontsize = 16, color = font_color)
 	plt.title(series_title, fontsize = 24, color = font_color)
 
 	return ax
@@ -100,14 +101,14 @@ def plot_series(series: pandas.DataFrame, scheme: str = 'graphtv', by = 'index')
 
 	scheme = checkValue(scheme, 'graphtv')
 	by = checkValue(by, 'index', 'date')
-	x_variable = table_columns.index_in_series if by == 'index' else table_columns.release_date
+	x_variable = 'indexInSeries' if by == 'index' else 'releaseDate'
 	current_colorscheme = get_colorscheme(scheme)
 	fig, ax = plt.subplots(figsize = (20, 10))
 
-	seasons = series.groupby(by = table_columns.season_index)
+	seasons = series.groupby(by = 'seasonIndex')
 	for index, season in seasons:
 		x = season[x_variable].apply(float)  # To convert Timestamp to a regular number.
-		y = season[table_columns.imdb_rating]
+		y = season['imdbRating']
 		color = current_colorscheme.get_color(index)
 		# plot all episodes in the season.
 		ax.scatter(x.values, y.values, color = color)
@@ -119,9 +120,8 @@ def plot_series(series: pandas.DataFrame, scheme: str = 'graphtv', by = 'index')
 
 
 if __name__ == "__main__":
-	from omdbapi.api import omdb_api
+	from omdbapi import api
 
-	response = omdb_api.find('The 100')
+	response = api.find('tt7569592')
 	plot_series(response.toTable())
-	print(response.toTable().to_string())
 	plt.show()

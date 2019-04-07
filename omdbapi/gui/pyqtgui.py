@@ -106,11 +106,11 @@ class OMDBAPIGUI(QDialog):
 			self.table_widget.setModel(model)
 
 	def display_response(self):
-		result = omdb_api.find(self.imdb_request_id.text(), episode_format = 'long')
+		result = apiio.find(self.imdb_request_id.text(), episode_format = 'long')
 		self.update_data(result)
 
 	def display_search_response(self):
-		result = omdb_api.search(self.imdb_request_id.text())
+		result = apiio.search(self.imdb_request_id.text())
 		self.update_data(result)
 		pprint(self.response)
 
@@ -120,7 +120,7 @@ if __name__ == "__main__":
 	# form = OMDBAPIGUI()
 	# form.show()
 	# sys.exit(app.exec_())
-	from omdbapi import omdb_api
+	from omdbapi import apiio
 
 	# Qt Application
 	app = QApplication([])
