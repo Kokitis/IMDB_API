@@ -1,12 +1,26 @@
-from pytools import timetools, numbertools
+# from pytools import timetools, numbertools
 from functools import partial
 from pprint import pprint
 
 pprint = partial(pprint, width = 150)
 from typing import Union, Dict, Optional, List, Any
 import datetime
+from loguru import logger
 # Import `MediaResource` for type-checking purposes
-from omdbapi.api.resources import SeriesResource, FilmResource, MediaResource, MiniEpisodeResource
+from omdbapi.api.resources import SeriesResource, FilmResource, MiniEpisodeResource
+import pendulum
+from infotools import numbertools, timetools
+
+def parse_timestamp(string: str) -> pendulum.Date:
+	# 08 Feb 2017]
+	months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+	try:
+		result = timetools.Timestamp(string)
+
+	except:
+		logger.error(f"Could not parse '{string}' as a timestamp.")
+		result = None
+	return result
 
 
 def _parse_ratings(ratings: List[Dict[str, str]], votes: Optional[str] = None) -> List[Dict[str, Any]]:
@@ -30,6 +44,16 @@ def _parse_ratings(ratings: List[Dict[str, str]], votes: Optional[str] = None) -
 	return media_ratings
 
 
+def _parse_episode_response(api_response: Dict) -> Dict:
+	parsed_media_response = _parse_media_response(api_response)
+
+	parsed_media_response['seriesId'] = api_response['seriesID']
+	parsed_media_response['indexInSeason'] = numbertools.to_number(api_response['Episode'])
+	parsed_media_response['seasonIndex'] = numbertools.to_number(api_response['Season'])
+
+	return parsed_media_response
+
+
 def _parse_series_response(api_response: Dict) -> Dict:
 	parsed_media_response = _parse_media_response(api_response)
 
@@ -48,7 +72,7 @@ def _parse_film_response(api_response: Dict) -> Dict:
 	parsed_media_response = _parse_media_response(api_response)
 
 	parsed_media_response['boxOffice'] = numbertools.to_number(api_response['BoxOffice'][1:])
-	parsed_media_response['releaseDateHome'] = timetools.Timestamp(api_response['DVD'])
+	parsed_media_response['releaseDateHome'] = parse_timestamp(api_response['DVD'])
 	parsed_media_response['year'] = numbertools.to_number(api_response['Year'])
 	parsed_media_response['production'] = api_response.get('Production')
 	return parsed_media_response
@@ -74,7 +98,8 @@ def _parse_media_response(api_response: Dict) -> Dict:
 		api_response['Ratings'],
 		api_response.get('imdbVotes'),
 	)
-	duration = datetime.timedelta(minutes = int(api_response['Runtime'].split(' ')[0]))
+	duration = pendulum.Duration(minutes = int(api_response['Runtime'].split(' ')[0]))
+	duration.nanosecond = 0
 	parsed_response = {
 		'actors':         api_response['Actors'].split(', '),
 		'awards':         api_response['Awards'],
@@ -91,8 +116,8 @@ def _parse_media_response(api_response: Dict) -> Dict:
 		'writer':         api_response['Writer'],
 		'imdbId':         api_response['imdbID'],
 		'responseStatus': api_response['Response'] == 'True',
-		'releaseDate':    timetools.Timestamp(api_response['Released']),
-		'duration':       timetools.Duration(duration),
+		'releaseDate':    parse_timestamp(api_response['Released']),
+		'duration':       duration,
 		'website':        api_response.get('Website')
 	}
 
@@ -132,9 +157,9 @@ def _parse_miniepisode_response(episode: Dict[str, str], season: int = 0, previo
 	data = {
 		'episodeId':     episode_id,
 		'title':         episode['Title'],
-		'releaseDate':   timetools.Timestamp(episode['Released']),
+		'releaseDate':   parse_timestamp(episode['Released']),
 		'imdbId':        episode['imdbID'],
-		'imdbRating':        numbertools.to_number(episode['imdbRating']),
+		'imdbRating':    numbertools.to_number(episode['imdbRating']),
 		'seasonIndex':   season,
 		'indexInSeason': index_in_season,
 		'indexInSeries': index_in_series
@@ -156,6 +181,7 @@ def parse_season_response(response: Dict, previous_episodes: int) -> List[MiniEp
 	-------
 	List[MiniEpisode]
 	"""
+
 	season_index = int(numbertools.to_number(response['Season']))
 
 	season_episodes = list()
@@ -163,6 +189,7 @@ def parse_season_response(response: Dict, previous_episodes: int) -> List[MiniEp
 		parsed_episode = _parse_miniepisode_response(episode, season_index, previous_episodes)
 		episode_data = MiniEpisodeResource(**parsed_episode)
 		season_episodes.append(episode_data)
+
 	return season_episodes
 
 

@@ -1,1 +1,2 @@
-from .pyplot_graph import plot_series
+from .pyplot_graph import pyplot_plot
+from .gnuplotplot import gnu_plot

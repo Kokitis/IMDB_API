@@ -1,9 +1,9 @@
 from dataclasses import dataclass, asdict
-from typing import Dict, List, Optional, Tuple, NamedTuple
+from typing import Dict, List, Optional, Tuple
+
 
 import pandas
-
-from pytools import timetools
+import pendulum
 
 
 @dataclass
@@ -11,7 +11,7 @@ class MiniEpisodeResource:
 	title: str
 	imdbId: str
 	imdbRating: float
-	releaseDate: timetools.Timestamp
+	releaseDate: pendulum.Date
 	episodeId: str
 	seasonIndex:int
 	indexInSeries: int
@@ -20,7 +20,9 @@ class MiniEpisodeResource:
 	def __str__(self):
 		string = "EpisodeResource({} - {})".format(self.episodeId, self.title)
 		return string
-
+	@property
+	def imdb_rating(self)->float:
+		return self.imdbRating
 
 @dataclass
 class MediaResource:
@@ -29,7 +31,7 @@ class MediaResource:
 	awards: str
 	country: str
 	director: str
-	duration: timetools.Duration
+	duration: pendulum.Duration
 	genres: List[str]
 	imdbId: str
 	language: str
@@ -37,7 +39,7 @@ class MediaResource:
 	poster: str
 	rated: str
 	ratings: List[Dict[str, float]]
-	releaseDate: timetools.Timestamp
+	releaseDate: pendulum.Date
 	responseStatus: bool
 	title: str
 
@@ -57,34 +59,20 @@ class MediaResource:
 
 @dataclass
 class SeriesResource(MediaResource):
-	years: Tuple[timetools.Timestamp, Optional[timetools.Timestamp]]
+	years: Tuple[int, Optional[int]]
 	totalSeasons: int
 	episodes: List[MiniEpisodeResource]
-
-	def get_episode(self, key: str) -> MiniEpisodeResource:
-		""" Retrives an episode based on SnnEnn"""
-
-		season_number, episode_number = key.lower().split('e')
-		season = self.get_season(season_number)
-		if season is None:
-			episode = None
-		else:
-			episode = season.get_episode(int(episode_number))
-
-		return episode
 
 	def summary(self, level: int = 0):
 		""" prints a summary of the media. 'level' indicates the indentation level to use."""
 		indent = '' if level == 0 else '\t' * level
 		print(indent, self)
 		print(indent, "\timdbId:     ", self.imdbId)
-		print(indent, "\tyear(s):    ", self.year)
+		#print(indent, "\tyear(s):    ", self.years)
 		print(indent, "\tduration    ", self.duration)
-		print(indent, "\timdbRating: ", self.imdbRating)
+		print(indent, "\timdbRating: ", self.imdb_rating)
 		print(indent, "\tPlot:       ", self.plot)
-		if self.seasons:
-			for season in self.seasons:
-				season.summary(level + 1)
+
 
 	def toTable(self) -> pandas.DataFrame:
 		""" Converts the MediaResource Series to a pandas.DataFrame object.
@@ -115,6 +103,7 @@ class SeriesResource(MediaResource):
 			element['seriesId'] = series_id
 			element['season'] = episode.seasonIndex
 			table.append(element)
+
 		df = pandas.DataFrame(table)
 
 		df = df.set_index('imdbId')
@@ -124,13 +113,13 @@ class SeriesResource(MediaResource):
 @dataclass
 class FilmResource(MediaResource):
 	boxOffice: int
-	releaseDateHome: timetools.Timestamp
+	releaseDateHome: pendulum.Date
 	year: int
 	production: Optional[str]
 
 
 @dataclass
 class EpisodeResource(MediaResource):
-	indexInSeason: int = 0
-	indexInSeries: int = 0
-	episodeId: str = 'N/A'
+	seasonIndex: int
+	indexInSeries: int
+	seriesId: str

@@ -4,30 +4,30 @@ import pandas
 from bokeh.models import ColumnDataSource
 from bokeh.plotting import figure
 
-from omdbapi import MediaResource, table_columns
+from omdbapi.api import SeriesResource
 from omdbapi.graphics.colorscheme import get_colorscheme
 
 
-def plot_series(series: Union[MediaResource, pandas.DataFrame], by = 'index'):
+def bokeh_plot(series: Union[SeriesResource, pandas.DataFrame], by = 'index'):
 	colorscheme = get_colorscheme('graphtv')
-	x_variable = table_columns.index_in_series if by == 'index' else table_columns.release_date
+	x_variable = 'indexInSeries' if by == 'index' else 'releaseDate'
 	plot_width, plot_height = 1280, 720
 	if not isinstance(series, pandas.DataFrame):
 		series = series.toTable()
 	# Add a 'color' column to the dataframe so that bokeh can color the points correctly.
-	series['color'] = series[table_columns.season_index].apply(colorscheme.get_color)
-	series_title = series[table_columns.series_title].iloc[0]
+	series['color'] = series['season'].apply(colorscheme.get_color)
+	series_title = series['seriesTitle'].iloc[0]
 	data = ColumnDataSource(series)
 	fig = figure(plot_width = plot_width, plot_height = plot_height, title = series_title)
 	fig.background_fill_color = colorscheme.background
 
-	fig.circle(x_variable, table_columns.imdb_rating, source = data, color = 'color', size = 20)
+	fig.circle(x_variable, 'imdbRating', source = data, color = 'color', size = 20)
 
-	seasons = series.groupby(by = table_columns.season_index)
+	seasons = series.groupby(by = 'season')
 	for season_index, season in seasons:
-		start = season[table_columns.index_in_series].min()
-		stop = season[table_columns.index_in_series].max()
-		rating = season[table_columns.imdb_rating].mean()
+		start = season['indexInSeries'].min()
+		stop = season['indexInSeries'].max()
+		rating = season['imdbRating'].mean()
 		color = season['color'].iloc[0]
 
 		fig.line([start, stop], [rating, rating], line_color = color)
@@ -40,7 +40,7 @@ def plot_series(series: Union[MediaResource, pandas.DataFrame], by = 'index'):
 if __name__ == "__main__":
 	from bokeh.models import HoverTool
 	from bokeh.io import show
-	from omdbapi import apiio
+	from omdbapi.api import apiio
 
 	response = apiio.find('legion')
-	plot_series(response)
+	bokeh_plot(response)

@@ -1,6 +1,6 @@
 import random
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 
 @dataclass
@@ -17,6 +17,14 @@ class ColorScheme:
 		except IndexError:
 			color = _generate_random_color()
 		return color
+
+	@staticmethod
+	def random(lower = 50, upper = 210)->Tuple[int,int,int]:
+		red = random.randrange(lower, upper)
+		blue = random.randrange(lower, upper)
+		green = random.randrange(lower, upper)
+
+		return red, green, blue
 
 
 _colorschemes: List[ColorScheme] = [

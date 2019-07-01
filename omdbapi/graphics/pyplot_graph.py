@@ -1,10 +1,9 @@
 import matplotlib.pyplot as plt
 import pandas
 from matplotlib.figure import Axes
-try:
-	from .colorscheme import ColorScheme, get_colorscheme
-except ModuleNotFoundError:
-	from colorscheme import ColorScheme, get_colorscheme
+
+from .colorscheme import ColorScheme, get_colorscheme
+
 
 
 def checkValue(value: str, *items) -> str:
@@ -75,7 +74,7 @@ def get_plot_formatting(ax: Axes, series: pandas.DataFrame, index_attribute: str
 	return ax
 
 
-def plot_series(series: pandas.DataFrame, scheme: str = 'graphtv', by = 'index'):
+def pyplot_plot(series: pandas.DataFrame, scheme: str = 'graphtv', by = 'index'):
 	""" Plots every episode's rating
 
 		Parameters
@@ -123,5 +122,5 @@ if __name__ == "__main__":
 	from omdbapi import api
 
 	response = api.find('tt7569592')
-	plot_series(response.toTable())
+	pyplot_plot(response.toTable())
 	plt.show()
