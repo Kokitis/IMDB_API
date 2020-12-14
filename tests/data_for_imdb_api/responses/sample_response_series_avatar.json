@@ -1,0 +1,91 @@
+{
+    "actor": [
+        {
+            "name": "Zach Tyler",
+            "type": "Person",
+            "url": "/name/nm0878940/"
+        },
+        {
+            "name": "Mae Whitman",
+            "type": "Person",
+            "url": "/name/nm0926165/"
+        },
+        {
+            "name": "Jack De Sena",
+            "type": "Person",
+            "url": "/name/nm1123750/"
+        },
+        {
+            "name": "Dee Bradley Baker",
+            "type": "Person",
+            "url": "/name/nm0048389/"
+        }
+    ],
+    "aggregateRating": {
+        "bestRating": "10.0",
+        "ratingCount": 240659,
+        "ratingValue": "9.2",
+        "type": "AggregateRating",
+        "worstRating": "1.0"
+    },
+    "contentRating": "TV-Y7-FV",
+    "context": "http://schema.org",
+    "creator": [
+        {
+            "name": "Michael Dante DiMartino",
+            "type": "Person",
+            "url": "/name/nm0227204/"
+        },
+        {
+            "name": "Bryan Konietzko",
+            "type": "Person",
+            "url": "/name/nm1665983/"
+        },
+        {
+            "type": "Organization",
+            "url": "/company/co0044395/"
+        }
+    ],
+    "datePublished": "2005-02-21",
+    "description": "Avatar: The Last Airbender is a TV series starring Zach Tyler, Mae Whitman, and Jack De Sena. In a war-torn world of elemental magic, a young boy reawakens to undertake a dangerous mystic quest to fulfill his destiny as the Avatar,...",
+    "genre": [
+        "Animation",
+        "Action",
+        "Adventure",
+        "Family",
+        "Fantasy",
+        "Mystery"
+    ],
+    "image": "https://m.media-amazon.com/images/M/MV5BODc5YTBhMTItMjhkNi00ZTIxLWI0YjAtNTZmOTY0YjRlZGQ0XkEyXkFqcGdeQXVyODUwNjEzMzg@._V1_.jpg",
+    "keywords": "child hero,hero,supernatural power,shared universe,chase",
+    "name": "Avatar: The Last Airbender",
+    "review": {
+        "author": {
+            "name": "cjmg85",
+            "type": "Person"
+        },
+        "dateCreated": "2005-04-12",
+        "inLanguage": "English",
+        "itemReviewed": {
+            "type": "CreativeWork",
+            "url": "/title/tt0417299/"
+        },
+        "name": "I'm overly impressed",
+        "reviewBody": "It seems rare for Nickelodeon to turn out a good new show these days, and even more rare for me to like an anime style cartoon, which is why I'm baffled as to why I love this show so much. Having not missed an episode yet, and having a reminder for new episodes on my desktop, I've seen that it just keeps getting better and better as it goes. Some of the story lines are predictable, but that doesn't turn me off of Avatar as it might some other things, which just adds more to my confusion as to why I love this show so much. Many kudos to Nickelodeon, this is easily greatest show since Rocko's Modern Life (IMO) and after Spongebob Squarepants, that is most definitely saying something!",
+        "type": "Review"
+    },
+    "trailer": {
+        "description": "Home video trailer for this anime show",
+        "embedUrl": "/video/imdb/vi4010411801",
+        "name": "Avatar: The Last Airbender: Book One - Water - Volume One",
+        "thumbnail": {
+            "contentUrl": "https://m.media-amazon.com/images/M/MV5BOTMwMzM3Y2ItZjc4Ni00MDlkLThmOWUtYTk1ZjliNjEzYTUwXkEyXkFqcGdeQXVyNzU1NzE3NTg@._V1_.jpg",
+            "type": "ImageObject"
+        },
+        "thumbnailUrl": "https://m.media-amazon.com/images/M/MV5BOTMwMzM3Y2ItZjc4Ni00MDlkLThmOWUtYTk1ZjliNjEzYTUwXkEyXkFqcGdeQXVyNzU1NzE3NTg@._V1_.jpg",
+        "type": "VideoObject",
+        "uploadDate": "2010-05-18T14:53:24Z"
+    },
+    "type": "TVSeries",
+    "url": "/title/tt0417299/"
+}

@@ -4,11 +4,11 @@ import pandas
 from bokeh.models import ColumnDataSource
 from bokeh.plotting import figure
 
-from omdbapi.api import SeriesResource
+from omdbapi.api import resources
 from omdbapi.graphics.colorscheme import get_colorscheme
 
 
-def bokeh_plot(series: Union[SeriesResource, pandas.DataFrame], by = 'index'):
+def bokeh_plot(series: Union[resources.SeriesResource, pandas.DataFrame], by = 'index'):
 	colorscheme = get_colorscheme('graphtv')
 	x_variable = 'indexInSeries' if by == 'index' else 'releaseDate'
 	plot_width, plot_height = 1280, 720

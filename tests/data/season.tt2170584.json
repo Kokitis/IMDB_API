@@ -1,0 +1,57 @@
+{
+    "Episodes": [
+        {
+            "Episode": "2",
+            "Released": "2012-05-17",
+            "Title": "Welcome to Me",
+            "imdbID": "tt2761482",
+            "imdbRating": "8.1"
+        },
+        {
+            "Episode": "4",
+            "Released": "2012-05-31",
+            "Title": "Any Game in the House",
+            "imdbID": "tt2761498",
+            "imdbRating": "8.5"
+        },
+        {
+            "Episode": "5",
+            "Released": "2012-06-07",
+            "Title": "And Then... The Law",
+            "imdbID": "tt2761468",
+            "imdbRating": "8.8"
+        },
+        {
+            "Episode": "6",
+            "Released": "2012-06-14",
+            "Title": "Carpe Diem",
+            "imdbID": "tt2761488",
+            "imdbRating": "8.6"
+        },
+        {
+            "Episode": "7",
+            "Released": "2012-06-21",
+            "Title": "Sign Up to Sign Out",
+            "imdbID": "tt2761474",
+            "imdbRating": "8.7"
+        },
+        {
+            "Episode": "8",
+            "Released": "2012-06-28",
+            "Title": "Locked in the System",
+            "imdbID": "tt2761490",
+            "imdbRating": "8.7"
+        },
+        {
+            "Episode": "9",
+            "Released": "2012-07-05",
+            "Title": "It's All About the Game",
+            "imdbID": "tt2761492",
+            "imdbRating": "9.0"
+        }
+    ],
+    "Response": "True",
+    "Season": "1",
+    "Title": "Video Game High School",
+    "totalSeasons": "3"
+}

@@ -5,7 +5,7 @@ import pandas
 import pygal
 
 from omdbapi.graphics.colorscheme import get_colorscheme
-from omdbapi.api import SeriesResource
+from omdbapi.api import resources
 
 
 def convert_to_pygal_annotation(row: pandas.Series, by: str, color: Optional[str]):
@@ -21,7 +21,7 @@ def convert_to_pygal_annotation(row: pandas.Series, by: str, color: Optional[str
 	return result
 
 
-def plot_series(series: Union[pandas.DataFrame, SeriesResource], by: str = 'index'):
+def plot_series(series: Union[pandas.DataFrame, resources.SeriesResource], by: str = 'index'):
 	if not isinstance(series, pandas.DataFrame):
 		series = series.toTable()
 	x_variable = 'indexInSeries' if by == 'index' else 'releaseDate'

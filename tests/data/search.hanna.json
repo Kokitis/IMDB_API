@@ -1,0 +1,76 @@
+{
+    "Response": "True",
+    "Search": [
+        {
+            "Poster": "https://m.media-amazon.com/images/M/MV5BMjljNzE0OTItM2Q1MS00MTUyLTg4YjgtMzUzZDRkMzkyN2NiXkEyXkFqcGdeQXVyODU2MDg1NzU@._V1_SX300.jpg",
+            "Title": "Hanna",
+            "Type": "movie",
+            "Year": "2011",
+            "imdbID": "tt0993842"
+        },
+        {
+            "Poster": "https://m.media-amazon.com/images/M/MV5BODI4Yjc2OTItOGM1Yi00ZjEwLTgzOWMtYmY3N2Q4MjZkNmVjXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
+            "Title": "Hanna",
+            "Type": "series",
+            "Year": "2019\u2013",
+            "imdbID": "tt6932244"
+        },
+        {
+            "Poster": "https://m.media-amazon.com/images/M/MV5BMTQ3Mzc0MjQ1NV5BMl5BanBnXkFtZTcwNTgyNzUxMQ@@._V1_SX300.jpg",
+            "Title": "Hanna K.",
+            "Type": "movie",
+            "Year": "1983",
+            "imdbID": "tt0085642"
+        },
+        {
+            "Poster": "https://m.media-amazon.com/images/M/MV5BOTY5OGI1M2YtZGM2Yi00YzU3LWI3YzUtNmRlNmQ5YWRkYTcwXkEyXkFqcGdeQXVyMjUxODE0MDY@._V1_SX300.jpg",
+            "Title": "Chad Hanna",
+            "Type": "movie",
+            "Year": "1940",
+            "imdbID": "tt0032321"
+        },
+        {
+            "Poster": "https://m.media-amazon.com/images/M/MV5BMTc2MDYzMzQ2NF5BMl5BanBnXkFtZTcwOTAzODgyMw@@._V1_SX300.jpg",
+            "Title": "Hanna D. - La ragazza del Vondel Park",
+            "Type": "movie",
+            "Year": "1984",
+            "imdbID": "tt0089251"
+        },
+        {
+            "Poster": "https://m.media-amazon.com/images/M/MV5BNjAxMGRlOWUtNGUzMi00MmJjLThhOGEtZTkwODk4MjYxMzJlXkEyXkFqcGdeQXVyNjExODE1MDc@._V1_SX300.jpg",
+            "Title": "The New Hanna-Barbera Cartoon Series",
+            "Type": "series",
+            "Year": "1962\u2013",
+            "imdbID": "tt0278220"
+        },
+        {
+            "Poster": "https://m.media-amazon.com/images/M/MV5BMTQ1ZTRjMzgtOTczZC00MGI4LWIxOWEtMTA3NWMzNmM5ZDU5XkEyXkFqcGdeQXVyMjYxMzY2NDk@._V1_SX300.jpg",
+            "Title": "Hanna Amon",
+            "Type": "movie",
+            "Year": "1951",
+            "imdbID": "tt0043617"
+        },
+        {
+            "Poster": "https://m.media-amazon.com/images/M/MV5BNTNjMDYzNzQtZjkzNi00YzkzLThjYTYtZjFhODJiNDZhYmRlXkEyXkFqcGdeQXVyNjcwNzkwNDU@._V1_SX300.jpg",
+            "Title": "Die Ongelooflike Avonture van Hanna Hoekom",
+            "Type": "movie",
+            "Year": "2010",
+            "imdbID": "tt1687231"
+        },
+        {
+            "Poster": "https://m.media-amazon.com/images/M/MV5BMTY5ODIxNjE3MV5BMl5BanBnXkFtZTgwMTY3MTc4MTE@._V1_SX300.jpg",
+            "Title": "Hanna Ranch",
+            "Type": "movie",
+            "Year": "2014",
+            "imdbID": "tt2130048"
+        },
+        {
+            "Poster": "https://m.media-amazon.com/images/M/MV5BMDcxZWE1M2QtNDY3Mi00ODcwLWI5M2ItNjgxMTI2NDU0NzIyXkEyXkFqcGdeQXVyMzM4MjM0Nzg@._V1_SX300.jpg",
+            "Title": "The Funtastic World of Hanna-Barbera",
+            "Type": "movie",
+            "Year": "1990",
+            "imdbID": "tt0902978"
+        }
+    ],
+    "totalResults": "60"
+}

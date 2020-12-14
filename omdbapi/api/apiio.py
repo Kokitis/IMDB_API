@@ -4,24 +4,21 @@ from pprint import pprint
 pprint = partial(pprint, width = 150)
 import requests
 from typing import Dict, Optional, List, Union
-from loguru import logger
 try:
 	from omdbapi.github import omdb_api_key
 	# Import `MediaResource` for type-checking purposes
-	from omdbapi.api.resources import SeriesResource, FilmResource, MiniEpisodeResource
+	from omdbapi.api import resources, apiparsers
 	from omdbapi.api.widgets import _is_imdb_id
-	from omdbapi.api import apiparsers
 except ModuleNotFoundError:
 	from ..github import omdb_api_key
-	from .resources import SeriesResource, FilmResource, MiniEpisodeResource
+	from . import resources, apiparsers
 	from .widgets import _is_imdb_id
-	from . import apiparsers
 
 API_KEY = omdb_api_key
 
 
 def _is_valid_response(response: Dict) -> bool:
-	""" Checks if a given response is successfull."""
+	""" Checks if a given response is successful."""
 	return response['Response'] == 'True'
 
 
@@ -103,7 +100,7 @@ def search(string: str, kind: Optional[str] = None) -> Dict:
 	result = apiparsers.parse_search_response(response)
 	return result
 
-def find(string: str, kind: str = 'series') -> Union[None,SeriesResource, FilmResource]:
+def find(string: str, kind: str = 'series') -> Union[None,resources.SeriesResource, resources.MovieResource]:
 	"""
 		Searches the api for a show title and returns the first result.
 
@@ -136,7 +133,7 @@ def find(string: str, kind: str = 'series') -> Union[None,SeriesResource, FilmRe
 	return result
 
 
-def get_seasons(series_id: str) -> List[MiniEpisodeResource]:
+def get_seasons(series_id: str) -> List[resources.MiniEpisodeResource]:
 	"""
 		Gathers all episodes for the given series.
 	Parameters
@@ -156,7 +153,7 @@ def get_seasons(series_id: str) -> List[MiniEpisodeResource]:
 
 			if season_episodes:
 				series_episodes += season_episodes
-				previous_episodes += max((i.indexInSeason for i in season_episodes))
+				previous_episodes += max((i['indexInSeason'] for i in season_episodes))
 			else:
 				break
 		else:
@@ -164,7 +161,7 @@ def get_seasons(series_id: str) -> List[MiniEpisodeResource]:
 	return series_episodes
 
 
-def get(string: str) -> Union[FilmResource, SeriesResource]:
+def get(string: str) -> Union[resources.MovieResource, resources.SeriesResource]:
 	"""
 		Sends a request to the OMDB API and parses the result. Using a raw title string may result in a similar,
 		but incorrect media.
@@ -181,8 +178,8 @@ def get(string: str) -> Union[FilmResource, SeriesResource]:
 
 	response = request(**_get_request_parameters(string))
 	result = apiparsers.parse_api_response(response)
-	if result.type == 'series':
-		result.episodes = get_seasons(result.imdbId)
+	if result['type'] == 'series':
+		result['episodes'] = get_seasons(result['imdbId'])
 
 	return result
 
@@ -196,8 +193,3 @@ def request(**parameters) -> Dict:
 	return response
 
 
-if __name__ == "__main__":
-	term = 'tt7584356'
-	_result = request(**_get_request_parameters(term))
-
-	pprint(_result)

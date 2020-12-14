@@ -1,0 +1,84 @@
+{
+    "actor": [
+        {
+            "name": "Ian McShane",
+            "type": "Person",
+            "url": "/name/nm0574534/"
+        },
+        {
+            "name": "Christopher Egan",
+            "type": "Person",
+            "url": "/name/nm0250659/"
+        },
+        {
+            "name": "Susanna Thompson",
+            "type": "Person",
+            "url": "/name/nm0860749/"
+        },
+        {
+            "name": "Allison Miller",
+            "type": "Person",
+            "url": "/name/nm1935292/"
+        }
+    ],
+    "aggregateRating": {
+        "bestRating": "10.0",
+        "ratingCount": 8102,
+        "ratingValue": "8.2",
+        "type": "AggregateRating",
+        "worstRating": "1.0"
+    },
+    "contentRating": "TV-14",
+    "context": "http://schema.org",
+    "creator": [
+        {
+            "name": "Michael Green",
+            "type": "Person",
+            "url": "/name/nm0338169/"
+        },
+        {
+            "type": "Organization",
+            "url": "/company/co0267044/"
+        },
+        {
+            "type": "Organization",
+            "url": "/company/co0070636/"
+        },
+        {
+            "type": "Organization",
+            "url": "/company/co0196576/"
+        }
+    ],
+    "datePublished": "2009-03-15",
+    "description": "Kings is a TV series starring Ian McShane, Christopher Egan, and Susanna Thompson. A modern day, alternate-reality drama about a hero who rises to become the King of his nation, based on the biblical story of King David.",
+    "genre": [
+        "Drama",
+        "Sci-Fi"
+    ],
+    "image": "https://m.media-amazon.com/images/M/MV5BOTcwNDQ4MDA1OF5BMl5BanBnXkFtZTcwMjYwOTQ3Mw@@._V1_.jpg",
+    "keywords": "king,crown prince,twin,fictional country,kingdom",
+    "name": "Kings",
+    "review": {
+        "author": {
+            "name": "stephenhow",
+            "type": "Person"
+        },
+        "dateCreated": "2009-04-08",
+        "inLanguage": "English",
+        "itemReviewed": {
+            "type": "CreativeWork",
+            "url": "/title/tt1137462/"
+        },
+        "name": "The Best King David Miniseries Ever",
+        "reviewBody": "I caught this show by chance in the 4th episode, and had no idea it was based on the Biblical story of King David. I simply enjoyed it as a soap-opera in the court of an alternate-reality, present-day functioning monarchy. (One with royal decrees, cellphones, and young royals in the tabloids.) Then I watched the first 3 episodes on Hulu.com, and figured out the plot line reads directly out of the King David Wikipedia page.\n\nBut its brilliant, because it follows the exact story of David's ascension to the throne against the first King of Israel Saul (Silas), with all the characters and relationships from the Bible, with all the drama and intrigue of Shakespeare's Richard III. David saves the King's son in battle (vs. Goliath), and the King rewards him with a military position and the hand of his daughter (Michelle/Michal). Meanwhile the King's son (Jack/Jonathan) sees David as a threat to his own position. Soon, Silas realises David is the anointed successor, and plots to kill him.\n\nAll of this is done masterfully, as the writers cleverly (and transparently) work the plot and intrigue into the modern day setting. It plays like modern Shakespeare of a North American monarchy. The story is so engrossing, you forget you're watching science fiction / fantasy. It has all the elements of a classic story, and is extremely entertaining.\n\nI think all of the episodes are already in the can, and I can guess all 13 episodes play out the entire story of David's reign, wife, son, etc. I never knew the story of David until now, and I'll probably read the Wikipedia page as I finish watching the series.",
+        "reviewRating": {
+            "bestRating": "10",
+            "ratingValue": "8",
+            "type": "Rating",
+            "worstRating": "1"
+        },
+        "type": "Review"
+    },
+    "type": "TVSeries",
+    "url": "/title/tt1137462/"
+}

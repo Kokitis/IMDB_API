@@ -1,7 +1,11 @@
 
 from omdbapi.api import apiio
 import pytest
-
+from pathlib import Path
+from typing import Dict, Any
+import pendulum
+import json
+data_folder = Path(__file__)
 
 
 def test_get_search_parameters():
@@ -37,3 +41,4 @@ def test_get_request_parameters():
 		'i': 'tt1234567'
 	}
 	assert apiio._get_request_parameters('tt1234567') == expected
+

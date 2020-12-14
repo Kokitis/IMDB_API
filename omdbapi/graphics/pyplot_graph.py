@@ -1,8 +1,12 @@
 import matplotlib.pyplot as plt
 import pandas
 from matplotlib.figure import Axes
+from omdbapi import widgets
+try:
 
-from .colorscheme import ColorScheme, get_colorscheme
+	from colorscheme import ColorScheme, get_colorscheme
+except ModuleNotFoundError:
+	from .colorscheme import ColorScheme, get_colorscheme
 
 
 
@@ -96,7 +100,7 @@ def pyplot_plot(series: pandas.DataFrame, scheme: str = 'graphtv', by = 'index')
 				The ax obbject that contains the graph
 	"""
 	if not isinstance(series, pandas.DataFrame):
-		series = series.toTable()
+		series = widgets.to_table(series)
 
 	scheme = checkValue(scheme, 'graphtv')
 	by = checkValue(by, 'index', 'date')
@@ -119,8 +123,8 @@ def pyplot_plot(series: pandas.DataFrame, scheme: str = 'graphtv', by = 'index')
 
 
 if __name__ == "__main__":
-	from omdbapi import api
-
-	response = api.find('tt7569592')
-	pyplot_plot(response.toTable())
+	from omdbapi import api, widgets
+	import pandas
+	response = api.find('merlin')
+	pyplot_plot(response)
 	plt.show()

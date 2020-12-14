@@ -1,48 +1,55 @@
 # from pytools import timetools, numbertools
 from functools import partial
 from pprint import pprint
-
+import math
 pprint = partial(pprint, width = 150)
-from typing import Union, Dict, Optional, List, Any
-import datetime
+from typing import Union, Dict, Optional, List
+
 from loguru import logger
 # Import `MediaResource` for type-checking purposes
-from omdbapi.api.resources import SeriesResource, FilmResource, MiniEpisodeResource
+from omdbapi.api import resources, responses
 import pendulum
 from infotools import numbertools, timetools
 
+#####################################################################################################################
+##################################################### Utilities #####################################################
+#####################################################################################################################
+
+
 def parse_timestamp(string: str) -> pendulum.Date:
 	# 08 Feb 2017]
-	months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
 	try:
-		result = timetools.Timestamp(string)
-
+		result = timetools.Timestamp(string).date()
 	except:
 		logger.error(f"Could not parse '{string}' as a timestamp.")
 		result = None
 	return result
 
-
-def _parse_ratings(ratings: List[Dict[str, str]], votes: Optional[str] = None) -> List[Dict[str, Any]]:
+def _split_list(string:str, delimiter = ',', lower: bool = False)->List[str]:
+	""" Splits a string into individual elements while removing whitespace.
+		It also converts the elements to lowercase if `lower` is True. If
+		`string` is 'N/A', an empty list is returned.
+	"""
+	values = [i.strip() for i in string.split(delimiter)]
+	values = [i for i in values if i != 'N/A']
+	if lower:
+		values = [i.lower() for i in values]
+	return values
+def _parse_ratings(ratings: List[Dict[str, str]], ) -> List[Dict[str, str]]:
 	media_ratings = list()
 	for r in ratings:
 		source = r['Source']
 		value = r['Value']
-		converted_value = numbertools.to_number(value)
-		# Check if the value was automatically converted to a percent.
-		# For example, 7.8/10 would be converted to 0.78 rather than 7.8
-		if converted_value < 1:
-			converted_value *= 100
 		data = {
-			'source': r['Source'],
-			'rating': numbertools.to_number(converted_value)
+			'source': source,
+			'value': value
 		}
-		if source == 'Internet Movie Database' and votes:
-			data['votes'] = numbertools.to_number(votes)
-
 		media_ratings.append(data)
 	return media_ratings
 
+#####################################################################################################################
+################################################ Media Parsers ######################################################
+#####################################################################################################################
 
 def _parse_episode_response(api_response: Dict) -> Dict:
 	parsed_media_response = _parse_media_response(api_response)
@@ -54,31 +61,27 @@ def _parse_episode_response(api_response: Dict) -> Dict:
 	return parsed_media_response
 
 
-def _parse_series_response(api_response: Dict) -> Dict:
+def _parse_series_response(api_response: Dict) -> resources.SeriesResource:
 	parsed_media_response = _parse_media_response(api_response)
 
-	# Parse the air date
-	left, right = api_response['Year'].split('–')  # '–' is not '-'
-	left = numbertools.to_number(left)
-	right = numbertools.to_number(right, None)
-
-	parsed_media_response['years'] = (left, right)
+	#parsed_media_response['years'] = (left, right)
 	parsed_media_response['totalSeasons'] = numbertools.to_number(api_response['totalSeasons'])
 	parsed_media_response['episodes'] = []
 	return parsed_media_response
 
 
-def _parse_film_response(api_response: Dict) -> Dict:
+def _parse_film_response(api_response: Dict) -> resources.MovieResource:
 	parsed_media_response = _parse_media_response(api_response)
-
-	parsed_media_response['boxOffice'] = numbertools.to_number(api_response['BoxOffice'][1:])
+	box_office = numbertools.to_number(api_response['BoxOffice'][1:])
+	if not math.isnan(box_office): box_office = int(box_office)
+	parsed_media_response['boxOffice'] = box_office
 	parsed_media_response['releaseDateHome'] = parse_timestamp(api_response['DVD'])
-	parsed_media_response['year'] = numbertools.to_number(api_response['Year'])
+	#parsed_media_response['year'] = numbertools.to_number(api_response['Year'])
 	parsed_media_response['production'] = api_response.get('Production')
 	return parsed_media_response
 
 
-def _parse_media_response(api_response: Dict) -> Dict:
+def _parse_media_response(api_response: Dict) -> resources.MediaResource:
 	"""
 	Parses the fields common between Series and Films.
 	Parameters
@@ -96,35 +99,42 @@ def _parse_media_response(api_response: Dict) -> Dict:
 
 	media_ratings = _parse_ratings(
 		api_response['Ratings'],
-		api_response.get('imdbVotes'),
 	)
-	duration = pendulum.Duration(minutes = int(api_response['Runtime'].split(' ')[0]))
-	duration.nanosecond = 0
+	runtime = api_response['Runtime']
+	if runtime == 'N/A':
+		duration = None
+	else:
+		logger.debug(f"Runtime: '{runtime}'")
+		duration = pendulum.Duration(minutes = int(api_response['Runtime'].split(' ')[0]))
+		duration.nanosecond = 0
 	parsed_response = {
 		'actors':         api_response['Actors'].split(', '),
 		'awards':         api_response['Awards'],
-		'country':        api_response['Country'],
+		'countries':      _split_list(api_response['Country']),
 		'director':       api_response['Director'],
-		'genres':         api_response['Genre'].split(', '),
-		'language':       api_response['Language'],
+		'genres':         _split_list(api_response['Genre'], lower = True),
+		'languages':      _split_list(api_response['Language'], lower = True),
 		'plot':           api_response['Plot'],
 		'poster':         api_response['Poster'],
 		'rated':          api_response['Rated'],
 		'ratings':        media_ratings,
 		'title':          api_response['Title'],
 		'type':           media_type,
-		'writer':         api_response['Writer'],
+		'writers':        _split_list(api_response['Writer']),
 		'imdbId':         api_response['imdbID'],
-		'responseStatus': api_response['Response'] == 'True',
+		'imdbRating':	float(api_response['imdbRating']),
+		'imdbVotes': 	int(numbertools.to_number(api_response['imdbVotes'])),
 		'releaseDate':    parse_timestamp(api_response['Released']),
-		'duration':       duration,
-		'website':        api_response.get('Website')
+		'runtime':       duration,
 	}
 
 	return parsed_response
 
+#####################################################################################################################
+################################################## Other Parsers ####################################################
+#####################################################################################################################
 
-def parse_search_response(response: Dict) -> Optional[Dict]:
+def parse_search_response(response: responses.SearchResponse) -> Optional[Dict]:
 	status = response['Response'] == 'True'
 	if status:
 		total_results = int(response['totalResults'])
@@ -135,7 +145,7 @@ def parse_search_response(response: Dict) -> Optional[Dict]:
 	return response
 
 
-def _parse_miniepisode_response(episode: Dict[str, str], season: int = 0, previous_episodes: int = 0) -> Dict:
+def _parse_miniepisode_response(episode: responses.SeasonItem, season: int = 0, previous_episodes: int = 0) -> resources.MiniEpisodeResource:
 	"""
 		Converts the episode response from the API into either a `MediaResource` or `EpisodeResource` object.
 	Parameters
@@ -167,7 +177,7 @@ def _parse_miniepisode_response(episode: Dict[str, str], season: int = 0, previo
 	return data
 
 
-def parse_season_response(response: Dict, previous_episodes: int) -> List[MiniEpisodeResource]:
+def parse_season_response(response: responses.SeasonResponse, previous_episodes: int) -> List[resources.MiniEpisodeResource]:
 	"""
 		Converts a season response from the API into a list of `MiniEpisodeResource` objects representing all episodes in the season.
 	Parameters
@@ -187,13 +197,12 @@ def parse_season_response(response: Dict, previous_episodes: int) -> List[MiniEp
 	season_episodes = list()
 	for episode in response['Episodes']:
 		parsed_episode = _parse_miniepisode_response(episode, season_index, previous_episodes)
-		episode_data = MiniEpisodeResource(**parsed_episode)
-		season_episodes.append(episode_data)
+		season_episodes.append(parsed_episode)
 
 	return season_episodes
 
 
-def parse_api_response(response: Dict) -> Union[SeriesResource, FilmResource]:
+def parse_api_response(response: Dict[str,str]) -> Union[resources.SeriesResource, resources.MovieResource]:
 	""" Converts a raw api response into a `MediaResource` object.
 
 		Parameters
@@ -206,12 +215,11 @@ def parse_api_response(response: Dict) -> Union[SeriesResource, FilmResource]:
 	response_type = response['Type']
 	if response_type == 'series':
 		parsed_response = _parse_series_response(response)
-		result = SeriesResource(**parsed_response)
 	elif response_type == 'movie':
 		parsed_response = _parse_film_response(response)
-		result = FilmResource(**parsed_response)
 	else:
 		message = f"Not a valid response type: {response_type}"
 		raise ValueError(message)
 
-	return result
+	return parsed_response
+

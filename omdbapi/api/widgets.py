@@ -16,3 +16,6 @@ def _is_imdb_id(string) -> bool:
 	""" Checks if a given string matches the format of an IMDB string."""
 	pattern = "tt[\d]{7,8}"
 	return bool(re.search(pattern, string))
+
+def get_ombd_api_key()->str:
+	pass

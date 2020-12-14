@@ -1,0 +1,105 @@
+{
+    "actor": [
+        {
+            "name": "Elliot Page",
+            "type": "Person",
+            "url": "/name/nm0680983/"
+        },
+        {
+            "name": "Tom Hopper",
+            "type": "Person",
+            "url": "/name/nm2584392/"
+        },
+        {
+            "name": "David Casta\u00f1eda",
+            "type": "Person",
+            "url": "/name/nm3244078/"
+        },
+        {
+            "name": "Emmy Raver-Lampman",
+            "type": "Person",
+            "url": "/name/nm8287501/"
+        }
+    ],
+    "aggregateRating": {
+        "bestRating": "10.0",
+        "ratingCount": 150126,
+        "ratingValue": "8.0",
+        "type": "AggregateRating",
+        "worstRating": "1.0"
+    },
+    "contentRating": "TV-14",
+    "context": "http://schema.org",
+    "creator": [
+        {
+            "name": "Steve Blackman",
+            "type": "Person",
+            "url": "/name/nm0085775/"
+        },
+        {
+            "name": "Jeremy Slater",
+            "type": "Person",
+            "url": "/name/nm2916300/"
+        },
+        {
+            "type": "Organization",
+            "url": "/company/co0020061/"
+        },
+        {
+            "type": "Organization",
+            "url": "/company/co0144901/"
+        },
+        {
+            "type": "Organization",
+            "url": "/company/co0242101/"
+        }
+    ],
+    "datePublished": "2019-02-15",
+    "description": "The Umbrella Academy is a TV series starring Elliot Page, Tom Hopper, and David Casta\u00f1eda. A family of former child heroes, now grown apart, must reunite to continue to protect the world.",
+    "genre": [
+        "Action",
+        "Adventure",
+        "Comedy",
+        "Drama",
+        "Fantasy",
+        "Sci-Fi"
+    ],
+    "image": "https://m.media-amazon.com/images/M/MV5BNzA5MjkwYzMtNGY2MS00YWRjLThkNTktOTNmMzdlZjE3Y2IxXkEyXkFqcGdeQXVyMjkwMzMxODg@._V1_.jpg",
+    "keywords": "alternate history,superhero,based on comic book,time travel,netflix",
+    "name": "The Umbrella Academy",
+    "review": {
+        "author": {
+            "name": "rlorenzoa",
+            "type": "Person"
+        },
+        "dateCreated": "2019-02-19",
+        "inLanguage": "English",
+        "itemReviewed": {
+            "type": "CreativeWork",
+            "url": "/title/tt1312171/"
+        },
+        "name": "Masterclass on how to use music in movies",
+        "reviewBody": "Very entertaining series about superheroes, where superheroes have a life, a character, dramas and traumas... But what in my opinion raises it above the already good series is the use of music in the movie. Remarkable, impressive, needs to recognized with an award. It's been years (pulp fiction?) since I saw such a perfect use of music for the last time!",
+        "reviewRating": {
+            "bestRating": "10",
+            "ratingValue": "9",
+            "type": "Rating",
+            "worstRating": "1"
+        },
+        "type": "Review"
+    },
+    "trailer": {
+        "description": "Same weird family. New weird problems. The Umbrella Academy returns on July 31.",
+        "embedUrl": "/video/imdb/vi772128281",
+        "name": "Official Trailer",
+        "thumbnail": {
+            "contentUrl": "https://m.media-amazon.com/images/M/MV5BMjY2YmRkZjYtMjQ0NC00NTljLTlmYTUtMDhkOWMyZmIyYWQ5XkEyXkFqcGdeQWRvb2xpbmhk._V1_.jpg",
+            "type": "ImageObject"
+        },
+        "thumbnailUrl": "https://m.media-amazon.com/images/M/MV5BMjY2YmRkZjYtMjQ0NC00NTljLTlmYTUtMDhkOWMyZmIyYWQ5XkEyXkFqcGdeQWRvb2xpbmhk._V1_.jpg",
+        "type": "VideoObject",
+        "uploadDate": "2020-07-08T15:24:44Z"
+    },
+    "type": "TVSeries",
+    "url": "/title/tt1312171/"
+}

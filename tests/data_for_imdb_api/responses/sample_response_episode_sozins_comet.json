@@ -1,0 +1,135 @@
+{
+    "actor": [
+        {
+            "name": "Zach Tyler",
+            "type": "Person",
+            "url": "/name/nm0878940/"
+        },
+        {
+            "name": "Mae Whitman",
+            "type": "Person",
+            "url": "/name/nm0926165/"
+        },
+        {
+            "name": "Jack De Sena",
+            "type": "Person",
+            "url": "/name/nm1123750/"
+        },
+        {
+            "name": "Michaela Jill Murphy",
+            "type": "Person",
+            "url": "/name/nm1402100/"
+        }
+    ],
+    "aggregateRating": {
+        "bestRating": "10.0",
+        "ratingCount": 6422,
+        "ratingValue": "9.9",
+        "type": "AggregateRating",
+        "worstRating": "1.0"
+    },
+    "contentRating": "TV-Y7",
+    "context": "http://schema.org",
+    "creator": [
+        {
+            "name": "Michael Dante DiMartino",
+            "type": "Person",
+            "url": "/name/nm0227204/"
+        },
+        {
+            "name": "Bryan Konietzko",
+            "type": "Person",
+            "url": "/name/nm1665983/"
+        },
+        {
+            "name": "Michael Dante DiMartino",
+            "type": "Person",
+            "url": "/name/nm0227204/"
+        },
+        {
+            "name": "Bryan Konietzko",
+            "type": "Person",
+            "url": "/name/nm1665983/"
+        },
+        {
+            "name": "Aaron Ehasz",
+            "type": "Person",
+            "url": "/name/nm1132209/"
+        },
+        {
+            "name": "May Chan",
+            "type": "Person",
+            "url": "/name/nm2352830/"
+        },
+        {
+            "name": "Elizabeth Welch Ehasz",
+            "type": "Person",
+            "url": "/name/nm2419560/"
+        },
+        {
+            "name": "Joshua Hamilton",
+            "type": "Person",
+            "url": "/name/nm2624720/"
+        },
+        {
+            "name": "Tim Hedrick",
+            "type": "Person",
+            "url": "/name/nm0373388/"
+        },
+        {
+            "name": "John O'Bryan",
+            "type": "Person",
+            "url": "/name/nm1503357/"
+        },
+        {
+            "type": "Organization",
+            "url": "/company/co0044395/"
+        },
+        {
+            "type": "Organization",
+            "url": "/company/co0078560/"
+        }
+    ],
+    "datePublished": "2008-07-19",
+    "description": "Sozin's Comet is an episode of Avatar: The Last Airbender starring Zach Tyler, Mae Whitman, and Jack De Sena. Aang's moment of truth arrives. Can he defeat Ozai, the Phoenix King? Will he be forced to take a human life? All the...",
+    "director": {
+        "name": "Joaquim Dos Santos",
+        "type": "Person",
+        "url": "/name/nm1690966/"
+    },
+    "genre": [
+        "Animation",
+        "Action",
+        "Adventure",
+        "Family",
+        "Fantasy",
+        "Mystery"
+    ],
+    "image": "https://m.media-amazon.com/images/M/MV5BNjIzOTc5OTctZWZhMi00ODc5LTk5Y2YtODNlYmE2ZmNkNTE1XkEyXkFqcGdeQXVyMjgyOTI4Mg@@._V1_.jpg",
+    "keywords": "nickelodeon,series finale,couple gets back together,reference to the earth kingdom,reference to ba sing se",
+    "name": "Sozin's Comet",
+    "review": {
+        "author": {
+            "name": "kolestutzman",
+            "type": "Person"
+        },
+        "dateCreated": "2020-07-17",
+        "inLanguage": "English",
+        "itemReviewed": {
+            "type": "CreativeWork",
+            "url": "/title/tt1204265/"
+        },
+        "name": "Greatest Finale Ever",
+        "reviewBody": "This episode is the best tv episode of all time. Perfect end and well executed.",
+        "reviewRating": {
+            "bestRating": "10",
+            "ratingValue": "10",
+            "type": "Rating",
+            "worstRating": "1"
+        },
+        "type": "Review"
+    },
+    "timeRequired": "PT1H32M",
+    "type": "TVEpisode",
+    "url": "/title/tt1204265/"
+}

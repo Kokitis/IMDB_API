@@ -1,0 +1,52 @@
+{
+    "actor": [
+        {
+            "name": "Elliot Page",
+            "type": "Person",
+            "url": "/name/nm0680983/"
+        },
+        {
+            "name": "Aidan Gallagher",
+            "type": "Person",
+            "url": "/name/nm6200897/"
+        },
+        {
+            "name": "Robert Sheehan",
+            "type": "Person",
+            "url": "/name/nm1588066/"
+        },
+        {
+            "name": "Tom Hopper",
+            "type": "Person",
+            "url": "/name/nm2584392/"
+        }
+    ],
+    "context": "http://schema.org",
+    "creator": [
+        {
+            "name": "Steve Blackman",
+            "type": "Person",
+            "url": "/name/nm0085775/"
+        },
+        {
+            "name": "Gerard Way",
+            "type": "Person",
+            "url": "/name/nm2007553/"
+        },
+        {
+            "type": "Organization",
+            "url": "/company/co0769928/"
+        }
+    ],
+    "genre": [
+        "Action",
+        "Adventure",
+        "Comedy",
+        "Drama",
+        "Fantasy",
+        "Sci-Fi"
+    ],
+    "name": "Episode #3.2",
+    "type": "TVEpisode",
+    "url": "/title/tt13435916/"
+}

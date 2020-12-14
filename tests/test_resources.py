@@ -1,10 +1,10 @@
 import pytest
-from omdbapi.api import MiniEpisodeResource, SeriesResource, FilmResource
+from omdbapi.api import resources
 import pendulum
 
 @pytest.fixture
-def episode()->MiniEpisodeResource:
-	data = MiniEpisodeResource(
+def episode()->resources.MiniEpisodeResource:
+	data = resources.MiniEpisodeResource(
 		title = 'Chapter 1',
 		imdbId = 'tt6143054',
 		imdbRating = 9.0,
@@ -16,11 +16,8 @@ def episode()->MiniEpisodeResource:
 	)
 	return data
 
-def test_episode_string(episode):
-	assert str(episode) == 'EpisodeResource(S01E01 - Chapter 1)'
-
 def test_episode_rating(episode):
-	assert episode.imdb_rating == 9.0
+	assert episode['imdbRating'] == 9.0
 
 def test_series_to_table():
 	pass

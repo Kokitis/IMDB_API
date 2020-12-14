@@ -1,0 +1,78 @@
+{
+    "Episodes": [
+        {
+            "Episode": "1",
+            "Released": "2017-04-30",
+            "Title": "The Bone Orchard",
+            "imdbID": "tt5017734",
+            "imdbRating": "8.2"
+        },
+        {
+            "Episode": "2",
+            "Released": "2017-05-07",
+            "Title": "The Secret of Spoons",
+            "imdbID": "tt5062946",
+            "imdbRating": "8.0"
+        },
+        {
+            "Episode": "3",
+            "Released": "2017-05-14",
+            "Title": "Head Full of Snow",
+            "imdbID": "tt5280330",
+            "imdbRating": "7.8"
+        },
+        {
+            "Episode": "4",
+            "Released": "2017-05-21",
+            "Title": "Git Gone",
+            "imdbID": "tt5665566",
+            "imdbRating": "8.0"
+        },
+        {
+            "Episode": "5",
+            "Released": "2017-05-28",
+            "Title": "Lemon Scented You",
+            "imdbID": "tt5665572",
+            "imdbRating": "8.4"
+        },
+        {
+            "Episode": "6",
+            "Released": "2017-06-04",
+            "Title": "A Murder of Gods",
+            "imdbID": "tt5665580",
+            "imdbRating": "7.6"
+        },
+        {
+            "Episode": "7",
+            "Released": "2017-06-11",
+            "Title": "A Prayer for Mad Sweeney",
+            "imdbID": "tt5665584",
+            "imdbRating": "8.0"
+        },
+        {
+            "Episode": "8",
+            "Released": "2017-06-18",
+            "Title": "Come to Jesus",
+            "imdbID": "tt5017740",
+            "imdbRating": "8.6"
+        },
+        {
+            "Episode": "9",
+            "Released": "N/A",
+            "Title": "Episode #1.9",
+            "imdbID": "tt5665588",
+            "imdbRating": "N/A"
+        },
+        {
+            "Episode": "10",
+            "Released": "N/A",
+            "Title": "Episode #1.10",
+            "imdbID": "tt5665590",
+            "imdbRating": "N/A"
+        }
+    ],
+    "Response": "True",
+    "Season": "1",
+    "Title": "American Gods",
+    "totalSeasons": "3"
+}

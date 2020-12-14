@@ -1,0 +1,29 @@
+{
+    "Episodes": [
+        {
+            "Episode": "1",
+            "Released": "2010-10-24",
+            "Title": "A Study in Pink",
+            "imdbID": "tt1665071",
+            "imdbRating": "9.1"
+        },
+        {
+            "Episode": "2",
+            "Released": "2010-10-31",
+            "Title": "The Blind Banker",
+            "imdbID": "tt1664529",
+            "imdbRating": "8.1"
+        },
+        {
+            "Episode": "3",
+            "Released": "2010-11-07",
+            "Title": "The Great Game",
+            "imdbID": "tt1664530",
+            "imdbRating": "9.1"
+        }
+    ],
+    "Response": "True",
+    "Season": "1",
+    "Title": "Sherlock",
+    "totalSeasons": "4"
+}

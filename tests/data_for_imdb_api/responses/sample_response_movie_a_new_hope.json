@@ -1,0 +1,100 @@
+{
+    "actor": [
+        {
+            "name": "Mark Hamill",
+            "type": "Person",
+            "url": "/name/nm0000434/"
+        },
+        {
+            "name": "Harrison Ford",
+            "type": "Person",
+            "url": "/name/nm0000148/"
+        },
+        {
+            "name": "Carrie Fisher",
+            "type": "Person",
+            "url": "/name/nm0000402/"
+        },
+        {
+            "name": "Alec Guinness",
+            "type": "Person",
+            "url": "/name/nm0000027/"
+        }
+    ],
+    "aggregateRating": {
+        "bestRating": "10.0",
+        "ratingCount": 1219511,
+        "ratingValue": "8.6",
+        "type": "AggregateRating",
+        "worstRating": "1.0"
+    },
+    "contentRating": "PG",
+    "context": "http://schema.org",
+    "creator": [
+        {
+            "name": "George Lucas",
+            "type": "Person",
+            "url": "/name/nm0000184/"
+        },
+        {
+            "type": "Organization",
+            "url": "/company/co0071326/"
+        },
+        {
+            "type": "Organization",
+            "url": "/company/co0000756/"
+        }
+    ],
+    "datePublished": "1977-05-25",
+    "description": "Star Wars is a movie starring Mark Hamill, Harrison Ford, and Carrie Fisher. Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a Wookiee and two droids to save the galaxy from the Empire's world-destroying battle...",
+    "director": {
+        "name": "George Lucas",
+        "type": "Person",
+        "url": "/name/nm0000184/"
+    },
+    "duration": "PT2H1M",
+    "genre": [
+        "Action",
+        "Adventure",
+        "Fantasy",
+        "Sci-Fi"
+    ],
+    "image": "https://m.media-amazon.com/images/M/MV5BNzVlY2MwMjktM2E4OS00Y2Y3LWE3ZjctYzhkZGM3YzA1ZWM2XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg",
+    "keywords": "rebellion,galactic war,space opera,princess,droid",
+    "name": "Star Wars",
+    "review": {
+        "author": {
+            "name": "Bogmeister",
+            "type": "Person"
+        },
+        "dateCreated": "2005-12-25",
+        "inLanguage": "English",
+        "itemReviewed": {
+            "type": "CreativeWork",
+            "url": "/title/tt0076759/"
+        },
+        "name": "The Best of Sci-Fi Times,the Worst of sf Times",
+        "reviewBody": "Though now known as \"Episode IV-A New Hope,\" for many of us, namely those of us who first saw this exhilarating entertainment in theaters back in '77, this will always be the first \"Star Wars.\" We will always think of it as just \"Star Wars\" - plain & simple, no pretensions, no aspirations to deep film-making or high art. This is where we first met them all: Luke, Han Solo, Princess Leia, Obi-Wan Kenobi (old 'Ben'), Chewbacca, the 2 robots C3PO & R2D2 and, of course, Darth Vader. They were instant pop culture icons; you got the sense you'd seen them before somewhere, but were sure this wasn't possible. But they'd been there before in our minds. We'd read about them constantly in science fiction novels and short stories - tales of outer space civilizations, of spaceships zooming through asteroid belts, of exotic-looking aliens hanging around space ports. We'd dream about them at night and try to imagine ourselves in their midst; up until then, we could only imagine such things - there were no projected images to realize such dreams. \"Forbidden Planet\" from 1956 came close, and then there were the \"Star Trek\" and \"Lost in Space\" TV series, both hampered by dime store budgets and cheesy sets. We ate 'em up since there was nothing else. Then Lucas made it real.\n\nI remember when I first got wind of the upcoming movie, to open in May of 1977, I think. I saw the first publicized poster and bought the novel adaptation. On the poster, a young man stood with some light sword raised, a princess at his feet, numerous spaceships flying all over the place. I was in my mid-teens and felt the first pulse of building excitement as I realized all those fantastic tales I'd been reading the past few years were going to come alive on the big screen for me. It didn't disappoint. Luke Skywalker, who stood in for all the boys pretending to be on a galactic adventure, gets swept away from his mundane desert home smack dab into the middle of an honest-to-gosh galaxy-wide civil war! The strength of the narrative is / was amazing. There are no slow spots and you can't wait for the next scene during the entire experience; and, experience is the better description for it, rather than just 'movie.' You can't wait, for example, for the moment when Luke actually meets the princess; what will happen then? It's a textbook case of an exciting narrative and what I believe makes this superior to all the sequels (knowing that many feel \"The Empire Strikes Back\" is superior - I must disagree).\n\nThe one character you really can't wait to see again is the ominous Vader, naturally. The instant he steps into view during the first few minutes of the story, you just know this is the ultimate villain. This is the baddest of the bad, the coolest of the cool, the supreme uber-evildoer of the entire galaxy. You just know it by his stance, by his attitude, and by the electric chill that runs through your frail form as he steps down the corridor, moving into the annals of film history with one fell swoop. You can't wait to see what he does next, what nefarious action will send someone or some planet to its doom. Sure, he seems under the control of Tarkin (Cushing) here and later, the Emperor, but you just know he's simply biding his time until he takes over the whole damn universe. There is no precedent for Vader, and nothing close to him after. He's at his best here where there's still much mystery attached to his dark frightful form, a minion of Satan and Nazi stormtroopers all rolled into one.\n\nThis was also the movie-experience which catapulted Harrison Ford (Solo) into superstardom. He seems almost childish here, not really straining to create a character, and it's this flip charm that makes it work, against all odds. He really does appear to have stepped out of the pages of some juvenile space opera, laser guns blazing, all snide remarks and foolhardy bravado. But he also becomes the older brother figure to Luke, who cannot carry the story by himself. Hamill, whose movie career began & ended with Luke, epitomizes the center of destiny for a galaxy. Both humble and arrogant, he's perfect in the role. Fisher's main surprise is that she's not all sugar and sweet as one would expect of a princess. These three characters evolved in the next two films, but they were always at their best here, icons given life for a short period - but also forever in film. The same could be said for Alec Guinness as Kenobi, a first class act all the way. You almost believe this elderly warrior could topple an empire, given enough time. Unless he runs into Vader...",
+        "reviewRating": {
+            "bestRating": "10",
+            "ratingValue": "9",
+            "type": "Rating",
+            "worstRating": "1"
+        },
+        "type": "Review"
+    },
+    "trailer": {
+        "description": "Watch the original teaser trailer for Star Wars.",
+        "embedUrl": "/video/imdb/vi1317709849",
+        "name": "Original Teaser Trailer",
+        "thumbnail": {
+            "contentUrl": "https://m.media-amazon.com/images/M/MV5BMTUzNDY0NjY4Nl5BMl5BanBnXkFtZTgwNjY4MTQ0NzE@._V1_.jpg",
+            "type": "ImageObject"
+        },
+        "thumbnailUrl": "https://m.media-amazon.com/images/M/MV5BMTUzNDY0NjY4Nl5BMl5BanBnXkFtZTgwNjY4MTQ0NzE@._V1_.jpg",
+        "type": "VideoObject",
+        "uploadDate": "2013-10-13T13:57:04Z"
+    },
+    "type": "Movie",
+    "url": "/title/tt0076759/"
+}
